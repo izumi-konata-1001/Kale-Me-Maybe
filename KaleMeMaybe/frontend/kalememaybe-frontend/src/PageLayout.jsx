@@ -17,7 +17,7 @@ export default function PageLayout() {
 function Header() {
   return (
     <header>
-      <h2 className={"bg-green-dark"}>Kale Me Maybe</h2>
+      <h2 className={"bg-green-dark text-white"}>Kale Me Maybe</h2>
       <NavLink to="." >
         Home
       </NavLink>

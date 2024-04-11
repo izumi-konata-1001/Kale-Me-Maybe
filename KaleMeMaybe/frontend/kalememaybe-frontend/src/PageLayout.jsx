@@ -24,7 +24,7 @@ function Header() {
       <NavLink to="discover">
         Discover
       </NavLink>
-        <NavLink to="my-recipes">
+        <NavLink to="browsing-history">
             My Recipes
         </NavLink>
         <NavLink to="favorites">

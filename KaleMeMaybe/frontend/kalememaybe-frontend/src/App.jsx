@@ -4,7 +4,7 @@ import HomePage from "./HomePage";
 import PageLayout from "./PageLayout";
 import PageNotFound from "./PageNotFound";
 import Discover from "./Discover.jsx";
-import MyRecipes from "./MyRecipes.jsx";
+import BrowsingHistory from "./BrowsingHistory.jsx";
 import Favorites from "./Favorites.jsx";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
@@ -16,7 +16,7 @@ function App() {
       <Route path="/" element={<PageLayout />}>
         <Route index element={<HomePage />} />
         <Route path="discover" element={<Discover />} />
-        <Route path="my-recipes" element={<MyRecipes />} />
+        <Route path="browsing-history" element={<BrowsingHistory />} />
         <Route path="favorites" element={<Favorites/>} />
         <Route path="log-in" element={<Login />} />
         <Route path="sign-up" element={<Signup />} />

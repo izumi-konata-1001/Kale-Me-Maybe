@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+    .nav {
+        @apply block py-2 px-3 md:p-0 font-semibold text-green-dark hover:text-white;
+    }
+}
+
+.main-background {
+    background-image: url("/Users/admin/Desktop/732/project-group-dapper-dolphins/KaleMeMaybe/frontend/kalememaybe-frontend/public/left-bg.png"),url("/Users/admin/Desktop/732/project-group-dapper-dolphins/KaleMeMaybe/frontend/kalememaybe-frontend/public/right-bg.png");
+    background-position: left top, right top;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 18% 100%, 18% 100%;
+    min-height: 100vh;
+}
+
+.nav-link-container {
+    height: 100%;
+    display: flex;
+    align-items: center; /* Center the link vertically */
+}
+
+.nav-link {
+    padding: 10px 10px; /* Adequate padding for clickable area */
+    display: block; /* Makes the link expand to fill its container */
+    text-decoration: none; /* Removes underline */
+    border-radius: 10px;
+}
+
+.nav-link:hover {
+    background-color: #97c279; /* green-dark */
+}

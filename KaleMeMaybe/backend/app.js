@@ -6,7 +6,6 @@ const port = 3000;
 // setup dotenv
 require("dotenv").config();
 
-
 // Setup body-parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -20,11 +19,9 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
 // Setup routes
-app.use(require("./routes/homepage-routes.js"));
+app.use("/api", require("./routes/homepage-routes.js"));
 
 // Start the server running.
 app.listen(port, function () {
-  console.log(
-    `App listening on port ${port}!`
-  );
+  console.log(`App listening on port ${port}!`);
 });

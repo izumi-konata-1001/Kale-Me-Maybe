@@ -1,22 +1,31 @@
 const express = require("express");
 const router = express.Router();
+const {
+  generateRecipeWithIngredients,
+} = require("../modules/ai-recipe-generator-dao");
 
 // test api health
-router.get("/api/health", async (req, res) => {
+router.get("/health", async (req, res) => {
   res.status(200).send("API is healthy!");
 });
 
-
 // recipe generator
-router.post("/api/recipes/generate", async (req, res) => {
-  const { messages } = req.body;
+router.post("/recipes/generate", async (req, res) => {
+  console.log("Generating recipe with ingredients:", req.body);
+  const { ingredients } = req.body;
+  // check if ingredients list is empty
+  if (!ingredients || ingredients.length === 0) {
+    return res
+      .status(400)
+      .json({ error: "Ingredients list is required and cannot be empty." });
+  }
+
   try {
-    fetchOpenAICompletionsStream(messages, (chunk) => {
-      res.status(200).send(chunk);
-    });
+    const recipe = await generateRecipeWithIngredients(ingredients);
+    res.status(200).json({ recipe: recipe });
   } catch (error) {
-    console.error("Error fetching data from OpenAI API:", error);
-    res.status(500).send("Error fetching data from OpenAI API.");
+    console.error("Error generating recipe:", error);
+    res.status(500).json({ error: "Failed to generate." });
   }
 });
 

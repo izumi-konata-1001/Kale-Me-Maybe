@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// setup dotenv
+require("dotenv").config();
+
+
 // Setup body-parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

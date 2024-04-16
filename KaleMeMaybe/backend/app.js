@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+//Set up cross-domain access
+const cors = require('cors');
+app.use(cors());
+
 // setup dotenv
 require("dotenv").config();
 
@@ -24,8 +28,17 @@ app.use("/api", require("./routes/recipes.js"));
 app.use("/api", require("./routes/histories.js"));
 app.use("/api", require("./routes/collections.js"));
 
-
 // Start the server running.
 app.listen(port, function () {
   console.log(`App listening on port ${port}!`);
+});
+
+app.get('/', (req, res) => {
+  res.send('here is localhost 3000');
+});
+
+const recipeDao = require('./data/recipe-dao.js');
+app.get('/discover', async (req, res) => {
+  const recipes = await recipeDao.getAllRecipes();
+  res.json(recipes); 
 });

@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 
 const Discover = () => {
-  const [items, setItems] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
   const [like, setLike] = useState(0);
 
   useEffect(() => {
     fetch('http://localhost:3000/discover')
       .then(response => response.json())
-      .then(data => setItems(data))
+      .then(data => {
+        setRecipes(data.recipes);
+        setIngredients(data.ingredients);
+      })
       .catch(err => console.error('Error fetching data: ', err));
   }, []);
 
@@ -26,7 +30,25 @@ const Discover = () => {
     <div className="flex flex-col items-center justify-center py-5">
       <h1 className="text-6xl font-mono pt-2 pb-5">Pantry</h1>
       <div className="flex flex-wrap justify-center gap-5">
-        {items.map((item, index) => (
+        {ingredients.map((item, index) => (
+                    <div
+                    key={index}
+                    className="flex flex-col overflow-hidden"
+                    style={{ width: 'calc(33.3333% - 60px)' }} // Assuming gap-5 is roughly equivalent to 16px
+                  >
+                    <div className="bg-green-dark p-1 rounded-lg shadow-lg">
+          <img key={index}
+                src={item.image_path}
+                alt={item.name}
+                className="object-cover rounded-lg" // The image will be fully round
+                style={{ width: '50%', height: 'auto' }} // Ensuring the image scales correctly
+              />
+              </div>
+              </div>))}
+              </div>
+
+      <div className="flex flex-wrap justify-center gap-5">
+        {recipes.map((item, index) => (
           <div
             key={index}
             className="flex flex-col overflow-hidden"

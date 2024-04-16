@@ -10,11 +10,13 @@
 }
 
 .main-background {
-    background-image: url("/Users/admin/Desktop/732/project-group-dapper-dolphins/KaleMeMaybe/frontend/kalememaybe-frontend/public/left-bg.png"),url("/Users/admin/Desktop/732/project-group-dapper-dolphins/KaleMeMaybe/frontend/kalememaybe-frontend/public/right-bg.png");
+    background-image: url("./left-bg.png"),url("./right-bg.png");
     background-position: left top, right top;
     background-repeat: no-repeat, no-repeat;
     background-size: 18% 100%, 18% 100%;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
 }
 
 .nav-link-container {

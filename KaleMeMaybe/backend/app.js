@@ -19,7 +19,11 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
 // Setup routes
-app.use("/api", require("./routes/homepage-routes.js"));
+app.use("/api", require("./routes/users.js"));
+app.use("/api", require("./routes/recipes.js"));
+app.use("/api", require("./routes/histories.js"));
+app.use("/api", require("./routes/collections.js"));
+
 
 // Start the server running.
 app.listen(port, function () {

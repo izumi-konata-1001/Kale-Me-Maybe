@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   generateRecipeWithIngredients,
-} = require("../modules/ai-recipe-generator-dao");
+} = require("../data/ai-recipe-generator");
 
 // test api health
 router.get("/health", async (req, res) => {
@@ -10,7 +10,7 @@ router.get("/health", async (req, res) => {
 });
 
 // recipe generator
-router.post("/recipes/generate", async (req, res) => {
+router.post("/recipe/generate", async (req, res) => {
   console.log("Generating recipe with ingredients:", req.body);
   const { ingredients } = req.body;
   // check if ingredients list is empty

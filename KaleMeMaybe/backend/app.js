@@ -37,8 +37,5 @@ app.get('/', (req, res) => {
   res.send('here is localhost 3000');
 });
 
-const recipeDao = require('./data/recipe-dao.js');
-app.get('/discover', async (req, res) => {
-  const recipes = await recipeDao.getAllRecipes();
-  res.json(recipes); 
-});
+// use discover router
+app.use('/discover', require('./routes/discover.js'));

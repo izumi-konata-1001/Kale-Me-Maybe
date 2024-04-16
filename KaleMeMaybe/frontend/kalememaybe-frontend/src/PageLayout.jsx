@@ -11,11 +11,11 @@ export default function PageLayout() {
     <React.Fragment>
       <Header />
         <main className="main-background">
-      <div className="container">
-        <Outlet />
-      </div>
+          <div className="container mx-auto w-3/5">
+            <Outlet />
+          </div>
         </main>
-        <Footer />
+      <Footer />
     </React.Fragment>
   );
 }

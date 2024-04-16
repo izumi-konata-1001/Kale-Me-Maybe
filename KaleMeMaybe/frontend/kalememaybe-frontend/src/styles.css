@@ -10,10 +10,10 @@
 }
 
 .main-background {
-    background-image: url("./left-bg.png"),url("./right-bg.png");
+    background-image: url("/left-bg.png"),url("/right-bg.png");
     background-position: left top, right top;
     background-repeat: no-repeat, no-repeat;
-    background-size: 18% 100%, 18% 100%;
+    background-size: 15% 100%, 15% 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -22,16 +22,16 @@
 .nav-link-container {
     height: 100%;
     display: flex;
-    align-items: center; /* Center the link vertically */
+    align-items: center;
 }
 
 .nav-link {
-    padding: 10px 10px; /* Adequate padding for clickable area */
-    display: block; /* Makes the link expand to fill its container */
-    text-decoration: none; /* Removes underline */
+    padding: 10px 10px;
+    display: block;
+    text-decoration: none;
     border-radius: 10px;
 }
 
 .nav-link:hover {
-    background-color: #97c279; /* green-dark */
+    background-color: #97c279;
 }

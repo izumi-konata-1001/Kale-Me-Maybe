@@ -11,7 +11,7 @@ export default function PageLayout() {
     <React.Fragment>
       <Header />
         <main className="main-background">
-      <div className="container">
+      <div className="container w-2/3 m-auto">
         <Outlet />
       </div>
         </main>
@@ -22,51 +22,70 @@ export default function PageLayout() {
 
 function Header() {
   return (
-    <header className={"flex items-stretch justify-between bg-lime-50"}>
-        <div className="flex items-center justify-evenly w-2/5 md:flex-row">
-        <NavLink to="." className={"nav nav-link"}>
-            <span className={"flex items-center gap-2"}>
-                    <FaHome /> Home
-             </span>
-        </NavLink>
-      <NavLink to="discover" className={"nav nav-link"}>
-          <span className={"flex items-center gap-2"}>
-                      <FaCompass/>
-        Discover
-             </span>
-      </NavLink>
-        </div>
+      <header className="bg-lime-50">
+          <div className="md:hidden flex justify-between items-center px-4 py-2">
+              <img src="/logo.png" className="h-12 w-12" alt="Logo"/>
+              <button className="text-green-dark font-semibold" onClick={toggleMenu}>
+                  Menu &#9776; {/* Menu Icon */}
+              </button>
+              <p className={"text-green-dark font-bold"}>KaleMeMaybe</p>
+              <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center">
+                  Sign Up &rarr;
+              </NavLink>
+              <BsFillMoonStarsFill className="" />
+          </div>
 
-        <div className={"flex flex-col items-center justify-center"}>
-        <img src="/logo.png" className="h-20 w-20" alt="Logo"/>
-        </div>
+          <nav className="hidden md:flex items-stretch justify-between">
+              <div className="flex items-center justify-evenly w-2/5">
+                  <NavLink to="." className="nav nav-link">
+        <span className="flex items-center gap-2">
+          <FaHome /> Home
+        </span>
+                  </NavLink>
+                  <NavLink to="discover" className="nav nav-link">
+        <span className="flex items-center gap-2">
+          <FaCompass /> Discover
+        </span>
+                  </NavLink>
+              </div>
 
-        <div className="flex items-center justify-evenly w-2/5">
-            <NavLink to="browsing-history" className={"nav nav-link"}>
-            <span className={"flex items-center gap-2"}>
-                <FaHourglassStart/>
-            Browsing History
-            </span>
-            </NavLink>
-        <NavLink to="favorites" className={"nav nav-link"}>
-             <span className={"flex items-center gap-2"}>
-                       <FaStar/> Saved recipes
-             </span>
-        </NavLink>
-        <div className={"flex items-center justify-between gap-5"}>
-        <NavLink to="log-in" className={"text-green-dark hover:text-lime-800"}>
-            Log In
-        </NavLink>
-        <NavLink to="sign-up" className={"text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center"}>
-            Sign Up &rarr;
-        </NavLink>
-            <BsFillMoonStarsFill className={"cursor-pointer"}/>
-        </div>
-        {/*<NavLink to="Profile">*/}
-        {/*    Profile*/}
-        {/*</NavLink>*/}
-        </div>
-    </header>
+              <div className="flex flex-col items-center justify-center">
+                  <img src="/logo.png" className="h-20 w-20" alt="Logo"/>
+                  <h1 className={"text-xl text-green-dark font-bold"}>KaleMeMaybe</h1>
+              </div>
+
+              <div className="flex items-center justify-evenly w-2/5">
+                  <NavLink to="browsing-history" className="nav nav-link">
+        <span className="flex items-center gap-2">
+          <FaHourglassStart /> Browsing History
+        </span>
+                  </NavLink>
+                  <NavLink to="favorites" className="nav nav-link">
+        <span className="flex items-center gap-2">
+          <FaStar /> Saved recipes
+        </span>
+                  </NavLink>
+                  <div className="flex items-center justify-between gap-5">
+                      <NavLink to="log-in" className="text-green-dark hover:text-lime-800">
+                          Log In
+                      </NavLink>
+                      <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-bold rounded-lg text-sm px-5 py-3 text-center">
+                          Sign Up &rarr;
+                      </NavLink>
+                      <BsFillMoonStarsFill className="" />
+                  </div>
+              </div>
+          </nav>
+
+          <div className="md:hidden" id="mobile-menu" style={{display: 'none'}}>
+              <NavLink to="." className="block py-2 px-4 text-sm hover:bg-green-light">Home</NavLink>
+              <NavLink to="discover" className="block py-2 px-4 text-sm hover:bg-green-light">Discover</NavLink>
+              <NavLink to="browsing-history" className="block py-2 px-4 text-sm hover:bg-green-light">Browsing History</NavLink>
+              <NavLink to="favorites" className="block py-2 px-4 text-sm hover:bg-green-light">Saved recipes</NavLink>
+              <NavLink to="log-in" className="block py-2 px-4 text-sm hover:bg-green-light">Log In</NavLink>
+          </div>
+      </header>
+
   );
 }
 
@@ -96,4 +115,13 @@ function Footer() {
             </div>
         </footer>
     );
+}
+
+function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'block';
+    }
 }

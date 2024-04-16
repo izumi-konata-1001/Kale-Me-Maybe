@@ -13,7 +13,7 @@
     "express": "^4.17.1",
     "openai": "^4.33.1",
     "sql-template-strings": "^2.2.2",
-    "sqlite": "^4.1.2",
+    "sqlite": "^4.2.1",
     "sqlite3": "^5.1.2",
     "uuid": "^8.3.2"
   }

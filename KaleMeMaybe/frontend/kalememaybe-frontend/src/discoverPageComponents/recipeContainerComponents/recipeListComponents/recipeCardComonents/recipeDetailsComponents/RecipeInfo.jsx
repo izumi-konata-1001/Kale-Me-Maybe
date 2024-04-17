@@ -3,7 +3,7 @@ import RecipeInfoRight from './recipeInfoCmponents/RecipeInfoRight';
 
 const RecipeInfo = ({recipe}) => {
     return(
-        <div className="flex justify-between">
+        <div className="flex justify-between text-sm">
             <RecipeInfoLeft recipe={recipe} />
             <RecipeInfoRight recipe={recipe} />
         </div>

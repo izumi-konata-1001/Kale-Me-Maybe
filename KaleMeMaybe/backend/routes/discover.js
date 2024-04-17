@@ -4,10 +4,10 @@ const recipeDao = require('../data/recipe-dao.js');
 
 router.get('/', async (req, res) => {
     try {
-        const recipes = await recipeDao.getAllRecipes(); // 正确获取所有食谱数据
-        res.json({ recipes }); // 在获取数据后发送响应
+        const recipes = await recipeDao.getAllRecipes();
+        res.json({ recipes });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch data' }); // 错误处理
+        res.status(500).json({ error: 'Failed to fetch data' });
     }
 });
 

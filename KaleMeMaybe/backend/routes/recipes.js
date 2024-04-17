@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const {
   generateRecipeWithIngredients,
+  generateRecipeImage,
 } = require("../data/ai-recipe-generator");
+
 
 // test api health
 router.get("/health", async (req, res) => {
@@ -10,7 +12,7 @@ router.get("/health", async (req, res) => {
 });
 
 // recipe generator
-router.post("/recipe/generate", async (req, res) => {
+router.post("/recipes", async (req, res) => {
   console.log("Generating recipe with ingredients:", req.body);
   const { ingredients } = req.body;
   // check if ingredients list is empty
@@ -21,8 +23,22 @@ router.post("/recipe/generate", async (req, res) => {
   }
 
   try {
-    const recipe = await generateRecipeWithIngredients(ingredients);
-    res.status(200).json({ recipe: recipe });
+    // generate recipe with ingredients
+    // const recipe = await generateRecipeWithIngredients(ingredients);
+    // const recipeName = recipe.name;
+
+    const recipeName = "Coconut Curry Potato Stew";
+    // generate image using the recipe name
+    // const image_path = await generateRecipeImage(recipeName);
+    const image_path = "test path"
+    console.log("Image path:", image_path);
+
+    // store recipe data in database
+    console.log(recipeName);
+    console.log("=====================================");
+    console.log(image_path);
+
+    res.status(200).json({ recipe: recipeName });
   } catch (error) {
     console.error("Error generating recipe:", error);
     res.status(500).json({ error: "Failed to generate." });

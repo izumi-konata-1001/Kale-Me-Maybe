@@ -5,6 +5,10 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 
+//Set up cross-domain access
+const cors = require('cors');
+app.use(cors());
+
 // setup dotenv
 require("dotenv").config();
 app.use(cors());
@@ -28,8 +32,14 @@ app.use("/api", require("./routes/histories.js"));
 app.use("/api", require("./routes/collections.js"));
 app.use("/api/favorites", require("./routes/favorites.js"));
 
-
 // Start the server running.
 app.listen(port, function () {
   console.log(`App listening on port ${port}!`);
 });
+
+app.get('/', (req, res) => {
+  res.send('here is localhost 3000');
+});
+
+// use discover router
+app.use('/discover', require('./routes/discover.js'));

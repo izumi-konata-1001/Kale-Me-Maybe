@@ -136,6 +136,7 @@ INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
 (4, 'Chicken', '/images/chicken.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
 (5, 'Olive Oil', '/images/olive_oil.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
+
 INSERT INTO recipe 
     (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at) 
 VALUES
@@ -144,6 +145,7 @@ VALUES
     (3, 'Basil Chicken', '45 minutes', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
     (4, 'Chicken Curry', '60 minutes', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
     (5, 'Salad with Olive Oil', '10 minutes', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+
 
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
 (1, 1),  -- Tomato Pasta includes Tomato

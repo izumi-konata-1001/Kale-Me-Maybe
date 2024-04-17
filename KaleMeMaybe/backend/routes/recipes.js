@@ -5,7 +5,10 @@ const {
   generateRecipeImage,
 } = require("../data/ai-recipe-generator");
 
-const { retrieveRecipeById } = require('../data/recipe-dao');
+const {
+  retrieveRecipeById,
+  insertRecipeAndSearchHistory,
+} = require("../data/recipe-dao");
 
 // test api health
 router.get("/health", async (req, res) => {
@@ -14,38 +17,47 @@ router.get("/health", async (req, res) => {
 
 // recipe generator
 router.post("/recipes", async (req, res) => {
-  console.log("Generating recipe with ingredients:", req.body);
   const { ingredients } = req.body;
+  const { user_id } = req.body;
   // check if ingredients list is empty
   if (!ingredients || ingredients.length === 0) {
     return res
       .status(400)
       .json({ error: "Ingredients list is required and cannot be empty." });
   }
+  // check if user id is provided
+  if (!user_id) {
+    return res.status(400).json({ error: "User ID is required." });
+  }
+
+  const ingredientNames = ingredients.map((ingredient) => ingredient.name);
 
   try {
     // generate recipe with ingredients
-    // const recipe = await generateRecipeWithIngredients(ingredients);
-    // const recipeName = recipe.name;
+    const recipeData = await generateRecipeWithIngredients(ingredientNames);
+    const recipe = JSON.parse(recipeData);
 
-    const recipeName = "Coconut Curry Potato Stew";
     // generate image using the recipe name
-    // const image_path = await generateRecipeImage(recipeName);
-    const image_path = "test path"
-    console.log("Image path:", image_path);
+    const image_path = await generateRecipeImage(recipe);
 
     // store recipe data in database
-    console.log(recipeName);
-    console.log("=====================================");
-    console.log(image_path);
+    const recipeId = await insertRecipeAndSearchHistory(
+      recipe,
+      image_path,
+      user_id,
+      ingredients
+    );
 
-    res.status(200).json({ recipe: recipeName });
+    res
+      .status(200)
+      .json({ recipeId: recipeId, recipe: recipe, image_path: image_path });
   } catch (error) {
     console.error("Error generating recipe:", error);
     res.status(500).json({ error: "Failed to generate." });
   }
 });
 
+// get recipe by id
 router.get("/recipe/:id", async (req, res) => {
   const { id } = req.params;
   try {

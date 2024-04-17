@@ -1,8 +1,35 @@
-// import Collection from "./component/Collection";
+import Collection from "./component/Collection";
+import { useEffect, useState } from "react";
 
 export default function Favorites() {
+    const[favorites, setFav] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/favorites", {
+                    method: "GET",
+                    headers: {
+                        //changed it into tokens later
+                        'userid': '1'
+                    }
+                })
+                if(response.ok) {
+                    const data = await response.json();
+                    console.log(data)
+                    setFav(data)
+                }
+            } catch (error) {
+                console.error("Error in fetching favorites: ", error)
+            }
+        }
+        fetchData();
+    }, [])
+
     return (
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-4xl lg:px-8">
+        <div 
+        // className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-4xl lg:px-8"
+        >
             <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '40px' }}>
                     <h2 className="text-5xl font-bold">Favorites</h2>
@@ -19,6 +46,15 @@ export default function Favorites() {
             </div>
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                 {/* collection list */}
+                { favorites.map((favorite, index) => (
+                    <div key={ index }>
+                        <Collection 
+                            collectionName={favorite.CollectionName}
+                            recipeCount={favorite.RecipeCount}
+                            imgPath={favorite.LatestRecipeImagePath}
+                        />
+                    </div>
+                ))}
             </div>
         </div>
     );

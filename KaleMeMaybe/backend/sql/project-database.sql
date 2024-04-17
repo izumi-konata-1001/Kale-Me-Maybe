@@ -168,10 +168,10 @@ INSERT INTO history_ingredient (search_history_id, ingredient_id) VALUES
 
 INSERT INTO collection (id, name, user_id, created_at, updated_at) VALUES
 (1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Italian', 2, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Quick Meals', 3, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Dinner Specials', 4, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Healthy Choices', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+(2, 'Italian', 1, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+(3, 'Quick Meals', 1, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, 'Dinner Specials', 2, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, 'Healthy Choices', 2, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
 INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
 (1, 1),

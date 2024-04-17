@@ -130,20 +130,22 @@ INSERT INTO user (id, name, encrypted_password, email, role, bio, gender, birth_
 (5, 'Carol Taylor', 'hashed_password5', 'carol@example.com', 2, 'Healthy eating advocate', 'Female', '1992-03-05', 'Philadelphia', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
 INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
-(1, 'Tomato', './example-img-ingredient.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Cheese', './example-img-ingredient.png', '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Basil', './example-img-ingredient.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Chicken', './example-img-ingredient.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Olive Oil', './example-img-ingredient.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+(1, 'Tomato', '/images/tomato.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+(2, 'Cheese', '/images/cheese.png', '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+(3, 'Basil', '/images/basil.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, 'Chicken', '/images/chicken.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, 'Olive Oil', '/images/olive_oil.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+
 
 INSERT INTO recipe 
     (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at) 
 VALUES
-    (1, 'Tomato Pasta', '30 mins', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-    (2, 'Cheese Pizza', '15 mins', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
-    (3, 'Basil Chicken', '45 mins', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-    (4, 'Chicken Curry', '60 mins', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-    (5, 'Salad with Olive Oil', '10 mins', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+    (1, 'Tomato Pasta', '30 minutes', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+    (2, 'Cheese Pizza', '15 minutes', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
+    (3, 'Basil Chicken', '45 minutes', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+    (4, 'Chicken Curry', '60 minutes', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+    (5, 'Salad with Olive Oil', '10 minutes', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+
 
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
 (1, 1),  -- Tomato Pasta includes Tomato
@@ -168,10 +170,10 @@ INSERT INTO history_ingredient (search_history_id, ingredient_id) VALUES
 
 INSERT INTO collection (id, name, user_id, created_at, updated_at) VALUES
 (1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Italian', 2, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Quick Meals', 3, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Dinner Specials', 4, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Healthy Choices', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+(2, 'Italian', 1, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+(3, 'Quick Meals', 1, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, 'Dinner Specials', 2, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, 'Healthy Choices', 2, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
 INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
 (1, 1),

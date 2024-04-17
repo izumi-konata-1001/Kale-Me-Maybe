@@ -29,23 +29,19 @@ const Discover = () => {
   return (
     <div className="flex flex-col items-center justify-center py-5">
       <h1 className="text-6xl font-mono pt-2 pb-5">Pantry</h1>
-      <div className="flex flex-wrap justify-center gap-5">
+      
+      <div className="flex flex-wrap justify-center gap-1 p-3">
         {ingredients.map((item, index) => (
-                    <div
-                    key={index}
-                    className="flex flex-col overflow-hidden"
-                    style={{ width: 'calc(33.3333% - 60px)' }} // Assuming gap-5 is roughly equivalent to 16px
-                  >
-                    <div className="bg-green-dark p-1 rounded-lg shadow-lg">
-          <img key={index}
-                src={item.image_path}
-                alt={item.name}
-                className="object-cover rounded-lg" // The image will be fully round
-                style={{ width: '50%', height: 'auto' }} // Ensuring the image scales correctly
-              />
-              </div>
-              </div>))}
-              </div>
+          <div key={index} className="w-1/6 p-1 border-2 border-green-dark rounded-lg shadow-sm aspect-w-1 aspect-h-1">
+            <img
+              src={item.image_path}
+              alt={item.name}
+              className="w-full h-auto rounded-lg"
+            />
+            <p className="text-center text-green-dark mt-2">{item.name}</p>
+          </div>
+        ))}
+      </div>
 
       <div className="flex flex-wrap justify-center gap-5">
         {recipes.map((item, index) => (

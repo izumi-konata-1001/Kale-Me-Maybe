@@ -28,22 +28,15 @@ export default function Favorites() {
 
   return (
     <div
-    // className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-4xl lg:px-8"
+      className="flex flex-col w-2/3 mb-10 absolute top-[20%] left-1/2 transform -translate-x-1/2"
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: "40px",
-          }}
-        >
+      <div className="mb-10">
+        <div className="flex justify-center items-center mb-10">
           <h2 className="text-5xl font-bold">Favorites</h2>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <a href="#" style={{ display: "inline-block" }}>
+        <div className="flex justify-between">
+          <div className="flex items-center">
+            <a href="#" className="inline-block">
               <svg
                 viewBox="0 0 24 24"
                 width="50"
@@ -66,7 +59,7 @@ export default function Favorites() {
                 </g>
               </svg>
             </a>
-            <label style={{ color: "GrayText", marginLeft: "15px" }}>
+            <label className="text-gray-600 ml-4">
               Add a new board...
             </label>
           </div>
@@ -89,7 +82,7 @@ export default function Favorites() {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mx-4">
         {/* collection list */}
         {favorites.map((favorite, index) => (
           <div key={index}>

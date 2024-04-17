@@ -7,6 +7,17 @@ async function getAllRecipes(){
     return recipes;
 }
 
+async function retrieveRecipeById(id){
+    const db = await dbPromise;
+
+    const recipe = await db.get(
+        `select * from recipe where id=${id}`
+    )
+
+    return recipe;
+}
+
 module.exports = {
-    getAllRecipes
+    getAllRecipes,
+    retrieveRecipeById
 };

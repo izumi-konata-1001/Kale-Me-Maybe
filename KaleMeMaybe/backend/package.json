@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "populate-ingredients":"node ./sql/populate-ingredients.js"
-    "start": "node app.js",
+    "populate-ingredients":"node ./sql/populate-ingredients.js",
     "dev": "nodemon app.js"
   },
   "dependencies": {

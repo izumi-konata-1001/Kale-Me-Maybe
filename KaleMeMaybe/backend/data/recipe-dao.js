@@ -7,8 +7,6 @@ async function getAllRecipes(){
     return recipes;
 }
 
-async function retrieveRecipeById(id){
-    const db = await dbPromise;
 async function retrieveRecipeById(id) {
   const db = await dbPromise;
 

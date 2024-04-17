@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "populate-ingredients":"node ./sql/populate-ingredients.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

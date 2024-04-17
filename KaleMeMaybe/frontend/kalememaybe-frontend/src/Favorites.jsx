@@ -7,7 +7,7 @@ export default function Favorites() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/favorites", {
+        const response = await fetch("http://localhost:3000/api/favorites", {
           method: "GET",
           headers: {
             //changed it into tokens later

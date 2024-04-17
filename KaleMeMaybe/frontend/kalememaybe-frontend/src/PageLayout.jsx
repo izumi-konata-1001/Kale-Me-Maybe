@@ -16,7 +16,7 @@ export default function PageLayout() {
         <Outlet />
       </div>
         </main>
-        <Footer />
+      <Footer />
     </React.Fragment>
   );
 }

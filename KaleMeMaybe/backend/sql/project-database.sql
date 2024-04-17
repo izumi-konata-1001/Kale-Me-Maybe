@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS score;
 
 DROP TABLE IF EXISTS recipe;
 DROP TABLE IF EXISTS ingredient;
-DROP TABLE IF EXISTS collection; 
+DROP TABLE IF EXISTS collection;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS avatar;
 
@@ -136,14 +136,38 @@ INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
 (4, 'Chicken', '/images/chicken.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
 (5, 'Olive Oil', '/images/olive_oil.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
-INSERT INTO recipe 
-    (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at) 
+
+INSERT INTO recipe
+    (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at)
 VALUES
     (1, 'Tomato Pasta', '30 minutes', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
     (2, 'Cheese Pizza', '15 minutes', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
     (3, 'Basil Chicken', '45 minutes', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
     (4, 'Chicken Curry', '60 minutes', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-    (5, 'Salad with Olive Oil', '10 minutes', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+    (5, 'Salad with Olive Oil', '10 minutes', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00'),
+    (9, 'Apple Potato Onion Stir-Fry', '30 minutes', 'Medium', '1 apple, diced, 2 potatoes, peeled and diced, 1 onion, chopped, 2 tablespoons olive oil, 1 teaspoon cumin seeds, 1 teaspoon turmeric powder, 1 teaspoon chili powder, Salt and pepper to taste, Fresh cilantro for garnish', 'Heat olive oil in a pan over medium heat.
+Add cumin seeds and let them sizzle for a few seconds.
+Add chopped onions and sauté until translucent.
+Add diced potatoes and cook until slightly browned and cooked through.
+Add diced apple and stir-fry for 2-3 minutes.
+Add turmeric powder, chili powder, salt, and pepper. Mix well to coat the vegetables evenly.
+Cook for another 5-7 minutes until the potatoes and apples are cooked and slightly caramelized.
+Garnish with fresh cilantro before serving.
+Enjoy this delicious and nutritious apple potato onion stir-fry!', '/generated-images/Apple_Potato_Onion_Stir-Fry_20240417.png', '2024-04-17 05:34:21', '2024-04-17 05:34:21'
+);
+INSERT INTO recipe_ingredient
+    (recipe_id, ingredient_id)
+VALUES
+    (1, 1),
+    -- Tomato Pasta includes Tomato
+    (2, 2),
+    -- Cheese Pizza includes Cheese
+    (3, 3),
+    -- Basil Chicken includes Basil
+    (4, 4),
+    -- Chicken Curry includes Chicken
+    (5, 5);
+-- Salad with Olive Oil includes Olive Oil
 
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
 (1, 1),  -- Tomato Pasta includes Tomato

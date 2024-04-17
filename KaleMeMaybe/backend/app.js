@@ -20,14 +20,13 @@ app.use(cookieParser());
 // Make the "public" folder available statically
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(require("./routes/favorites-routes.js"));
 
 // Setup routes
 app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/recipes.js"));
 app.use("/api", require("./routes/histories.js"));
 app.use("/api", require("./routes/collections.js"));
-app.use("/favorites", require("./routes/favorites.js"));
+app.use("/api/favorites", require("./routes/favorites.js"));
 
 
 // Start the server running.

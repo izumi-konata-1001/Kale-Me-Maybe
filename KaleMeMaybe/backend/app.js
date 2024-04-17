@@ -1,6 +1,5 @@
 // Setup Express
 const express = require("express");
-const cors = require("cors");
 
 const app = express();
 const port = 3000;
@@ -11,7 +10,6 @@ app.use(cors());
 
 // setup dotenv
 require("dotenv").config();
-app.use(cors());
 
 // Setup body-parser
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +28,8 @@ app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/recipes.js"));
 app.use("/api", require("./routes/histories.js"));
 app.use("/api", require("./routes/collections.js"));
+app.use("/api", require("./routes/ingredients.js"));
+
 app.use("/api/favorites", require("./routes/favorites.js"));
 
 // Start the server running.

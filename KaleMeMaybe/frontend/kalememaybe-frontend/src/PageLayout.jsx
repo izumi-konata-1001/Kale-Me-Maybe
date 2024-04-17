@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import {Link, NavLink, Outlet} from "react-router-dom";
 import'./styles.css';
 import { FaHome, FaHourglassStart,FaStar,FaCompass } from "react-icons/fa";
 import {AiFillFacebook, AiFillInstagram} from "react-icons/ai";
 import {BsFillMoonStarsFill} from "react-icons/bs";
+import { AuthContext } from "./contexts/AuthProvider";
 
 
 export default function PageLayout() {
@@ -21,6 +22,8 @@ export default function PageLayout() {
 }
 
 function Header() {
+    const { authToken, logout } = useContext(AuthContext);
+
   return (
       <header className="bg-lime-50">
           <div className="md:hidden flex justify-between items-center px-4 py-2">

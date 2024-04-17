@@ -153,14 +153,15 @@ VALUES
     (4, 'Chicken', '/images/chicken.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
     (5, 'Olive Oil', '/images/olive_oil.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
-<<<<<<< HEAD
 INSERT INTO recipe
     (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at)
-=======
+
+<<<<<<<< HEAD:KaleMeMaybe/backend/sql/project-database-init-script.sql
+INSERT INTO recipe
+    (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at)
 
 INSERT INTO recipe 
-    (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at) 
->>>>>>> main
+    (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at)
 VALUES
     (1, 'Tomato Pasta', '30 minutes', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
     (2, 'Cheese Pizza', '15 minutes', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
@@ -191,7 +192,6 @@ VALUES
     (5, 5);
 -- Salad with Olive Oil includes Olive Oil
 
-<<<<<<< HEAD
 INSERT INTO search_history
     (id, user_id, created_at)
 VALUES
@@ -200,7 +200,6 @@ VALUES
     (3, 3, '2023-04-13 10:30:00'),
     (4, 4, '2023-04-14 10:30:00'),
     (5, 5, '2023-04-15 10:30:00');
-=======
 
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
 (1, 1),  -- Tomato Pasta includes Tomato
@@ -208,7 +207,7 @@ INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
 (3, 3),  -- Basil Chicken includes Basil
 (4, 4),  -- Chicken Curry includes Chicken
 (5, 5);  -- Salad with Olive Oil includes Olive Oil
->>>>>>> main
+
 
 INSERT INTO history_ingredient
     (search_history_id, ingredient_id)
@@ -219,13 +218,16 @@ VALUES
     (2, 5),
     (3, 4);
 
-INSERT INTO collection (id, name, user_id, created_at, updated_at) VALUES
-(1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Italian', 1, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Quick Meals', 1, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Dinner Specials', 2, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Healthy Choices', 2, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+INSERT INTO collection
+    (id, name, user_id, created_at, updated_at)
+VALUES
+    (1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+    (2, 'Italian', 2, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+    (3, 'Quick Meals', 3, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+    (4, 'Dinner Specials', 4, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+    (5, 'Healthy Choices', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
+<<<<<<<< HEAD:KaleMeMaybe/backend/sql/project-database-init-script.sql
 INSERT INTO collection_recipe
     (collection_id, recipe_id)
 VALUES
@@ -234,6 +236,13 @@ VALUES
     (2, 5),
     (3, 2),
     (4, 4);
+
+INSERT INTO collection (id, name, user_id, created_at, updated_at) VALUES
+(1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+(2, 'Italian', 1, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+(3, 'Quick Meals', 1, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, 'Dinner Specials', 2, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, 'Healthy Choices', 2, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
 INSERT INTO browsing_history
     (user_id, recipe_id, created_at)

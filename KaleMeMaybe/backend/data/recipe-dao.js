@@ -1,6 +1,14 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
+async function getAllRecipes(){
+    const db = await dbPromise;
+    const recipes = await db.all("SELECT * FROM recipe");
+    return recipes;
+}
+
+async function retrieveRecipeById(id){
+    const db = await dbPromise;
 async function retrieveRecipeById(id) {
   const db = await dbPromise;
 
@@ -79,6 +87,7 @@ async function insertRecipeAndSearchHistory(
 
 // Export functions.
 module.exports = {
+    getAllRecipes,
   retrieveRecipeById,
   insertRecipeAndSearchHistory,
 };

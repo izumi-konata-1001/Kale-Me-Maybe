@@ -14,14 +14,14 @@ import RecipeDetails from "./RecipeDetails.jsx";
 function App() {
   return (
     <Routes>
+      <Route path="/log-in" element={<Login />} />
+      <Route path="/sign-up" element={<Signup />} />
       <Route path="/" element={<PageLayout />}>
         <Route index element={<HomePage />} />
         <Route path="recipe/:id" element={<RecipeDetails/>} />
         <Route path="discover" element={<Discover />} />
         <Route path="browsing-history" element={<BrowsingHistory />} />
         <Route path="favorites" element={<Favorites/>} />
-        <Route path="log-in" element={<Login />} />
-        <Route path="sign-up" element={<Signup />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

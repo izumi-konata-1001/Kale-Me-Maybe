@@ -26,6 +26,7 @@ app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/recipes.js"));
 app.use("/api", require("./routes/histories.js"));
 app.use("/api", require("./routes/collections.js"));
+app.use("/api/favorites", require("./routes/favorites.js"));
 
 
 // Start the server running.

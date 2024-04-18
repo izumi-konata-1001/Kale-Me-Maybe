@@ -56,3 +56,7 @@
 .nav-link:hover {
     background-color: #97c279;
 }
+
+.body-no-scroll {
+    overflow: hidden;
+}

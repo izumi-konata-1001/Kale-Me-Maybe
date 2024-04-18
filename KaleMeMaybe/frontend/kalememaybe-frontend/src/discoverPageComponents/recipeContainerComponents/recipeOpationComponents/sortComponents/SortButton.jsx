@@ -1,5 +1,5 @@
 const SortButton = ({ label, isActive, onClick }) => {
-    const buttonStyle = `px-4 py-2 rounded-lg ${isActive ? 'bg-green-dark text-white' : 'bg-green-light text-green-dark'}`;
+    const buttonStyle = `px-4 py-2 rounded-full ${isActive ? 'font-sans bg-green-dark text-white' : 'font-sans border border-green-dark bg-white text-black'}`;
   
     return (
       <button className={buttonStyle} onClick={onClick}>

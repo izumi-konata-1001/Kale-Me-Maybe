@@ -31,15 +31,9 @@ app.use("/api", require("./routes/collections.js"));
 app.use("/api", require("./routes/ingredients.js"));
 
 app.use("/api/favorites", require("./routes/favorites.js"));
+app.use('/api/discover', require('./routes/discover.js'));
 
 // Start the server running.
 app.listen(port, function () {
   console.log(`App listening on port ${port}!`);
 });
-
-app.get('/', (req, res) => {
-  res.send('here is localhost 3000');
-});
-
-// use discover router
-app.use('/discover', require('./routes/discover.js'));

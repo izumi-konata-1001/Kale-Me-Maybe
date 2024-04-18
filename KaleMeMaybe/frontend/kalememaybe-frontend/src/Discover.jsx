@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import RecipeArea from './discoverPageComponents/RecipesContainer';
+import RecipesContainer from './discoverPageComponents/RecipesContainer';
 
 const Discover = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/discover')
+    fetch('http://localhost:3000/api/discover')
       .then(response => response.json())
       .then(data => {
         setRecipes(data.recipes);
@@ -18,7 +18,8 @@ const Discover = () => {
     <div className="flex flex-col items-center justify-center py-5">
       <h1 className="text-6xl font-mono pt-2 pb-1">Pantry</h1>
       <h3 className="text-1xl font-mono pt-2 pb-5">Explore the Green Gastronomy</h3>
-      <RecipeArea recipes={recipes}/>
+      <RecipesContainer recipes={recipes}/>
+      <p className="text-1xl font-mono text-green-dark pt-6 pb-2">learn more...</p>
     </div>
   );
 };

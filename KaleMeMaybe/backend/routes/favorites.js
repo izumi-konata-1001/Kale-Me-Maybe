@@ -3,16 +3,30 @@ const router = express.Router();
 const userDao = require("../data/user-dao.js");
 const favDao = require("../data/favorites-dao.js");
 
+router.use(express.json());
+
 router.get("/", async function (req, res) {
   const user = req.headers["userid"];
-  console.log("User ID from headers:", user);
   try {
     const favs = await favDao.getFavorites(user);
-    console.log(favs);
     res.json(favs);
   } catch (error) {
     res.status(500).send({ error: "Failed to fetch favorites. " });
   }
 });
+
+router.post("/", async function (req, res) {
+  const user = req.body.user;
+  const collectionName = req.body.name;
+  console.log("user: ", user)
+  console.log("collection: ", collectionName)
+
+  try {
+    await favDao.createCollection(user, collectionName);
+    res.json({ msg: "Succeed" })  
+  } catch (error) {
+    res.status(500).send({ error: "Failed to create a collection. " });
+  }
+})
 
 module.exports = router;

@@ -1,28 +1,44 @@
 import Collection from "./component/Collection";
 import { useEffect, useState } from "react";
+import NewCollectionModal from "./component/NewCollectionModal";
 
 export default function Favorites() {
   const [favorites, setFav] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = (event) => {
+    event.preventDefault();
+    setModalOpen(true);
+    document.body.classList.add("body-no-scroll");
+  };
+
+  const closeModal = async (success,newCollection) => {
+    setModalOpen(false);
+    document.body.classList.remove("body-no-scroll");
+    if(success && newCollection) {
+      setFav([...favorites, newCollection]);
+    }
+  }
+
+  const fetchData = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/api/favorites", {
+            method: "GET",
+            headers: {
+              //change it into tokens later
+              userid: "1",
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setFav(data);
+          }
+        } catch (error) {
+          console.error("Error in fetching favorites: ", error);
+        }
+      };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/favorites", {
-          method: "GET",
-          headers: {
-            //changed it into tokens later
-            userid: "1",
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setFav(data);
-        }
-      } catch (error) {
-        console.error("Error in fetching favorites: ", error);
-      }
-    };
     fetchData();
   }, []);
 
@@ -36,7 +52,7 @@ export default function Favorites() {
         </div>
         <div className="flex justify-between">
           <div className="flex items-center">
-            <a href="#" className="inline-block">
+            <a onClick={handleOpenModal} className="inline-block">
               <svg
                 viewBox="0 0 24 24"
                 width="50"
@@ -94,6 +110,7 @@ export default function Favorites() {
           </div>
         ))}
       </div>
+      {modalOpen && <NewCollectionModal onClose={() => closeModal()} />}
     </div>
   );
 }

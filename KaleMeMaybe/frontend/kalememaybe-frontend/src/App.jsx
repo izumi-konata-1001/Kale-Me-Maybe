@@ -29,15 +29,4 @@ function App() {
   );
 }
 
-// function RecipeViewFromPathParams({ recipes }) {
-//   const { id } = useParams();
-//   const recipe = recipes.find((a) => a.id == id);
-//
-//   if (recipe) {
-//     return <RecipeDetails recipe={recipe} />;
-//   } else {
-//     return <PageNotFound />;
-//   }
-// }
-
 export default App;

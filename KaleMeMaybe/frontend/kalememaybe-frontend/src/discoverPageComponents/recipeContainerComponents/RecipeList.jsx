@@ -1,20 +1,17 @@
+import React from 'react';
 import RecipeCard from './recipeListComponents/RecipeCard';
 
-const RecipeList = ({recipes}) => {
+const RecipeList = ({ recipes }) => {
     return (
-        <div className="flex flex-wrap justify-center gap-5">
+        <div className="flex flex-col justify-center gap-5  w-full">
             {recipes.map((recipe, index) => (
-                <div
-                    key={index}
-                    className="flex flex-col overflow-hidden"
-                    style={{ width: 'calc(33.3333% - 16px)' }} // Assuming gap-5 is roughly equivalent to 16px
-                >
+                <div key={index}>
                     <RecipeCard recipe={recipe}/>
                 </div>
             ))}
         </div>
     );
-
-}
+};
 
 export default RecipeList;
+

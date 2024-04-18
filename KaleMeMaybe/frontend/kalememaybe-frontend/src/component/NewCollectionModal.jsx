@@ -1,9 +1,11 @@
 import ReactDOM from 'react-dom';
 import { useState } from 'react';
+import useStore from '../store/store';
 
 //maybe use PropTypes later
 // eslint-disable-next-line react/prop-types
 export default function NewCollectionModal ({ onClose }) {
+    const updateFavorites = useStore(state => state.updateFavorites);
     const [inputValue, setValue] = useState("");
     const [showErrorMsg, setShow] = useState(false);
 
@@ -27,7 +29,9 @@ export default function NewCollectionModal ({ onClose }) {
 
             if(response.ok) {
                 const newCollection = await response.json();
-                onClose(true, newCollection);
+                console.log(newCollection)
+                updateFavorites(newCollection)
+                onClose(true);
             } else {
                 setShow(true);
             }

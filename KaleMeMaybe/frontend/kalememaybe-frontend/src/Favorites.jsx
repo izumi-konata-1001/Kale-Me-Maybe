@@ -1,9 +1,11 @@
 import Collection from "./component/Collection";
 import { useEffect, useState } from "react";
 import NewCollectionModal from "./component/NewCollectionModal";
+import useStore from "./store/store";
 
 export default function Favorites() {
-  const [favorites, setFav] = useState([]);
+  const favorites = useStore(state => state.favorites);
+  const setFavorites = useStore(state => state.setFavorites);
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = (event) => {
@@ -12,12 +14,9 @@ export default function Favorites() {
     document.body.classList.add("body-no-scroll");
   };
 
-  const closeModal = (success,newCollection) => {
+  const closeModal = () => {
     setModalOpen(false);
     document.body.classList.remove("body-no-scroll");
-    if(success && newCollection) {
-      setFav([...favorites, newCollection]);
-    }
   }
 
   const fetchData = async () => {
@@ -31,7 +30,7 @@ export default function Favorites() {
           });
           if (response.ok) {
             const data = await response.json();
-            setFav(data);
+            setFavorites(data);
           }
         } catch (error) {
           console.error("Error in fetching favorites: ", error);

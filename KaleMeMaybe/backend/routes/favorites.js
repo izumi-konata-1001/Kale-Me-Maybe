@@ -22,8 +22,8 @@ router.post("/", async function (req, res) {
   console.log("collection: ", collectionName)
 
   try {
-    await favDao.createCollection(user, collectionName);
-    res.json({ msg: "Succeed" })  
+    const collections = await favDao.createCollection(user, collectionName);
+    res.json(collections)
   } catch (error) {
     res.status(500).send({ error: "Failed to create a collection. " });
   }

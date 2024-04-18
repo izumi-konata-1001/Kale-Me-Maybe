@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {IoArrowBackCircle} from "react-icons/io5";
 import StarRating from "./component/StarRating.jsx";
+import {Loading} from "./component/Loading.jsx";
+import RecipeFavouriteIcon from "./component/RecipeFavouriteIcon.jsx";
+import {AuthContext} from "./contexts/AuthProvider.jsx";
+import RecipeScoreIcon from "./component/RecipeScoreIcon.jsx";
 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 export default function RecipeDetails() {
+    const { authToken,userId } = useContext(AuthContext);
+
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
     const [error, setError] = useState(null);
@@ -30,14 +36,18 @@ export default function RecipeDetails() {
     }
 
     if (!recipe) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     const ingredients =recipe.ingredient_details;
     const ingredientsArray = ingredients
         .replace(/[.]/g, '')
-        .split(',')
+        .split('\n')
         .map(item => item.trim());
+
+    const method = recipe.method;
+    const methodArray = method.split('\n').map(item => item.trim());
+    const imagePath = `${API_BASE_URL}/${recipe.image_path}`;
 
 
     return (
@@ -48,19 +58,18 @@ export default function RecipeDetails() {
             </div>
 
 
-            <div className="flex justify-center gap-5">
+            <div className="flex justify-center gap-5 items-center">
                 <span
                     className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">{recipe.time_consuming}
                 </span>
                 <span
                     className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">{recipe.difficulty}
                 </span>
-            </div>
-            <div className={"flex justify-center pt-5"}>
-                <StarRating />
+                <RecipeScoreIcon />
+                {authToken && <RecipeFavouriteIcon />}
             </div>
             <div className={"flex justify-center p-5"}>
-                <img src='/pasta.png' alt={recipe.name} className="rounded-lg h-64 w-auto"/>
+                <img src={imagePath || '/pasta.png'} alt={recipe.name} className="rounded-lg h-64 w-auto"/>
             </div>
 
             <div className="flex justify-center">
@@ -73,8 +82,15 @@ export default function RecipeDetails() {
 
                 <div className={"w-1/3 p-2 pl-5"}>
                     <h1 className={"text-xl font-bold text-lime-900"}>Method</h1>
-                    <p>{recipe.method}</p>
+                    <ol className={"list-decimal list-inside"}>
+                        {methodArray.map((method, index) => <li key={index}>{method}</li>)}
+                    </ol>
                 </div>
+            </div>
+
+            <div className={"flex flex-col items-center justify-center p-5"}>
+                <StarRating userId={userId} recipeId={id} authToken={authToken} onSetRating={handleRatingSubmit} />
+                <p className={"text-green-dark"}>How do you like this recipe?</p>
             </div>
         </div>
     );
@@ -94,3 +110,31 @@ function BackButton() {
         </button>
     );
 }
+
+const handleRatingSubmit = (rating,userId,id,authToken) => {
+    console.log("Rating:", rating, "UserID:", userId, "RecipeID:", id, "AuthToken:", authToken);
+    fetch(`${API_BASE_URL}/api/score`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}` // Assuming you use Bearer tokens
+        },
+        body: JSON.stringify({
+            userId: userId,
+            recipeId: id,
+            score: rating
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update rating');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Rating updated successfully', data);
+        })
+        .catch(error => {
+            console.error('Error updating rating:', error);
+        });
+};

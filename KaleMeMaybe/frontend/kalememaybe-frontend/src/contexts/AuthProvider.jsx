@@ -7,21 +7,25 @@ export function AuthProvider({ children }) {
     const [authToken, setAuthToken] = useLocalStorage("authToken", null);
     const [userName, setUserName] = useLocalStorage("userName", null);
     const [userAvatar, setuserAvatar] = useLocalStorage("userAvatar", null);
+    const [userId, setUserId] = useLocalStorage("userId", null);
 
-    const login = (token, name, avatar) => {
+    const login = (token, name, avatar,id) => {
         setAuthToken(token);
         setUserName(name);
-        setuserAvatar(avatar)
+        setuserAvatar(avatar);
+        setUserId(id);
     };
 
     const logout = () => {
         setAuthToken(null);
         setUserName(null);
         setuserAvatar(null)
+        setUserId(null);
     };
 
   const context = {
     authToken,
+    userId,
     login,
     logout
   };

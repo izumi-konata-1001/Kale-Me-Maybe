@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 const RecipeFavouriteIcon = ({ recipe }) => {
-    const [like, setLike] = useState(false);  
+    const [like, setLike] = useState(false);
+
 
     const toggleLike = () => {
         setLike(!like); 

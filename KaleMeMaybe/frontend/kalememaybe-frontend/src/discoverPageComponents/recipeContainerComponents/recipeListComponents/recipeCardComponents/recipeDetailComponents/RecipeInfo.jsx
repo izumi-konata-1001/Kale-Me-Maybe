@@ -1,6 +1,6 @@
 import RecipeDifficulty  from "./recipeInfoComponents/RecipeDifficulty";
-import RecipeFavouriteIcon from "./recipeInfoComponents/RecipeFavouriteIcon";
-import RecipeScoreIcon from "./recipeInfoComponents/RecipeScoreIcon";
+import RecipeFavouriteIcon from "../../../../../component/RecipeFavouriteIcon.jsx";
+import RecipeScoreIcon from "../../../../../component/RecipeScoreIcon.jsx";
 import RecipeTimeConsume from "./recipeInfoComponents/RecipeTimeConsume";
 
 const RecipeInfo = ({recipe}) => {

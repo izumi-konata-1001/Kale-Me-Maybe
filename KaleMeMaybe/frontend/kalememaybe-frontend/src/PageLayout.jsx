@@ -80,7 +80,7 @@ function Header() {
                                   Log Out
                               </button>
                               <NavLink to="profile" className="flex flex-col items-center text-center">
-                                  <img src={userAvatar || 'logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
+                                  <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
                                   <p className="text-xs mt-1">{userName||'UserOne'}</p>
                               </NavLink>
                           </>

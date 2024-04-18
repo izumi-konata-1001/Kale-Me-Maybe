@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import {Link, NavLink, Outlet} from "react-router-dom";
 import'./styles.css';
 import { FaHome, FaHourglassStart,FaStar,FaCompass } from "react-icons/fa";
@@ -22,19 +22,24 @@ export default function PageLayout() {
 }
 
 function Header() {
-    const { authToken, logout } = useContext(AuthContext);
+    const { authToken, userAvatar,userName, logout } = useContext(AuthContext);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    function toggleMenu() {
+        setIsMenuOpen(!isMenuOpen);
+    }
 
   return (
       <header className="bg-lime-50">
           <div className="md:hidden flex justify-between items-center px-4 py-2">
               <img src="/logo.png" className="h-12 w-12" alt="Logo"/>
+              <p className={"text-green-dark font-bold"}>KaleMeMaybe</p>
               <button className="text-green-dark font-semibold" onClick={toggleMenu}>
                   Menu &#9776; {/* Menu Icon */}
               </button>
-              <p className={"text-green-dark font-bold"}>KaleMeMaybe</p>
-              <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center">
+              {authToken?"": <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center">
                   Sign Up &rarr;
-              </NavLink>
+              </NavLink>}
               <BsFillMoonStarsFill className="" />
           </div>
 
@@ -69,23 +74,41 @@ function Header() {
         </span>
                   </NavLink>
                   <div className="flex items-center justify-between gap-5">
-                      <NavLink to="log-in" className="text-green-dark hover:text-lime-800">
-                          Log In
-                      </NavLink>
-                      <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-bold rounded-lg text-sm px-5 py-3 text-center">
-                          Sign Up &rarr;
-                      </NavLink>
-                      <BsFillMoonStarsFill className="" />
+                      {authToken ? (
+                          <>
+                              <button onClick={logout} className="text-green-dark hover:text-lime-800">
+                                  Log Out
+                              </button>
+                              <NavLink to="profile" className="flex flex-col items-center text-center">
+                                  <img src={userAvatar || 'logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
+                                  <p className="text-xs mt-1">{userName||'UserOne'}</p>
+                              </NavLink>
+                          </>
+                      ) : (
+                          <>
+                              <NavLink to="log-in" className="text-green-dark hover:text-lime-800">
+                                  Log In
+                              </NavLink>
+                              <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-bold rounded-lg text-sm px-5 py-3 text-center">
+                                  Sign Up &rarr;
+                              </NavLink>
+                          </>
+                      )}
+                      <BsFillMoonStarsFill />
                   </div>
+
               </div>
           </nav>
 
-          <div className="md:hidden" id="mobile-menu" style={{display: 'none'}}>
+          <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
               <NavLink to="." className="block py-2 px-4 text-sm hover:bg-green-light">Home</NavLink>
               <NavLink to="discover" className="block py-2 px-4 text-sm hover:bg-green-light">Discover</NavLink>
               <NavLink to="browsing-history" className="block py-2 px-4 text-sm hover:bg-green-light">Browsing History</NavLink>
               <NavLink to="favorites" className="block py-2 px-4 text-sm hover:bg-green-light">Saved recipes</NavLink>
-              <NavLink to="log-in" className="block py-2 px-4 text-sm hover:bg-green-light">Log In</NavLink>
+              {authToken ?
+                  <button onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light">Log Out</button> :
+                  <NavLink to="log-in" className="block py-2 px-4 text-sm hover:bg-green-light">Log In</NavLink>
+              }
           </div>
       </header>
 
@@ -120,11 +143,11 @@ function Footer() {
     );
 }
 
-function toggleMenu() {
-    const menu = document.getElementById('mobile-menu');
-    if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-    } else {
-        menu.style.display = 'block';
-    }
-}
+// function toggleMenu() {
+//     const menu = document.getElementById('mobile-menu');
+//     if (menu.style.display === 'block') {
+//         menu.style.display = 'none';
+//     } else {
+//         menu.style.display = 'block';
+//     }
+// }

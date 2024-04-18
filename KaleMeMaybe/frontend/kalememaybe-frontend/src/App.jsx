@@ -2,7 +2,7 @@ import {Routes, Route, useParams} from "react-router-dom";
 import React from "react";
 import HomePage from "./HomePage";
 import PageLayout from "./PageLayout";
-import PageNotFound from "./PageNotFound";
+import PageNotFound from "./component/PageNotFound.jsx";
 import Discover from "./Discover.jsx";
 import BrowsingHistory from "./BrowsingHistory.jsx";
 import Favorites from "./Favorites.jsx";

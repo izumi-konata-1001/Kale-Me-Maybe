@@ -27,7 +27,8 @@ router.post('/users/login', async (req, res) => {
             message: "Login successful!", 
             authToken: authToken,
             username: user.name,
-            useravatar: avatar.image_path
+            useravatar: avatar.image_path,
+            userid: user.id
         });
     } catch (error) {
         console.error(error);

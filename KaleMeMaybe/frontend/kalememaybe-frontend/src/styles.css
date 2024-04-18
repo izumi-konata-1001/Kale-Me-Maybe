@@ -57,6 +57,39 @@
     background-color: #97c279;
 }
 
+
 .body-no-scroll {
     overflow: hidden;
 }
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.circle {
+    width: 100px;  /* Adjust size of the circle */
+    height: 100px;
+    position: relative;
+    animation: spin 4s linear infinite;
+}
+
+.emoji {
+    position: absolute;
+    font-size: 2rem;
+    width: 100%;  /* Full width of the circle container */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: 50% 50%;
+    transform: rotate(calc(360deg / 4 * var(--i))) translateX(50px);  /* Adjust translation based on circle radius */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+

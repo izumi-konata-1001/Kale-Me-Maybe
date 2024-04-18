@@ -25,8 +25,9 @@ export default function Login(){
             const data = await response.json();
             console.log(data);
             if (response.ok) { 
-                if (data.authToken && data.username && data.useravatar) { 
-                    login(data.authToken, data.username, data.useravatar);
+                if (data.authToken && data.username && data.useravatar && data.userid) {
+                    console.log('Storing user data:', data.userid);
+                    login(data.authToken, data.username, data.useravatar, data.userid);
                 }
                 navigate('/'); 
             } else {

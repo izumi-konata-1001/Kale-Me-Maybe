@@ -12,22 +12,14 @@ const starContainerStyle = {
     gap: "4px",
 };
 
-StarRating.propTypes = {
-  maxRating: PropTypes.number,
-  defaultRating: PropTypes.number,
-  color: PropTypes.string,
-  size: PropTypes.number,
-  messages: PropTypes.array,
-  className: PropTypes.string,
-  onSetRating: PropTypes.func,
-};
 
 export default function StarRating({
                                        maxRating = 5,
                                        color = "#fcc419",
                                        size = 36,
-                                       className = "",
-                                       message = [],
+                                       userId,
+                                       recipeId,
+                                       authToken,
                                        defaultRating = 0,
                                        onSetRating,
                                    }) {
@@ -43,7 +35,7 @@ export default function StarRating({
 
     function handleRating(rating) {
         setRating(rating);
-        onSetRating(rating);
+        onSetRating(rating, userId, recipeId, authToken);
     }
 
     return (
@@ -66,7 +58,7 @@ export default function StarRating({
     );
 }
 
-function Star({ onRate, full, onHover, onHoverOut, size, color }) {
+export function Star({ onRate, full, onHover, onHoverOut, size, color }) {
     const starStyle = {
         width: `${size}px`,
         height: `${size}px`,

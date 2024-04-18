@@ -10,6 +10,7 @@ export default function Login(){
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const { user, login } = useContext(AuthContext);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -31,11 +32,11 @@ export default function Login(){
                 }
                 navigate('/'); 
             } else {
-                // need to change here
-                alert(data.message); 
+                setErrorMessage(data.message || 'An unexpected error occurred.');
             }
         } catch (error) {
             console.error('Error:', error);
+            setErrorMessage(error.message || 'An error occurred while trying to log in.'); 
         }
     };
 
@@ -50,6 +51,7 @@ export default function Login(){
                 <h2 className="text-lg font-bold mb-2 pt-24">Welcome Back</h2>
                 <input type="email" placeholder="Email *" className="w-full px-4 py-2 bg-gray-100 border-2 rounded-md mt-4" required value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" placeholder="Password *" className="w-full px-4 py-2 bg-gray-100 border-2 rounded-md mt-2" required value={password} onChange={(e) => setPassword(e.target.value)}/>
+                {errorMessage && <p className="text-red-500 text-left self-start w-full px-4">{errorMessage}</p>}
                 <button type="submit" className="mt-4 w-full bg-green-dark text-white px-4 py-2 rounded-md">Log In</button>
             </form>
             {/* log in link */}

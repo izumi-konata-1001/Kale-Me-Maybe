@@ -12,7 +12,7 @@ export default function Favorites() {
     document.body.classList.add("body-no-scroll");
   };
 
-  const closeModal = async (success,newCollection) => {
+  const closeModal = (success,newCollection) => {
     setModalOpen(false);
     document.body.classList.remove("body-no-scroll");
     if(success && newCollection) {

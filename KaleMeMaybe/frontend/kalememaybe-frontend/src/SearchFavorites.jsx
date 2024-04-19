@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useStore from "./store/store";
 import RecipesContainer from "./discoverPageComponents/RecipesContainer";
 
@@ -9,7 +9,7 @@ export default function SearchFavorites() {
 
   useEffect(() => {
     if (searchResults.length === 0) {
-      navigate('/favorites');
+      navigate("/favorites");
     }
   }, [searchResults, navigate]);
 
@@ -20,11 +20,11 @@ export default function SearchFavorites() {
           <h2 className="text-5xl font-bold">Search Result</h2>
         </div>
         {searchResults.message ? (
-            <div className='flex flex-col items-center justify-center'>
-                <p className="text-gray-600 text-xl">{searchResults.message}</p>
-            </div>
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-gray-600 text-xl">{searchResults.message}</p>
+          </div>
         ) : (
-            <RecipesContainer recipes={searchResults}/>
+          <RecipesContainer recipes={searchResults} />
         )}
       </div>
     </div>

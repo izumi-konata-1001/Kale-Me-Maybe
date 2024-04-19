@@ -80,6 +80,16 @@ async function retrieveUserByEmail(email){
     return user;
 }
 
+async function retrieveUserById(userId){
+    const db = await dbPromise;
+
+    const user = await db.get(
+        SQL`SELECT * FROM user WHERE id = ${userId}`
+    )
+
+    return user;
+}
+
 // Export functions.
 module.exports = {
     checkPassword,
@@ -87,5 +97,6 @@ module.exports = {
     hashPassword,
     retrieveUserAvatarById,
     generateToken,
-    retrieveUserByEmail
+    retrieveUserByEmail,
+    retrieveUserById
 };

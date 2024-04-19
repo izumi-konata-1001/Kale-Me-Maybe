@@ -127,11 +127,16 @@ CREATE TABLE score (
 
 
 INSERT INTO avatar (id, image_path, created_at, updated_at) VALUES
-(1, '/images/avatar1.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, '/images/avatar2.png', '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, '/images/avatar3.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, '/images/avatar4.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, '/images/avatar5.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+(1, '/images/bear.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+(2, '/images/black-dog.png', '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+(3, '/images/cat.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, '/images/chicken.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, '/images/dog.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00'),
+(6, '/images/gorilla.png', '2023-04-16 08:30:00', '2023-04-17 11:00:00'),
+(7, '/images/meerkat.png', '2023-04-16 11:00:00', '2023-04-17 11:30:00'),
+(8, '/images/panda.png', '2023-04-17 08:30:00', '2023-04-18 11:00:00'),
+(9, '/images/rabbit.png', '2023-04-17 11:00:00', '2023-04-18 11:30:00'),
+(10, '/images/sea-lion.png', '2023-04-18 08:30:00', '2023-04-19 11:00:00');
 
 INSERT INTO user (id, name, encrypted_password, email, bio, gender, birth_date, city, avatar_id, created_at, updated_at) VALUES
 (1, 'John Doe', 'hashed_password1', 'john@example.com', 'A chef', 'Male', '1985-02-15', 'New York', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),

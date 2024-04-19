@@ -1,5 +1,5 @@
 const express = require("express");
-const { retrieveUserByEmail, generateToken, retrieveUserAvatarById, hashPassword, insertNewUser, checkPassword } = require("../data/user-dao");
+const { retrieveUserByEmail, generateToken, retrieveUserAvatarById, hashPassword, insertNewUser, checkPassword, retrieveUserById } = require("../data/user-dao");
 const router = express.Router();
 
 router.post('/users/login', async (req, res) => {
@@ -62,6 +62,31 @@ router.post('/users/signup', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Internal server error" });
+    }
+});
+
+router.get('/users/:userId', async (req, res) =>{
+    const userId = req.params.userId;
+
+    if (!userId) {
+        return res.status(400).send({ message: "Fail to get user id." });
+    }
+
+    try {
+        const user = await retrieveUserById(userId);
+        const avatar = await retrieveUserAvatarById(user.avatar_id);
+
+        res.status(201).send({ 
+            message: "User retrieved successfully.", 
+            name: user.name,
+            bio: user.bio,
+            gender: user.gender,
+            birthDate: user.birth_date,
+            city: user.city,
+            avatar: avatar.image_path
+        });
+    } catch (error){
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 

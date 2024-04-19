@@ -1,21 +1,31 @@
-import Collection from "./component/Collection";
 import { useEffect, useState } from "react";
+import Collection from "./component/Collection";
 import NewCollectionModal from "./component/NewCollectionModal";
+import SearchModal from "./component/SearchModal";
 import useStore from "./store/store";
 
 export default function Favorites() {
   const favorites = useStore(state => state.favorites);
   const setFavorites = useStore(state => state.setFavorites);
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
+  // open creating new collections modal window
   const handleOpenModal = (event) => {
     event.preventDefault();
     setModalOpen(true);
     document.body.classList.add("body-no-scroll");
   };
 
+  const handleOpenSearch = (event) => {
+    event.preventDefault();
+    setSearchOpen(true);
+    document.body.classList.add("body-no-scroll");
+  }
+
   const closeModal = () => {
     setModalOpen(false);
+    setSearchOpen(false);
     document.body.classList.remove("body-no-scroll");
   }
 
@@ -78,7 +88,9 @@ export default function Favorites() {
               Add a new board...
             </label>
           </div>
+          {/*  search icon */}
           <svg
+            onClick={handleOpenSearch}
             fill="#97C279"
             viewBox="0 0 56 56"
             width="50"
@@ -110,6 +122,7 @@ export default function Favorites() {
         ))}
       </div>
       {modalOpen && <NewCollectionModal onClose={() => closeModal()} />}
+      {searchOpen && <SearchModal onClose={closeModal} />}
     </div>
   );
 }

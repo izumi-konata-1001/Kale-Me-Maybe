@@ -19,7 +19,7 @@ const Discover = () => {
       <h1 className="text-6xl font-mono pt-2 pb-1">Pantry</h1>
       <h3 className="text-1xl font-mono pt-2 pb-5">Explore the Green Gastronomy</h3>
       <RecipesContainer recipes={recipes}/>
-      <p className="text-1xl font-mono text-green-dark pt-6 pb-2">learn more...</p>
+      <p className="text-1xl font-mono text-green-dark pt-6 pb-2">lord more...</p>
     </div>
   );
 };

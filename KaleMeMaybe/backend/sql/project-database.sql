@@ -151,12 +151,12 @@ INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
 INSERT INTO recipe
     (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at)
 VALUES
-    (1, 'Tomato Pasta', '30 minutes', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-    (2, 'Cheese Pizza', '15 minutes', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
-    (3, 'Basil Chicken', '45 minutes', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-    (4, 'Chicken Curry', '60 minutes', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-    (5, 'Salad with Olive Oil', '10 minutes', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00'),
-    (9, 'Apple Potato Onion Stir-Fry', '30 minutes', 'Medium', '1 apple, diced, 2 potatoes, peeled and diced, 1 onion, chopped, 2 tablespoons olive oil, 1 teaspoon cumin seeds, 1 teaspoon turmeric powder, 1 teaspoon chili powder, Salt and pepper to taste, Fresh cilantro for garnish', 'Heat olive oil in a pan over medium heat.
+    (1, 'Tomato Pasta', '30 mins', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+    (2, 'Cheese Pizza', '15 mins', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
+    (3, 'Basil Chicken', '45 mins', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+    (4, 'Chicken Curry', '60 mins', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+    (5, 'Salad with Olive Oil', '10 mins', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00'),
+    (9, 'Apple Potato Onion Stir-Fry', '30 mins', 'Medium', '1 apple, diced, 2 potatoes, peeled and diced, 1 onion, chopped, 2 tablespoons olive oil, 1 teaspoon cumin seeds, 1 teaspoon turmeric powder, 1 teaspoon chili powder, Salt and pepper to taste, Fresh cilantro for garnish', 'Heat olive oil in a pan over medium heat.
 Add cumin seeds and let them sizzle for a few seconds.
 Add chopped onions and sauté until translucent.
 Add diced potatoes and cook until slightly browned and cooked through.

@@ -5,7 +5,7 @@ import RecipeTimeConsume from "./recipeInfoComponents/RecipeTimeConsume";
 
 const RecipeInfo = ({recipe}) => {
     return(
-        <div className="flex justify-start gap-x-2 text-sm">
+        <div className="flex justify-start gap-x-2 text-sm items-center">
             <div>
                 <RecipeDifficulty recipe={recipe}/>
             </div>

@@ -1,9 +1,18 @@
+const RecipeDescription = ({ recipe }) => {
 
-const RecipeDescripition= ({recipe}) => {
-    return(
+    const truncateText = (text) => {
+        const wordArray = text.split(' '); 
+        if (wordArray.length > 50) {
+            return wordArray.slice(0, 50).join(' ') + '...';  
+        }
+        return text; 
+    };
+
+    return (
         <div>
-            <p>{recipe.method}</p>
+            <p>{truncateText(recipe.method)}</p>
         </div>
     );
 }
-export default RecipeDescripition;
+
+export default RecipeDescription;

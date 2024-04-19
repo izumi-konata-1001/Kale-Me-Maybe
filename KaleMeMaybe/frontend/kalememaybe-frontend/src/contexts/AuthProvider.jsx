@@ -25,6 +25,8 @@ export function AuthProvider({ children }) {
 
   const context = {
     authToken,
+    userName,
+    userAvatar,
     userId,
     login,
     logout

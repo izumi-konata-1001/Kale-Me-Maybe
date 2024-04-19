@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS score;
 DROP TABLE IF EXISTS recipe;
 DROP TABLE IF EXISTS ingredient;
 DROP TABLE IF EXISTS collection;
+DROP TABLE IF EXISTS third_party_account;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS avatar;
 
@@ -25,19 +26,28 @@ CREATE TABLE avatar (
 
 CREATE TABLE user (
     id INTEGER NOT NULL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(50) DEFAULT 'fresh kaler',
     encrypted_password VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    role INTEGER NOT NULL,
-    bio TEXT,
-    gender VARCHAR(50) NOT NULL,
-    birth_date DATE,
-    city VARCHAR(50),
-    avatar_id INTEGER,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    bio TEXT DEFAULT 'No bio provided',
+    gender VARCHAR(50) DEFAULT 'Not specified',
+    birth_date DATE DEFAULT NULL,
+    city VARCHAR(50) DEFAULT 'Not specified',
+    avatar_id INTEGER DEFAULT 1 NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (avatar_id) REFERENCES avatar (id)
 );
+
+CREATE TABLE third_party_account (
+    id INTEGER NOT NULL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    provider_name VARCHAR(50) NOT NULL, 
+    provider_user_id VARCHAR(100) NOT NULL,
+    UNIQUE(provider_name, provider_user_id), 
+    FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
 
 CREATE TABLE ingredient (
     id INTEGER PRIMARY KEY,
@@ -123,12 +133,12 @@ INSERT INTO avatar (id, image_path, created_at, updated_at) VALUES
 (4, '/images/avatar4.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
 (5, '/images/avatar5.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
-INSERT INTO user (id, name, encrypted_password, email, role, bio, gender, birth_date, city, avatar_id, created_at, updated_at) VALUES
-(1, 'John Doe', 'hashed_password1', 'john@example.com', 1, 'A chef', 'Male', '1985-02-15', 'New York', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Jane Doe', 'hashed_password2', 'jane@example.com', 2, 'Loves to cook', 'Female', '1987-05-22', 'Los Angeles', 2, '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Alice Johnson', 'hashed_password3', 'alice@example.com', 1, 'A pastry chef', 'Female', '1990-07-30', 'Chicago', 3, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Bob Smith', 'hashed_password4', 'bob@example.com', 1, 'Barbecue expert', 'Male', '1982-11-15', 'Houston', 4, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Carol Taylor', 'hashed_password5', 'carol@example.com', 2, 'Healthy eating advocate', 'Female', '1992-03-05', 'Philadelphia', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+INSERT INTO user (id, name, encrypted_password, email, bio, gender, birth_date, city, avatar_id, created_at, updated_at) VALUES
+(1, 'John Doe', 'hashed_password1', 'john@example.com', 'A chef', 'Male', '1985-02-15', 'New York', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+(2, 'Jane Doe', 'hashed_password2', 'jane@example.com', 'Loves to cook', 'Female', '1987-05-22', 'Los Angeles', 2, '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
+(3, 'Alice Johnson', 'hashed_password3', 'alice@example.com', 'A pastry chef', 'Female', '1990-07-30', 'Chicago', 3, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, 'Bob Smith', 'hashed_password4', 'bob@example.com', 'Barbecue expert', 'Male', '1982-11-15', 'Houston', 4, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, 'Carol Taylor', 'hashed_password5', 'carol@example.com', 'Healthy eating advocate', 'Female', '1992-03-05', 'Philadelphia', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
 INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
 (1, 'Tomato', '/images/tomato.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),

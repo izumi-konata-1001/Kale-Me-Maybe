@@ -130,12 +130,27 @@ INSERT INTO user (id, name, encrypted_password, email, role, bio, gender, birth_
 (4, 'Bob Smith', 'hashed_password4', 'bob@example.com', 1, 'Barbecue expert', 'Male', '1982-11-15', 'Houston', 4, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
 (5, 'Carol Taylor', 'hashed_password5', 'carol@example.com', 2, 'Healthy eating advocate', 'Female', '1992-03-05', 'Philadelphia', 5, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
 
-INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
-(1, 'Tomato', '/images/tomato.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Cheese', '/images/cheese.png', '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Basil', '/images/basil.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Chicken', '/images/chicken.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Olive Oil', '/images/olive_oil.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+INSERT INTO ingredient
+    (id, name, image_path, created_at, updated_at)
+VALUES
+    (1, 'Tomato', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 'Corn', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 'Fennel', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 'Peas', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 'Lettuce', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 'Cucumber', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, 'Potato', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, 'Pumpkin', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, 'Beetroot', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, 'Garlic', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (11, 'Onion', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (12, 'Cauliflower', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (13, 'Eggplant', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (14, 'Capsicum', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (15, 'Kale', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (16, 'Asparagus', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (17, 'Spinach', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
 
 
 INSERT INTO recipe

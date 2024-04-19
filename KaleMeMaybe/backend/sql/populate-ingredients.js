@@ -9,6 +9,7 @@ async function insertIngredients() {
     const data = await fs.readFile(filePath, "utf8"); 
     const ingredients = JSON.parse(data);
 
+    console.log("Inserting ingredients into the database...");
     const insertPromises = ingredients.map((ingredient) => {
       const imagePath = `images/${ingredient
         .toLowerCase()
@@ -19,7 +20,7 @@ async function insertIngredients() {
       ]);
     });
 
-
+    console.log("Waiting for all ingredients to be added...");
     await Promise.all(insertPromises);
     console.log("All ingredients have been successfully added.");
   } catch (err) {

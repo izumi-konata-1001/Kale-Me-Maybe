@@ -59,7 +59,7 @@ export default function Favorites() {
         <div className="flex justify-center items-center mb-10">
           <h2 className="text-5xl font-bold">Favorites</h2>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between"> 
           <div className="flex items-center">
             <a onClick={handleOpenModal} className="inline-block">
               <svg

@@ -1,8 +1,12 @@
 import ReactDOM from 'react-dom';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useStore from '../store/store';
 
 export default function SearchModal ({ onClose }) {
     const [searchTerm, setSearchTerm] = useState("");
+    const setSearchResults = useStore(state => state.setSearchResults);
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
@@ -21,7 +25,9 @@ export default function SearchModal ({ onClose }) {
                 })
                 const data = await response.json();
                 console.log("after search: ",data);
+                setSearchResults(data)
                 onClose(true);
+                navigate(`/favorites/search?searchTerm=${encodeURIComponent(searchTerm)}`);
             } catch (error) {
                 console.error("Error occurred while searching in collections: ", error)
             }

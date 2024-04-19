@@ -29,7 +29,7 @@ export default function NewCollectionModal ({ onClose }) {
 
             if(response.ok) {
                 const newCollection = await response.json();
-                console.log(newCollection)
+                console.log("new collection: ",newCollection)
                 updateFavorites(newCollection)
                 onClose(true);
             } else {

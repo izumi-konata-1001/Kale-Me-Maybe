@@ -29,4 +29,20 @@ router.post("/", async function (req, res) {
   }
 })
 
+router.get("/search", async function(req, res) {
+  const searchTerm = req.query.searchTerm;
+  const userId = req.headers.userid;
+
+  console.log("searchTerm", searchTerm)
+  console.log("userid: ", userId)
+
+  try {
+    const result = await favDao.searchFavorites(userId, searchTerm);
+    console.log("in router result: ", result)
+    res.json(result)
+  } catch (error) {
+    res.status(500).send({ error: "Failed to search in collections. " });
+  }
+})
+
 module.exports = router;

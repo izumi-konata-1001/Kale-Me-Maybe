@@ -8,11 +8,32 @@ export default function SearchModal ({ onClose }) {
         setSearchTerm(event.target.value);
     };
 
+    const searchFavorites = async (event) => {
+        event.preventDefault();
+        if (searchTerm.trim()) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/favorites/search?searchTerm=${encodeURIComponent(searchTerm)}`,{
+                    method: 'GET',
+                    headers: {
+                        //change it into tokens later
+                        userid: "1",
+                    },
+                })
+                const data = await response.json();
+                console.log("after search: ",data);
+                onClose(true);
+            } catch (error) {
+                console.error("Error occurred while searching in collections: ", error)
+            }
+        }
+
+    }
+
     return ReactDOM.createPortal(
         <>
             <div onClick={() => onClose(false)} className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"></div>
 
-            <div className="
+            <form onSubmit={searchFavorites} className="
               z-50 w-full max-w-lg fixed top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 transition-all opacity-100 scale-100
             ">
                 <div className="overflow-hidden rounded-lg bg-white shadow-md"
@@ -38,7 +59,7 @@ export default function SearchModal ({ onClose }) {
                             </svg>
                     </div>
                 </div>
-            </div>
+            </form>
         </>,
         document.body
     )

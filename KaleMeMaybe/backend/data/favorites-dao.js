@@ -63,8 +63,39 @@ async function createCollection(user, collectionName) {
   }
 }
 
+async function searchFavorites(user, searchTerm) {
+  try {
+    const db = await dbPromise;
+
+    const userCheck = await db.get(SQL`SELECT id FROM user WHERE id = ${user}`);
+    if (!userCheck) {
+      throw new Error('User does not exist');
+    }
+
+    const rows = await db.all(`
+      SELECT DISTINCT r.*
+      FROM collection c
+      JOIN collection_recipe cr ON c.id = cr.collection_id
+      JOIN recipe r ON cr.recipe_id = r.id
+      WHERE c.user_id = ? 
+      AND (
+          r.name LIKE '%' || ? || '%' OR 
+          r.ingredient_details LIKE '%' || ? || '%' OR 
+          r.method LIKE '%' || ? || '%'
+      )
+    `, [user, searchTerm, searchTerm, searchTerm]);
+
+      return rows;
+    
+  } catch (error) {
+    console.error("Database error: ", error);
+    throw error;
+  }
+}
+
 // Export functions.
 module.exports = {
   getFavorites,
   createCollection,
+  searchFavorites,
 };

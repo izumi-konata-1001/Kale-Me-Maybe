@@ -110,6 +110,7 @@ CREATE TABLE score (
     recipe_id INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
     FOREIGN KEY (user_id) REFERENCES user (id),
     FOREIGN KEY (recipe_id) REFERENCES recipe (id)
 );

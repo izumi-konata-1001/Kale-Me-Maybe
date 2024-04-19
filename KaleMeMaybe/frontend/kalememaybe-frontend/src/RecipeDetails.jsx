@@ -65,7 +65,7 @@ export default function RecipeDetails() {
                 <span
                     className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">{recipe.difficulty}
                 </span>
-                <RecipeScoreIcon />
+                <RecipeScoreIcon recipeId={id} />
                 {authToken && <RecipeFavouriteIcon />}
             </div>
             <div className={"flex justify-center p-5"}>
@@ -88,10 +88,10 @@ export default function RecipeDetails() {
                 </div>
             </div>
 
-            <div className={"flex flex-col items-center justify-center p-5"}>
+            {authToken && <div className={"flex flex-col items-center justify-center p-5"}>
                 <StarRating userId={userId} recipeId={id} authToken={authToken} onSetRating={handleRatingSubmit} />
                 <p className={"text-green-dark"}>How do you like this recipe?</p>
-            </div>
+            </div>}
         </div>
     );
 }

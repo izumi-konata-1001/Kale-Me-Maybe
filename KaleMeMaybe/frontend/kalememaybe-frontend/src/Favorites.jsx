@@ -1,50 +1,60 @@
-import Collection from "./component/Collection";
 import { useEffect, useState } from "react";
+import Collection from "./component/Collection";
 import NewCollectionModal from "./component/NewCollectionModal";
+import SearchModal from "./component/SearchModal";
 import useStore from "./store/store";
 
-export default function Favorites() {
-  const favorites = useStore(state => state.favorites);
-  const setFavorites = useStore(state => state.setFavorites);
-  const [modalOpen, setModalOpen] = useState(false);
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
+export default function Favorites() {
+  const favorites = useStore((state) => state.favorites);
+  const setFavorites = useStore((state) => state.setFavorites);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // open creating new collections modal window
   const handleOpenModal = (event) => {
     event.preventDefault();
     setModalOpen(true);
     document.body.classList.add("body-no-scroll");
   };
 
+  const handleOpenSearch = (event) => {
+    event.preventDefault();
+    setSearchOpen(true);
+    document.body.classList.add("body-no-scroll");
+  };
+
   const closeModal = () => {
     setModalOpen(false);
+    setSearchOpen(false);
     document.body.classList.remove("body-no-scroll");
-  }
+  };
 
   const fetchData = async () => {
-        try {
-          const response = await fetch("http://localhost:3000/api/favorites", {
-            method: "GET",
-            headers: {
-              //change it into tokens later
-              userid: "1",
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setFavorites(data);
-          }
-        } catch (error) {
-          console.error("Error in fetching favorites: ", error);
-        }
-      };
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/favorites`, {
+        method: "GET",
+        headers: {
+          //change it into tokens later
+          userid: "1",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setFavorites(data);
+      }
+    } catch (error) {
+      console.error("Error in fetching favorites: ", error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
-    <div
-      className="flex flex-col w-2/3 mb-10 absolute top-[20%] left-1/2 transform -translate-x-1/2"
-    >
+    <div className="flex flex-col w-2/3 mb-10 absolute top-[20%] left-1/2 transform -translate-x-1/2">
       <div className="mb-10">
         <div className="flex justify-center items-center mb-10">
           <h2 className="text-5xl font-bold">Favorites</h2>
@@ -74,11 +84,11 @@ export default function Favorites() {
                 </g>
               </svg>
             </a>
-            <label className="text-gray-600 ml-4">
-              Add a new board...
-            </label>
+            <label className="text-gray-600 ml-4">Add a new board...</label>
           </div>
+          {/*  search icon */}
           <svg
+            onClick={handleOpenSearch}
             fill="#97C279"
             viewBox="0 0 56 56"
             width="50"
@@ -110,6 +120,7 @@ export default function Favorites() {
         ))}
       </div>
       {modalOpen && <NewCollectionModal onClose={() => closeModal()} />}
+      {searchOpen && <SearchModal onClose={closeModal} />}
     </div>
   );
 }

@@ -1,7 +1,10 @@
 const express = require("express");
-const { retrieveUserByEmail, generateToken, retrieveUserAvatarById, hashPassword, insertNewUser, checkPassword, retrieveUserById, updateUserProfileById } = require("../data/user-dao");
+const { retrieveUserByEmail, generateToken, retrieveUserAvatarById, hashPassword, insertNewUser, checkPassword, retrieveUserById, updateUserProfileById, insertThirdPartyTable, retrieveThirdPartyAccount, insertNewThirdUser } = require("../data/user-dao");
 const { retrieveAvatarByPath } = require("../data/avatar-dao");
 const router = express.Router();
+// Google login
+const { google } = require('googleapis');
+const OAuth2 = google.auth.OAuth2;
 
 router.post('/users/login', async (req, res) => {
     const { email, password } = req.body;
@@ -107,6 +110,81 @@ router.post('/users/updateprofile', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Internal server error" });
+    }
+});
+
+// Google login
+const oauth2Client = new OAuth2(
+    '536497757195-m4gqdm1up3br3o2vtec9esvigjofr27q.apps.googleusercontent.com',
+    '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',
+    'http://localhost:3000/api/auth/google/callback'
+);
+
+// get authorised url
+function getGoogleAuthURL() {
+    const scopes = [
+      'https://www.googleapis.com/auth/userinfo.email'
+    ];
+  
+    return oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      prompt: 'consent',
+      scope: scopes
+    });
+}
+
+// Endpoint to provide the Google auth URL to the frontend
+router.get('/auth/google/url', (req, res) => {
+    const url = getGoogleAuthURL();
+    res.json({ url });  // Send the URL back to the frontend
+});
+
+// callback
+router.get('/auth/google/callback', async (req, res) => {
+    const { code } = req.query;
+    try{
+        const { tokens } = await oauth2Client.getToken(code);
+        oauth2Client.setCredentials(tokens);
+    
+        // Fetch the user's email
+        const oauth2 = google.oauth2({
+            auth: oauth2Client,
+            version: 'v2'
+        });
+
+        const userInfo = await oauth2.userinfo.get();
+        const userEmail = userInfo.data.email;
+        const googleUserId = userInfo.data.id;
+
+        let user = await retrieveUserByEmail(userEmail);
+        let statusCode = 200;
+
+        if (!user) {
+            const newUser = await insertNewThirdUser(userEmail);
+            const newUserId = newUser.id;
+            user = await retrieveUserById(newUserId);
+
+            await insertThirdPartyTable(newUserId, 'Google', googleUserId);
+            statusCode = 201;
+        }
+
+        let account = await retrieveThirdPartyAccount('Google', googleUserId);
+        if(!account){
+            await insertThirdPartyAccount(user.id, 'Google', googleUserId);
+        }
+
+        const authToken = generateToken(user);
+        const avatar = await retrieveUserAvatarById(user.avatar_id);
+        const username = user.name;
+        const useravatar = avatar.image_path;
+        const userid = user.id;
+        
+        res.cookie('authToken', authToken, { httpOnly: false, secure: true, sameSite: 'strict' });
+        res.redirect(`http://localhost:5173/login-success?username=${encodeURIComponent(username)}&useravatar=${encodeURIComponent(useravatar)}&userid=${userid}`);
+
+    } catch(error){
+        console.error('Failed to fetch user email:', error);
+        res.status(500).send('Authentication failed');
     }
 });
 

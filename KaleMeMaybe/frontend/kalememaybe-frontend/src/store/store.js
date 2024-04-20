@@ -5,8 +5,10 @@ import { create } from 'zustand';
 
 const useStore = create(set => ({
   favorites: [],
+  searchResults: [],
   updateFavorites: (newFavorites) => set({ favorites: newFavorites }),
   setFavorites: (favorites) => set({ favorites }),
+  setSearchResults: (searchResults) => set({ searchResults: searchResults }),
 }));
 
 export default useStore;

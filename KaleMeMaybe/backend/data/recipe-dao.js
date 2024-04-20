@@ -130,7 +130,30 @@ async function getRecipesSortedByDifficulty(direction) {
   });
 }
 
+async function getRecipesSortedByAverageScore(direction) {
+  const db = await dbPromise;
+  try {
+    // 校验并设置排序方向
+    const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
 
+    // 构建 SQL 查询字符串
+    const query = `
+      SELECT r.id, r.name, r.time_consuming, r.difficulty, r.ingredient_details, r.method, r.image_path, r.created_at, r.updated_at, 
+             IFNULL(AVG(s.score), 0) as avg_score
+      FROM recipe r
+      LEFT JOIN score s ON r.id = s.recipe_id
+      GROUP BY r.id
+      ORDER BY avg_score ${orderByDirection}, r.created_at DESC
+    `;
+
+    const recipesWithScores = await db.all(query);
+
+    return recipesWithScores;
+  } catch (err) {
+    console.error('Failed to retrieve recipes sorted by average score from the database:', err);
+    throw err;
+  }
+}
 
 
 // Export functions.
@@ -139,5 +162,6 @@ module.exports = {
   retrieveRecipeById,
   insertRecipeAndSearchHistory,
   getRecipesSortedByTimeConsuming,
-  getRecipesSortedByDifficulty
+  getRecipesSortedByDifficulty,
+  getRecipesSortedByAverageScore
 };

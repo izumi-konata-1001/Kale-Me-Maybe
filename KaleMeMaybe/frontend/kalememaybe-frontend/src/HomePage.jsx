@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import Ingredient from "./homePageComponents/Ingredient";
 import RecipeCard from "./homePageComponents/RecipeCard";
 import SelectedIngredientsBar from "./homePageComponents/SelectedIngredientsBar";
+import RecentSearches from "./homePageComponents/RecentSearches";
+import { Loading } from "./component/Loading.jsx";
 
 const ingredientList = [
   { id: 1, name: "Tomato" },
@@ -29,6 +32,33 @@ export default function HomePage() {
   const [recipes, setRecipes] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
+  const [showRecipeDetails, setShowRecipeDetails] = useState(false);
+  const [showRecentSearches, setShowRecentSearches] = useState(true);
+
+  const [ingredientsPerRow, setIngredientsPerRow] = useState(0);
+  const [showFullList, setShowFullList] = useState(true);
+
+  const [loadMoreCount, setLoadMoreCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const updateIngredientsPerRow = () => {
+      const width = window.innerWidth;
+      if (width >= 1280) {
+        setIngredientsPerRow(6);
+      } else if (width >= 1024) {
+        setIngredientsPerRow(4);
+      } else if (width >= 768) {
+        setIngredientsPerRow(3);
+      } else {
+        setIngredientsPerRow(2);
+      }
+    };
+
+    updateIngredientsPerRow();
+    window.addEventListener("resize", updateIngredientsPerRow);
+    return () => window.removeEventListener("resize", updateIngredientsPerRow);
+  }, []);
   // Mock data for recent searches
   const mockRecentSearches = [
     "Chicken + Broccoli + Garlic",
@@ -63,15 +93,35 @@ export default function HomePage() {
   };
 
   const handleSearch = async () => {
-    // 这里应该是一个调用后端API的函数
-    // 下面是模拟的响应
+    setIsLoading(true);
     const fakeApiResponse = {
-      title: "Vegetarian Lasagna",
-      description: "A delicious and hearty vegetarian option.",
-      image: "/path-to-lasagna-image.jpg", // 使用你的图片路径
-      // ...其他数据
+      name: "Vegetarian Lasagna",
+      time_consuming: "30 mins",
+      image: "/public/example-image-recipe.png",
+      difficulty: "Easy",
     };
     setRecipes([fakeApiResponse]);
+    setShowRecipeDetails(true);
+    setShowRecentSearches(false);
+    setShowFullList(false);
+
+
+    setIsLoading(false);
+  };
+
+  const handleLoadMore = async () => {
+    if (loadMoreCount < 2) {
+      const moreRecipes = [
+        {
+          name: "Vegan Curry",
+          time_consuming: "45 mins",
+          image: "/public/example-img-ingredient.png",
+          difficulty: "Medium",
+        },
+      ];
+      setRecipes((recipes) => [...recipes, ...moreRecipes]);
+      setLoadMoreCount(loadMoreCount + 1);
+    }
   };
 
   return (
@@ -82,17 +132,25 @@ export default function HomePage() {
         {selectedIngredients.length !== 1 ? "s" : ""}
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-        {ingredientList.map((ingredient) => (
-          <Ingredient
-            key={ingredient.id}
-            name={ingredient.name}
-            onSelectIngredient={handleSelectIngredient}
-            image={`/basic-ingredient-images/${ingredient.name}.png`}
-          />
-        ))}
+      {/* Ingredient grid */}
+      <div
+        className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 ${
+          showFullList ? "h-auto" : "max-h-[10rem] overflow-hidden"
+        }`}
+      >
+        {ingredientList
+          .slice(0, showFullList ? ingredientList.length : ingredientsPerRow)
+          .map((ingredient) => (
+            <Ingredient
+              key={ingredient.id}
+              name={ingredient.name}
+              onSelectIngredient={handleSelectIngredient}
+              image={`/basic-ingredient-images/${ingredient.name}.png`}
+            />
+          ))}
       </div>
 
+      {/* Selected ingredients bar */}
       <SelectedIngredientsBar
         ingredients={selectedIngredients}
         onRemoveIngredient={handleRemoveIngredient}
@@ -100,22 +158,34 @@ export default function HomePage() {
         onIngredientSearchChange={handleIngredientSearchChange}
         searchValue={searchValue}
       />
-      <div>{recipes.length > 0 && <RecipeCard recipe={recipes[0]} />}</div>
 
-      <div className="my-4">
-        <div className="text-gray-500 mb-2">Recent Searches:</div>
-        <div className="flex flex-wrap gap-2">
-          {mockRecentSearches.map((search, index) => (
-            <div
-              key={index}
-              className="px-4 py-2 bg-gray-100 border border-green-light text-gray-600 text-sm rounded-full cursor-pointer hover:border-green-dark"
-              onClick={() => handleRecentSearchClick(search)}
-            >
-              {search}
-            </div>
+            
+      {isLoading && <Loading />}
+
+      {/* Recipe card */}
+      {showRecipeDetails && (
+        <div className="relative">
+          {recipes.map((recipe, index) => (
+            <RecipeCard key={index} recipe={recipe} />
           ))}
+          {loadMoreCount < 2 && (
+            <button
+              onClick={handleLoadMore}
+              className="absolute right-0 bottom-0 mr-4  text-green-dark hover:bg-green-light font-semibold py-2 px-4 rounded"
+            >
+              Load More
+            </button>
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Recent searches */}
+      {showRecentSearches && (
+        <RecentSearches
+          searches={mockRecentSearches}
+          onSearchClick={handleRecentSearchClick}
+        />
+      )}
     </div>
   );
 }

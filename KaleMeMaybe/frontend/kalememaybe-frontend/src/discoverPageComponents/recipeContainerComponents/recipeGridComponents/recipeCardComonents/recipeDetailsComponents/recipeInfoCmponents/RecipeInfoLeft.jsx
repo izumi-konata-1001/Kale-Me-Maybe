@@ -1,6 +1,6 @@
 import RecipeDifficulty from './recipeInfoLeftComponents/RecipeDifficulty';
-import RecipeScoreIcon from './recipeInfoLeftComponents/RecipeScoreIcon';
 import RecipeTimeConsume from './recipeInfoLeftComponents/RecipeTimeConsume';
+import RecipeScoreIcon from '../../../../../../component/RecipeScoreIcon';
 
 const RecipeInfoLeft = ({recipe}) => {
     return(

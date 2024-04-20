@@ -8,7 +8,7 @@ const ViewButton = ({ icon, active, onClick }) => {
     return (
       <button
         onClick={onClick}
-        className={`${sizeStyle} ${active ? activeStyle : inactiveStyle}`}
+        className={`flex items-center justify-center p-2 rounded ${sizeStyle} ${active ? activeStyle : inactiveStyle}`}
       >
         {icon}
       </button>

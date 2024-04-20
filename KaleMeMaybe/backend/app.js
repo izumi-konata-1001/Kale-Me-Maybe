@@ -19,6 +19,9 @@ app.use(express.json());
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+// Setup bcrypt
+const bcrypt = require('bcrypt');
+
 // Make the "public" folder available statically
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));

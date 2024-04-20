@@ -10,6 +10,7 @@ import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 import Profile from "./Profile.jsx";
 import RecipeDetails from "./RecipeDetails.jsx";
+import SearchFavorites from "./SearchFavorites.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="discover" element={<Discover />} />
         <Route path="browsing-history" element={<BrowsingHistory />} />
         <Route path="favorites" element={<Favorites/>} />
+        <Route path="favorites/search" element={<SearchFavorites />}/>
         <Route path="Profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

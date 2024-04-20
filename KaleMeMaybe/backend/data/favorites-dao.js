@@ -46,7 +46,7 @@ async function createCollection(user, collectionName) {
 
     const userCheck = await db.get(SQL`SELECT id FROM user WHERE id = ${user}`);
     if (!userCheck) {
-      throw new Error('User does not exist');
+      throw new Error("User does not exist");
     }
 
     await db.run(SQL`
@@ -56,7 +56,38 @@ async function createCollection(user, collectionName) {
 
     const collections = await getFavorites(user);
     return collections;
-    
+  } catch (error) {
+    console.error("Database error: ", error);
+    throw error;
+  }
+}
+
+async function searchFavorites(user, searchTerm) {
+  try {
+    const db = await dbPromise;
+
+    const userCheck = await db.get(SQL`SELECT id FROM user WHERE id = ${user}`);
+    if (!userCheck) {
+      throw new Error("User does not exist");
+    }
+
+    const rows = await db.all(
+      `
+      SELECT DISTINCT r.*
+      FROM collection c
+      JOIN collection_recipe cr ON c.id = cr.collection_id
+      JOIN recipe r ON cr.recipe_id = r.id
+      WHERE c.user_id = ? 
+      AND (
+          r.name LIKE '%' || ? || '%' OR 
+          r.ingredient_details LIKE '%' || ? || '%' OR 
+          r.method LIKE '%' || ? || '%'
+      )
+    `,
+      [user, searchTerm, searchTerm, searchTerm]
+    );
+
+    return rows;
   } catch (error) {
     console.error("Database error: ", error);
     throw error;
@@ -67,4 +98,5 @@ async function createCollection(user, collectionName) {
 module.exports = {
   getFavorites,
   createCollection,
+  searchFavorites,
 };

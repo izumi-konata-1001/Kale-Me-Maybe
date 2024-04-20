@@ -1,17 +1,18 @@
 // ViewOptions component
-import React from 'react';
+import { IoGridOutline } from "react-icons/io5";
+import { CiBoxList } from "react-icons/ci";
 import ViewButton from './viewComponents/ViewButton';
 
 const ViewOptions = ({ activeView, setActiveView }) => {
   return (
     <div className="flex space-x-2 ml-12">
-      <ViewButton
-        icon={'grid'} // Replace 'Grid' with your grid icon
+      <ViewButton 
+        icon={<IoGridOutline className="text-3xl"/>}
         active={activeView === 'grid'}
         onClick={() => setActiveView('grid')}
       />
       <ViewButton
-        icon={'list'} // Replace 'List' with your list icon
+        icon={<CiBoxList className="text-3xl"/>}
         active={activeView === 'list'}
         onClick={() => setActiveView('list')}
       />

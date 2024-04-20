@@ -21,6 +21,13 @@ router.get('/', async (req, res) => {
             else
                 recipes = await recipeDao.getAllRecipes();
         }
+        else if(sort == "rate")
+        {
+            if (direction !="")
+                recipes = await recipeDao.getRecipesSortedByAverageScore(direction);
+            else
+                recipes = await recipeDao.getAllRecipes();
+        }
         else
             recipes = await recipeDao.getAllRecipes();
         res.json({ recipes });

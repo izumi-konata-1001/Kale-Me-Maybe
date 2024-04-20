@@ -9,6 +9,11 @@ export function AuthProvider({ children }) {
     const [userAvatar, setuserAvatar] = useLocalStorage("userAvatar", null);
     const [userId, setUserId] = useLocalStorage("userId", null);
 
+    const updateUser = (name, avatar) => {
+        setUserName(name);
+        setuserAvatar(avatar);
+    }
+
     const login = (token, name, avatar,id) => {
         setAuthToken(token);
         setUserName(name);
@@ -28,6 +33,7 @@ export function AuthProvider({ children }) {
     userName,
     userAvatar,
     userId,
+    updateUser,
     login,
     logout
   };

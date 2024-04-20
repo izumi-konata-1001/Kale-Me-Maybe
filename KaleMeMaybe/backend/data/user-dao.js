@@ -90,6 +90,23 @@ async function retrieveUserById(userId){
     return user;
 }
 
+async function updateUserProfileById(id, name, bio, gender, birthDate, city, avatar_id){
+    const db = await dbPromise;
+
+    const result = await db.run(
+        `UPDATE user SET name = ?, bio = ?, gender = ?, birth_date = ?, city = ?, avatar_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+        [name, bio, gender, birthDate, city, avatar_id, id], function(err) {
+            if (err) {
+                console.error('Error updating user:', err.message);
+            } else {
+                console.log(`User profile updated successfully for ${user.name}.`);
+            }
+        }
+    )
+
+    return result;
+}
+
 // Export functions.
 module.exports = {
     checkPassword,
@@ -98,5 +115,6 @@ module.exports = {
     retrieveUserAvatarById,
     generateToken,
     retrieveUserByEmail,
-    retrieveUserById
+    retrieveUserById,
+    updateUserProfileById
 };

@@ -22,7 +22,7 @@ export default function PageLayout() {
 }
 
 function Header() {
-    const { authToken, userAvatar,userName, logout } = useContext(AuthContext);
+    const { authToken, userAvatar, userName, logout } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     function toggleMenu() {
@@ -76,9 +76,11 @@ function Header() {
                   <div className="flex items-center justify-between gap-5">
                       {authToken ? (
                           <>
-                              <button onClick={logout} className="text-green-dark hover:text-lime-800">
-                                  Log Out
-                              </button>
+                              <Link to="/" onClick={logout} className="text-green-dark hover:text-lime-800">
+                                <button className="text-green-dark hover:text-lime-800">
+                                    Log Out
+                                </button>
+                              </Link>
                               <NavLink to="profile" className="flex flex-col items-center text-center">
                                   <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
                                   <p className="text-xs mt-1">{userName||'UserOne'}</p>
@@ -106,7 +108,7 @@ function Header() {
               <NavLink to="browsing-history" className="block py-2 px-4 text-sm hover:bg-green-light">Browsing History</NavLink>
               <NavLink to="favorites" className="block py-2 px-4 text-sm hover:bg-green-light">Saved recipes</NavLink>
               {authToken ?
-                  <button onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light">Log Out</button> :
+                  <Link to="/" onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light"><button className="block py-2 px-4 text-sm hover:bg-green-light">Log Out</button></Link> :
                   <NavLink to="log-in" className="block py-2 px-4 text-sm hover:bg-green-light">Log In</NavLink>
               }
           </div>

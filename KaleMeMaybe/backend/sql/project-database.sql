@@ -31,7 +31,7 @@ CREATE TABLE user (
     email VARCHAR(50) NOT NULL UNIQUE,
     bio TEXT DEFAULT 'No bio provided',
     gender VARCHAR(50) DEFAULT 'Not specified',
-    birth_date DATE DEFAULT NULL,
+    birth_date DATE DEFAULT '2000-01-01',
     city VARCHAR(50) DEFAULT 'Not specified',
     avatar_id INTEGER DEFAULT 1 NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,

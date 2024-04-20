@@ -39,9 +39,9 @@ async function insertRecipeAndSearchHistory(
             VALUES (?, ?, ?, ?, ?, ?)`,
       [
         recipe.recipe_name,
-        recipe.cooking_time,
+        recipe.cooking_time.replace("minutes", "mins"),
         recipe.difficulty,
-        recipe.ingredients.join(", "),
+        recipe.ingredients.join("\n"),
         recipe.steps.join("\n"),
         image_path,
       ]

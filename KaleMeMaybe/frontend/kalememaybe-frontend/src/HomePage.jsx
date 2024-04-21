@@ -159,7 +159,6 @@ export default function HomePage() {
         searchValue={searchValue}
       />
 
-            
       {isLoading && <Loading />}
 
       {/* Recipe card */}
@@ -171,7 +170,7 @@ export default function HomePage() {
           {loadMoreCount < 2 && (
             <button
               onClick={handleLoadMore}
-              className="absolute right-0 bottom-0 mr-4  text-green-dark hover:bg-green-light font-semibold py-2 px-4 rounded"
+              className="absolute right-0 bottom-[-2.5rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
             >
               Load More
             </button>

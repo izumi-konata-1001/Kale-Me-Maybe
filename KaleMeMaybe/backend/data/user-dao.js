@@ -15,6 +15,49 @@ async function checkPassword(password, hashedPassword) {
     }
 }
 
+async function retrieveThirdPartyAccount(provider, provider_id) {
+
+    const db = await dbPromise;
+
+    const account = await db.get(
+        SQL`SELECT * FROM third_party_account WHERE provider_name = ${provider} AND provider_user_id = ${provider_id}`
+    )
+
+    return account;
+}
+
+async function insertThirdPartyTable(user_id, provider, provider_id) {
+
+    const db = await dbPromise;
+    try {
+        const result = await db.run(`
+            INSERT INTO third_party_account (user_id, provider_name, provider_user_id)
+            VALUES (?, ?, ?)
+        `, [user_id, provider, provider_id]);
+
+        return { id: result.lastID };
+    } catch (error) {
+        console.error('Error inserting to new third party table:', error);
+        throw error; 
+    }
+}
+
+async function insertNewThirdUser(email) {
+
+    const db = await dbPromise;
+    try {
+        const result = await db.run(`
+            INSERT INTO user (email, encrypted_password)
+            VALUES (?, ?)
+        `, [email, '']);
+
+        return { id: result.lastID };
+    } catch (error) {
+        console.error('Error inserting new third party user:', error);
+        throw error; 
+    }
+}
+
 async function insertNewUser(userData) {
 
     const db = await dbPromise;
@@ -116,5 +159,8 @@ module.exports = {
     generateToken,
     retrieveUserByEmail,
     retrieveUserById,
-    updateUserProfileById
+    updateUserProfileById,
+    insertNewThirdUser,
+    insertThirdPartyTable,
+    retrieveThirdPartyAccount
 };

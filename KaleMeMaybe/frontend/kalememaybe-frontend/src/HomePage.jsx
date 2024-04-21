@@ -5,6 +5,9 @@ import RecipeCard from "./homePageComponents/RecipeCard";
 import SelectedIngredientsBar from "./homePageComponents/SelectedIngredientsBar";
 import RecentSearches from "./homePageComponents/RecentSearches";
 import { Loading } from "./component/Loading.jsx";
+import ErrorBanner from "./homePageComponents/ErrorBanner.jsx";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 const ingredientList = [
   { id: 1, name: "Tomato" },
@@ -40,6 +43,8 @@ export default function HomePage() {
 
   const [loadMoreCount, setLoadMoreCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const updateIngredientsPerRow = () => {
@@ -77,12 +82,12 @@ export default function HomePage() {
     setSearchValue(event.target.value);
   };
 
-  const handleSelectIngredient = (ingredientName) => {
+  const handleSelectIngredient = (ingredient) => {
     setSelectedIngredients((prev) => {
-      if (prev.includes(ingredientName)) {
+      if (prev.some((item) => item.id === ingredient.id)) {
         return prev;
       }
-      return [...prev, ingredientName];
+      return [...prev, ingredient];
     });
   };
 
@@ -92,21 +97,48 @@ export default function HomePage() {
     );
   };
 
+  // Function to call the API and get the recipe
   const handleSearch = async () => {
+    setErrorMessage("");
     setIsLoading(true);
-    const fakeApiResponse = {
-      name: "Vegetarian Lasagna",
-      time_consuming: "30 mins",
-      image: "/public/example-image-recipe.png",
-      difficulty: "Easy",
-    };
-    setRecipes([fakeApiResponse]);
-    setShowRecipeDetails(true);
-    setShowRecentSearches(false);
-    setShowFullList(false);
 
+    // const userId = getUserId();
+    const userId = 1;
 
-    setIsLoading(false);
+    try {
+      const requestBody = {
+        ingredients: selectedIngredients,
+        user_id: userId,
+      };
+      console.log("requestBody", requestBody);
+      const response = await fetch(`${API_BASE_URL}/api/recipes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+      console.log("response", response);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      const responseFormat = {
+        name: data.recipe.recipe_name,
+        time_consuming: data.recipe.cooking_time,
+        image: API_BASE_URL + data.image_path,
+        difficulty: data.recipe.difficulty
+      };
+      setRecipes([responseFormat]);
+      setShowRecipeDetails(true);
+      setShowRecentSearches(false);
+      setShowFullList(false);
+    } catch (error) {
+      setErrorMessage("Something went wrong, but no worries—let's try again!");
+      console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLoadMore = async () => {
@@ -143,7 +175,7 @@ export default function HomePage() {
           .map((ingredient) => (
             <Ingredient
               key={ingredient.id}
-              name={ingredient.name}
+              ingredient={ingredient}
               onSelectIngredient={handleSelectIngredient}
               image={`/basic-ingredient-images/${ingredient.name}.png`}
             />
@@ -157,8 +189,12 @@ export default function HomePage() {
         onSearch={handleSearch}
         onIngredientSearchChange={handleIngredientSearchChange}
         searchValue={searchValue}
+        isLoading={isLoading}
       />
+      {/* Error message */}
+      {errorMessage && <ErrorBanner message={errorMessage} />}
 
+      {/* Loading spinner */}
       {isLoading && <Loading />}
 
       {/* Recipe card */}

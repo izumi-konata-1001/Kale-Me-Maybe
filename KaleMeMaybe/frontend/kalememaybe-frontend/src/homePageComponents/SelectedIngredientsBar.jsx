@@ -6,6 +6,7 @@ const SelectedIngredientsBar = ({
   onSearch,
   onIngredientSearchChange,
   searchValue,
+  isLoading,
 }) => {
   return (
     <div className="flex flex-row items-center justify-between mt-6 mb-4">
@@ -15,7 +16,7 @@ const SelectedIngredientsBar = ({
             key={index}
             className="flex items-center bg-green-dark text-white rounded-full px-3 py-1"
           >
-            {ingredient}
+            {ingredient.name}
             <button
               onClick={() => onRemoveIngredient(ingredient)}
               className="ml-2"
@@ -36,6 +37,7 @@ const SelectedIngredientsBar = ({
       <button
         className="bg-green-dark hover:bg-green-light text-white font-bold py-2 px-4 rounded ml-2 min-w-max"
         onClick={onSearch}
+        disabled={ingredients.length === 0 || isLoading}
       >
         Let's cook
       </button>

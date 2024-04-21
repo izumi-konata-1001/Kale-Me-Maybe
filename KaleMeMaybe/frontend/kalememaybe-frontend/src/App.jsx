@@ -11,12 +11,14 @@ import Signup from "./Signup.jsx";
 import Profile from "./Profile.jsx";
 import RecipeDetails from "./RecipeDetails.jsx";
 import SearchFavorites from "./SearchFavorites.jsx";
+import LoginSuccess from "./thirdparty/LoginSuccess.jsx";
 
 function App() {
   return (
     <Routes>
       <Route path="/log-in" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
+      <Route path="/login-success" element={<LoginSuccess />} />
       <Route path="/" element={<PageLayout />}>
         <Route index element={<HomePage />} />
         <Route path="recipe/:id" element={<RecipeDetails/>} />

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import {useContext, useState} from "react";
 import { AuthContext } from "./contexts/AuthProvider";
+import ThirdPartyLink from "./thirdparty/ThirdPartyLink";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -66,14 +67,7 @@ export default function Login(){
                 <div className="flex-grow border-t border-gray-300"></div>
             </div>
             {/* third-party log in */}
-            <div className="grid grid-cols-3">
-                <img src="/google.png" className="py-4 
-                px-5 xl:px-6"></img>
-                <img src="/facebook.png" className="py-4 
-                px-5 xl:px-6"></img>
-                <img src="apple-logo.png" className="py-4 
-                px-5 xl:px-6"></img>
-            </div>
+            <ThirdPartyLink />
         </div>
     </div>       
     );

@@ -1,5 +1,4 @@
-import {Routes, Route, useParams} from "react-router-dom";
-import React from "react";
+import {Routes, Route} from "react-router-dom";
 import HomePage from "./HomePage";
 import PageLayout from "./PageLayout";
 import PageNotFound from "./component/PageNotFound.jsx";
@@ -12,6 +11,8 @@ import Profile from "./Profile.jsx";
 import RecipeDetails from "./RecipeDetails.jsx";
 import SearchFavorites from "./SearchFavorites.jsx";
 import LoginSuccess from "./thirdparty/LoginSuccess.jsx";
+import About from "./About.jsx";
+import ContactUs from "./ContactUs.jsx";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         <Route path="browsing-history" element={<BrowsingHistory />} />
         <Route path="favorites" element={<Favorites/>} />
         <Route path="favorites/search" element={<SearchFavorites />}/>
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<ContactUs />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

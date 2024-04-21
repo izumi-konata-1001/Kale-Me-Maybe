@@ -7,6 +7,9 @@
     .nav {
         @apply block py-2 px-3 md:p-0 font-semibold text-green-dark hover:text-white;
     }
+    .title{
+        @apply text-5xl font-bold p-5 text-lime-900 text-center
+    }
 }
 
 .main-background {

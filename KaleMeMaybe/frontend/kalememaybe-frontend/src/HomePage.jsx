@@ -248,7 +248,7 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-5xl font-bold text-center mb-4">Pantry</h1>
+      <h1 className="title">Pantry</h1>
       <p className="text-center mb-4">
         You have added {selectedIngredients.length} ingredient
         {selectedIngredients.length !== 1 ? "s" : ""}

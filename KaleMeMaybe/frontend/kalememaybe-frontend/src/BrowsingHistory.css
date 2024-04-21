@@ -1,0 +1,103 @@
+.BrowsingHistory {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.BrowsingHistory h1 {
+position: absolute;
+top: 17.5%;
+}
+
+.search {
+    border: 1px solid #DDD;
+    border-right: 0;
+    height: 40px;
+    background-color: #F7F7F7;
+    width: 600px;
+    border-top-left-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+
+}
+
+.BrowsingHistory .btt {
+    border-top-left-radius: 0px 0px;
+    border-bottom-left-radius: 0px 0px;
+}
+
+.BrowsingHistory .search-div {
+    margin-top: 100px;
+    margin-bottom: 35px;
+}
+
+.BrowsingHistory .cardset {
+    max-height: 500px;  /* 设置容器最大高度 */
+    overflow-y: auto;   /* 允许在y轴方向上滚动 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 
+
+.BrowsingHistory .card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #EEE;
+    width: 650px;
+    height: 250px;
+    padding: 10px 15px;
+    margin-bottom: 35px;
+    /* border-radius: 5px; */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.BrowsingHistory .card .picture {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 2px solid #97C279;
+    border-radius: 10px;
+    margin-right: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.BrowsingHistory .card .content {
+    position: relative;
+    margin-left: 250px;
+}
+
+.BrowsingHistory .card .subtitle {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.BrowsingHistory .card .fouricons {
+    display: flex;
+    flex-direction: row;
+    margin: 12px 0px;
+}
+
+.BrowsingHistory .card .fouricons .firsttwo {
+    background-color: #ECF7D3;
+    color: #97C279;
+}
+
+.BrowsingHistory .card .fouricons .heart-icon {
+    color: #97C279;
+    margin: 4px 12px;
+}
+
+.BrowsingHistory .card .fouricons > * {
+    margin-right: 20px;
+}
+
+.BrowsingHistory .card .des {
+    word-break: break-all;
+    margin-right: 20px;
+    width: 350px;
+    height: 95px;
+    overflow: hidden;   
+    text-overflow: ellipsis;
+}

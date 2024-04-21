@@ -97,7 +97,7 @@ export default function RecipeDetails() {
 }
 
 
-function BackButton() {
+export function BackButton() {
     let navigate = useNavigate();
 
     function handleGoBack() {

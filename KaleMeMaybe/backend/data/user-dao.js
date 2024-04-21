@@ -15,6 +15,49 @@ async function checkPassword(password, hashedPassword) {
     }
 }
 
+async function retrieveThirdPartyAccount(provider, provider_id) {
+
+    const db = await dbPromise;
+
+    const account = await db.get(
+        SQL`SELECT * FROM third_party_account WHERE provider_name = ${provider} AND provider_user_id = ${provider_id}`
+    )
+
+    return account;
+}
+
+async function insertThirdPartyTable(user_id, provider, provider_id) {
+
+    const db = await dbPromise;
+    try {
+        const result = await db.run(`
+            INSERT INTO third_party_account (user_id, provider_name, provider_user_id)
+            VALUES (?, ?, ?)
+        `, [user_id, provider, provider_id]);
+
+        return { id: result.lastID };
+    } catch (error) {
+        console.error('Error inserting to new third party table:', error);
+        throw error; 
+    }
+}
+
+async function insertNewThirdUser(email) {
+
+    const db = await dbPromise;
+    try {
+        const result = await db.run(`
+            INSERT INTO user (email, encrypted_password)
+            VALUES (?, ?)
+        `, [email, '']);
+
+        return { id: result.lastID };
+    } catch (error) {
+        console.error('Error inserting new third party user:', error);
+        throw error; 
+    }
+}
+
 async function insertNewUser(userData) {
 
     const db = await dbPromise;
@@ -80,6 +123,33 @@ async function retrieveUserByEmail(email){
     return user;
 }
 
+async function retrieveUserById(userId){
+    const db = await dbPromise;
+
+    const user = await db.get(
+        SQL`SELECT * FROM user WHERE id = ${userId}`
+    )
+
+    return user;
+}
+
+async function updateUserProfileById(id, name, bio, gender, birthDate, city, avatar_id){
+    const db = await dbPromise;
+
+    const result = await db.run(
+        `UPDATE user SET name = ?, bio = ?, gender = ?, birth_date = ?, city = ?, avatar_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+        [name, bio, gender, birthDate, city, avatar_id, id], function(err) {
+            if (err) {
+                console.error('Error updating user:', err.message);
+            } else {
+                console.log(`User profile updated successfully for ${user.name}.`);
+            }
+        }
+    )
+
+    return result;
+}
+
 // Export functions.
 module.exports = {
     checkPassword,
@@ -87,5 +157,10 @@ module.exports = {
     hashPassword,
     retrieveUserAvatarById,
     generateToken,
-    retrieveUserByEmail
+    retrieveUserByEmail,
+    retrieveUserById,
+    updateUserProfileById,
+    insertNewThirdUser,
+    insertThirdPartyTable,
+    retrieveThirdPartyAccount
 };

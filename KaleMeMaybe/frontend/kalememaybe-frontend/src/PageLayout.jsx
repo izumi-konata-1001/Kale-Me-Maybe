@@ -22,8 +22,9 @@ export default function PageLayout() {
 }
 
 function Header() {
-    const { authToken, userAvatar,userName, logout } = useContext(AuthContext);
+    const { authToken, userAvatar, userName, logout } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [darkMode, setDarkMode] =  useState(false);
 
     function toggleMenu() {
         setIsMenuOpen(!isMenuOpen);
@@ -31,6 +32,7 @@ function Header() {
 
   return (
       <header className="bg-lime-50">
+          <div className={darkMode?"dark":""}>
           <div className="md:hidden flex justify-between items-center px-4 py-2">
               <img src="/logo.png" className="h-12 w-12" alt="Logo"/>
               <p className={"text-green-dark font-bold"}>KaleMeMaybe</p>
@@ -40,7 +42,7 @@ function Header() {
               {authToken?"": <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center">
                   Sign Up &rarr;
               </NavLink>}
-              <BsFillMoonStarsFill className="" />
+              <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl dark:text-white"} />
           </div>
 
           <nav className="hidden md:flex items-stretch justify-between">
@@ -68,17 +70,20 @@ function Header() {
           <FaHourglassStart /> Browsing History
         </span>
                   </NavLink>
-                  <NavLink to="favorites" className="nav nav-link">
+      {authToken && (<NavLink to="favorites" className="nav nav-link">
         <span className="flex items-center gap-2">
           <FaStar /> Saved recipes
         </span>
-                  </NavLink>
+                  </NavLink>)
+      }
                   <div className="flex items-center justify-between gap-5">
                       {authToken ? (
                           <>
-                              <button onClick={logout} className="text-green-dark hover:text-lime-800">
-                                  Log Out
-                              </button>
+                              <Link to="/" onClick={logout} className="text-green-dark hover:text-lime-800">
+                                <button className="text-green-dark hover:text-lime-800">
+                                    Log Out
+                                </button>
+                              </Link>
                               <NavLink to="profile" className="flex flex-col items-center text-center">
                                   <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
                                   <p className="text-xs mt-1">{userName||'UserOne'}</p>
@@ -104,11 +109,12 @@ function Header() {
               <NavLink to="." className="block py-2 px-4 text-sm hover:bg-green-light">Home</NavLink>
               <NavLink to="discover" className="block py-2 px-4 text-sm hover:bg-green-light">Discover</NavLink>
               <NavLink to="browsing-history" className="block py-2 px-4 text-sm hover:bg-green-light">Browsing History</NavLink>
-              <NavLink to="favorites" className="block py-2 px-4 text-sm hover:bg-green-light">Saved recipes</NavLink>
+              {authToken &&<NavLink to="favorites" className="block py-2 px-4 text-sm hover:bg-green-light">Saved recipes</NavLink>}
               {authToken ?
-                  <button onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light">Log Out</button> :
+                  <Link to="/" onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light"><button className="block py-2 px-4 text-sm hover:bg-green-light">Log Out</button></Link> :
                   <NavLink to="log-in" className="block py-2 px-4 text-sm hover:bg-green-light">Log In</NavLink>
               }
+          </div>
           </div>
       </header>
 
@@ -116,6 +122,7 @@ function Header() {
 }
 
 function Footer() {
+    const { authToken } = useContext(AuthContext);
     return (
         <footer className="text-white text-center bg-green-dark w-full">
                 <div className="flex justify-between px-10 py-5">
@@ -123,12 +130,12 @@ function Footer() {
                         <h5 className="uppercase font-bold mb-2.5 underline">Company Info</h5>
                         <p><Link to="/about" className={"hover:underline"}>About us</Link></p>
                         <p><Link to="/contact" className={"hover:underline"} >Contact</Link></p>
-                        <p className={"hover:underline"}>Private Policy</p>
                     </div>
                     <div className="mb-6">
                         <h5 className="uppercase font-bold mb-2.5 underline">Quick Links</h5>
                         <p><Link to="/discover" className={"hover:underline"}>Discover</Link></p>
-                        <p><Link to="/favorites" className={"hover:underline"}>Saved recipes</Link></p>
+                        {authToken&&<p><Link to="/favorites" className={"hover:underline"}>Saved recipes</Link></p>}
+                        <p><Link to="/browsing-history" className={"hover:underline"}>Browsing history</Link></p>
                     </div>
                     <div className="mb-6">
                         <h5 className="uppercase font-bold mb-2.5 underline">Follow us</h5>

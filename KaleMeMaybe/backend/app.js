@@ -33,6 +33,7 @@ app.use("/api", require("./routes/histories.js"));
 app.use("/api", require("./routes/collections.js"));
 app.use("/api", require("./routes/ingredients.js"));
 app.use('/api', require('./routes/scores.js'));
+app.use("/api", require("./routes/search-histories.js"));
 
 app.use("/api/favorites", require("./routes/favorites.js"));
 app.use('/api/discover', require('./routes/discover.js'));

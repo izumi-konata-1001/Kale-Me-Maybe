@@ -4,6 +4,7 @@ import RecipeScoreIcon from "../../../../../component/RecipeScoreIcon.jsx";
 import RecipeTimeConsume from "./recipeInfoComponents/RecipeTimeConsume";
 
 const RecipeInfo = ({recipe}) => {
+    const recipeId = recipe.id;
     return(
         <div className="flex justify-start gap-x-2 text-sm items-center">
             <div>
@@ -13,7 +14,7 @@ const RecipeInfo = ({recipe}) => {
                 <RecipeTimeConsume recipe={recipe}/>
             </div>
             <div className="pl-2">
-                <RecipeScoreIcon recipe={recipe}/>
+                <RecipeScoreIcon recipeId={recipeId}/>
             </div>
             <div className="pl-5">
                 <RecipeFavouriteIcon recipe={recipe}/>

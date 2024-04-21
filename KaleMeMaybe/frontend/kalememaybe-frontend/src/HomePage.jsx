@@ -49,6 +49,37 @@ export default function HomePage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
 
+  const [suggestions, setSuggestions] = useState([]);
+
+  const fetchIngredientSuggestions = async (prefix) => {
+    if (prefix.length >= 2) {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/ingredients?prefix=${prefix}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch suggestions");
+        }
+        const data = await response.json();
+        setSuggestions(data);
+      } catch (error) {
+        console.error("Error fetching ingredient suggestions:", error);
+        setSuggestions([]);
+      }
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  // Fetch ingredient suggestions
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      fetchIngredientSuggestions(searchValue);
+    }, 600); 
+
+    return () => clearTimeout(handler); 
+  }, [searchValue]); 
+
   // Fetch recent searches
   useEffect(() => {
     const fetchRecentSearches = async () => {
@@ -181,7 +212,7 @@ export default function HomePage() {
         const requestBody = {
           ingredients: selectedIngredients,
           user_id: userId,
-          existing_recipe_name: existingRecipeNames, 
+          existing_recipe_name: existingRecipeNames,
         };
 
         const response = await fetch(`${API_BASE_URL}/api/recipes`, {
@@ -249,6 +280,9 @@ export default function HomePage() {
         onIngredientSearchChange={handleIngredientSearchChange}
         searchValue={searchValue}
         isLoading={isLoading}
+        setSearchValue={setSearchValue}
+        suggestions={suggestions}
+        onSelectIngredient={handleSelectIngredient}
       />
       {/* Error message */}
       {errorMessage && <ErrorBanner message={errorMessage} />}

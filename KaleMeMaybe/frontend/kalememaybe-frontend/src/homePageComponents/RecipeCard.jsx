@@ -1,11 +1,14 @@
 // RecipeCard.jsx
 import React from "react";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, onClick }) => {
   if (!recipe) return null;
 
   return (
-    <div className="max-w-sm mx-auto rounded-lg overflow-hidden shadow-lg my-6 bg-white text-center">
+    <div
+      className="max-w-sm mx-auto rounded-lg overflow-hidden shadow-lg my-6 bg-white text-center cursor-pointer"
+      onClick={() => onClick(recipe.id)}
+    >
       <div className="p-2">
         <img
           src={recipe.image}

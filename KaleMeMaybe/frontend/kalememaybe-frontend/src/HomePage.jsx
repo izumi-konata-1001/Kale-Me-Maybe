@@ -5,6 +5,11 @@ import RecipeCard from "./homePageComponents/RecipeCard";
 import SelectedIngredientsBar from "./homePageComponents/SelectedIngredientsBar";
 import RecentSearches from "./homePageComponents/RecentSearches";
 import { Loading } from "./component/Loading.jsx";
+import ErrorBanner from "./homePageComponents/ErrorBanner.jsx";
+
+import { useNavigate } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 const ingredientList = [
   { id: 1, name: "Tomato" },
@@ -41,6 +46,65 @@ export default function HomePage() {
   const [loadMoreCount, setLoadMoreCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
+
+  const [suggestions, setSuggestions] = useState([]);
+
+  const fetchIngredientSuggestions = async (prefix) => {
+    if (prefix.length >= 2) {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/ingredients?prefix=${prefix}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch suggestions");
+        }
+        const data = await response.json();
+        setSuggestions(data);
+      } catch (error) {
+        console.error("Error fetching ingredient suggestions:", error);
+        setSuggestions([]);
+      }
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  // Fetch ingredient suggestions
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      fetchIngredientSuggestions(searchValue);
+    }, 600); 
+
+    return () => clearTimeout(handler); 
+  }, [searchValue]); 
+
+  // Fetch recent searches
+  useEffect(() => {
+    const fetchRecentSearches = async () => {
+      const userId = 1; // Mock user ID
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/users/${userId}/search-histories`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch recent searches");
+        }
+        const data = await response.json();
+        setRecentSearches(data);
+      } catch (error) {
+        console.error("Error fetching recent searches:", error);
+        setErrorMessage(
+          "Failed to retrieve recent searches. Please try again."
+        );
+      }
+    };
+
+    fetchRecentSearches();
+  }, []);
+
+  // updateIngredientsPerRow function
   useEffect(() => {
     const updateIngredientsPerRow = () => {
       const width = window.innerWidth;
@@ -54,21 +118,22 @@ export default function HomePage() {
         setIngredientsPerRow(2);
       }
     };
-
     updateIngredientsPerRow();
     window.addEventListener("resize", updateIngredientsPerRow);
     return () => window.removeEventListener("resize", updateIngredientsPerRow);
   }, []);
-  // Mock data for recent searches
-  const mockRecentSearches = [
-    "Chicken + Broccoli + Garlic",
-    "Shrimp + Coconut Milk + Curry",
-    "Pork + Apple + Cinnamon",
-  ];
+
+  // Function to navigate to the recipe page
+  const navigate = useNavigate();
+  const handleRecipeClick = (recipeId) => {
+    navigate(`/recipe/${recipeId}`);
+  };
 
   // Function to handle clicking on a recent search
-  const handleRecentSearchClick = (search) => {
-    const ingredientsFromSearch = search.split(" + ");
+  const handleRecentSearchClick = (ingredientString) => {
+    const ingredientsFromSearch = ingredientString.split(" + ").map((name) => {
+      return ingredientList.find((ingredient) => ingredient.name === name);
+    });
     setSelectedIngredients(ingredientsFromSearch);
     setSearchValue(""); // Clear the search input
   };
@@ -77,12 +142,12 @@ export default function HomePage() {
     setSearchValue(event.target.value);
   };
 
-  const handleSelectIngredient = (ingredientName) => {
+  const handleSelectIngredient = (ingredient) => {
     setSelectedIngredients((prev) => {
-      if (prev.includes(ingredientName)) {
+      if (prev.some((item) => item.id === ingredient.id)) {
         return prev;
       }
-      return [...prev, ingredientName];
+      return [...prev, ingredient];
     });
   };
 
@@ -92,35 +157,92 @@ export default function HomePage() {
     );
   };
 
+  // Function to call the API and get the recipe
   const handleSearch = async () => {
+    setErrorMessage("");
     setIsLoading(true);
-    const fakeApiResponse = {
-      name: "Vegetarian Lasagna",
-      time_consuming: "30 mins",
-      image: "/public/example-image-recipe.png",
-      difficulty: "Easy",
-    };
-    setRecipes([fakeApiResponse]);
-    setShowRecipeDetails(true);
-    setShowRecentSearches(false);
-    setShowFullList(false);
-
-
-    setIsLoading(false);
+    // const userId = getUserId();
+    const userId = 1; // Mock user ID
+    try {
+      const requestBody = {
+        ingredients: selectedIngredients,
+        user_id: userId,
+      };
+      console.log("requestBody", requestBody);
+      const response = await fetch(`${API_BASE_URL}/api/recipes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+      console.log("response", response);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      const responseFormat = {
+        name: data.recipe.recipe_name,
+        time_consuming: data.recipe.cooking_time,
+        image: API_BASE_URL + data.image_path,
+        difficulty: data.recipe.difficulty,
+        id: data.recipeId,
+      };
+      setRecipes([responseFormat]);
+      setShowRecipeDetails(true);
+      setShowRecentSearches(false);
+      setShowFullList(false);
+    } catch (error) {
+      setErrorMessage("Something went wrong, but no worries—let's try again!");
+      console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+  // Function to load more recipes
   const handleLoadMore = async () => {
     if (loadMoreCount < 2) {
-      const moreRecipes = [
-        {
-          name: "Vegan Curry",
-          time_consuming: "45 mins",
-          image: "/public/example-img-ingredient.png",
-          difficulty: "Medium",
-        },
-      ];
-      setRecipes((recipes) => [...recipes, ...moreRecipes]);
-      setLoadMoreCount(loadMoreCount + 1);
+      setIsLoading(true);
+
+      const userId = 1; // Mock user ID
+
+      try {
+        const existingRecipeNames = recipes.map((recipe) => recipe.name);
+        const requestBody = {
+          ingredients: selectedIngredients,
+          user_id: userId,
+          existing_recipe_name: existingRecipeNames,
+        };
+
+        const response = await fetch(`${API_BASE_URL}/api/recipes`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        const newRecipes = {
+          name: data.recipe.recipe_name,
+          time_consuming: data.recipe.cooking_time,
+          image: API_BASE_URL + data.image_path,
+          difficulty: data.recipe.difficulty,
+          id: data.recipeId,
+        };
+        setRecipes((prevRecipes) => [...prevRecipes, newRecipes]);
+        setLoadMoreCount(loadMoreCount + 1);
+      } catch (error) {
+        setErrorMessage("Failed to load more recipes. Please try again.");
+        console.error("Error fetching more recipes:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -143,7 +265,7 @@ export default function HomePage() {
           .map((ingredient) => (
             <Ingredient
               key={ingredient.id}
-              name={ingredient.name}
+              ingredient={ingredient}
               onSelectIngredient={handleSelectIngredient}
               image={`/basic-ingredient-images/${ingredient.name}.png`}
             />
@@ -157,21 +279,29 @@ export default function HomePage() {
         onSearch={handleSearch}
         onIngredientSearchChange={handleIngredientSearchChange}
         searchValue={searchValue}
+        isLoading={isLoading}
+        setSearchValue={setSearchValue}
+        suggestions={suggestions}
+        onSelectIngredient={handleSelectIngredient}
       />
-
-            
-      {isLoading && <Loading />}
+      {/* Error message */}
+      {errorMessage && <ErrorBanner message={errorMessage} />}
 
       {/* Recipe card */}
       {showRecipeDetails && (
         <div className="relative">
           {recipes.map((recipe, index) => (
-            <RecipeCard key={index} recipe={recipe} />
+            <RecipeCard
+              key={index}
+              recipe={recipe}
+              onClick={handleRecipeClick}
+            />
           ))}
           {loadMoreCount < 2 && (
             <button
               onClick={handleLoadMore}
-              className="absolute right-0 bottom-0 mr-4  text-green-dark hover:bg-green-light font-semibold py-2 px-4 rounded"
+              className="absolute right-0 bottom-[-2.5rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
+              disabled={isLoading}
             >
               Load More
             </button>
@@ -179,11 +309,17 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Loading spinner */}
+      {isLoading && <Loading />}
+
       {/* Recent searches */}
       {showRecentSearches && (
         <RecentSearches
-          searches={mockRecentSearches}
+          searches={recentSearches.map((search) =>
+            search.ingredients.map((ing) => ing.name).join(" + ")
+          )}
           onSearchClick={handleRecentSearchClick}
+          isLoading={isLoading}
         />
       )}
     </div>

@@ -19,6 +19,10 @@ router.get("/health", async (req, res) => {
 router.post("/recipes", async (req, res) => {
   const { ingredients } = req.body;
   const { user_id } = req.body;
+
+  // already genrated recipe name
+  const { existing_recipe_name } = req.body;
+
   // check if ingredients list is empty
   if (!ingredients || ingredients.length === 0) {
     return res
@@ -34,7 +38,7 @@ router.post("/recipes", async (req, res) => {
 
   try {
     // generate recipe with ingredients
-    const recipeData = await generateRecipeWithIngredients(ingredientNames);
+    const recipeData = await generateRecipeWithIngredients(ingredientNames, existing_recipe_name);
     const recipe = JSON.parse(recipeData);
 
     // generate image using the recipe name

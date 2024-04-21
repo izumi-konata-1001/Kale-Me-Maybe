@@ -3,6 +3,9 @@ const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
+const { promisify } = require("util");
+const stream = require("stream");
+const pipeline = promisify(stream.pipeline);
 
 const openai = new OpenAI({
   apiKey: process.env.GPT_API_KEY,
@@ -15,13 +18,18 @@ const gpt_image_model = process.env.DALL_E_MODEL;
 const gpt_image_size = process.env.DALL_E_IMAGE_SIZE;
 
 // call gpt api to generate recipe with ingredients
-async function generateRecipeWithIngredients(ingredients) {
+async function generateRecipeWithIngredients(ingredients, existing_recipe_name) {
   // Create prompt for GPT
-  const prompt = `
+  let prompt = `
   Create a detailed vegetarian recipe using these ingredients: ${ingredients.join(
     ", "
   )}. Format the response as JSON with keys for recipe_name, cooking_time, difficulty, ingredients and steps. The "ingredients" field is an array of strings, each describing the handling and quantity of an ingredient. The "steps" field is an array of strings, where each string details a cooking step.
   `;
+
+  // check if existing recipe name is provided
+  if (existing_recipe_name && existing_recipe_name.length > 0) {
+    prompt += ` The recipe name should not be ${existing_recipe_name.join(",")}.`;
+  }
 
   try {
     const response = await openai.chat.completions.create({
@@ -68,7 +76,7 @@ async function generateRecipeImage(recipe) {
       __dirname,
       `../public/generated-images/${fileName}`
     );
-    downloadImage(image_generated_url, savePath);
+    await downloadImage(image_generated_url, savePath);
     console.log("Image saved at:", savePath);
 
     // return image path
@@ -80,25 +88,27 @@ async function generateRecipeImage(recipe) {
 }
 
 // Function to download and save the image
-const downloadImage = (url, savePath) => {
-  const file = fs.createWriteStream(savePath);
-  https
-    .get(url, (response) => {
-      response.pipe(file);
-
-      // Close the file once writing is complete
-      file.on("finish", () => {
-        file.close();
-        console.log("Download and save completed.");
+async function downloadImage(url, savePath) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, async (response) => {
+        try {
+          const fileStream = fs.createWriteStream(savePath);
+          await pipeline(response, fileStream);
+          console.log("Download and save completed.");
+          resolve(`/generated-images/${path.basename(savePath)}`);
+        } catch (error) {
+          console.error("Failed to download or save the image:", error.message);
+          fs.unlink(savePath).catch(() => {});
+          reject(error);
+        }
+      })
+      .on("error", (error) => {
+        console.error("Error during HTTP get request:", error.message);
+        reject(error);
       });
-    })
-    .on("error", (err) => {
-      // Delete the file async. (E.g., if it fails partially)
-      fs.unlink(savePath, () => {
-        console.error("Failed to download or save the image:", err.message);
-      });
-    });
-};
+  });
+}
 
 // Export functions.
 module.exports = {

@@ -7,6 +7,8 @@ import RecentSearches from "./homePageComponents/RecentSearches";
 import { Loading } from "./component/Loading.jsx";
 import ErrorBanner from "./homePageComponents/ErrorBanner.jsx";
 
+import { useNavigate } from "react-router-dom";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 const ingredientList = [
@@ -71,6 +73,12 @@ export default function HomePage() {
     "Pork + Apple + Cinnamon",
   ];
 
+  // Function to navigate to the recipe page
+  const navigate = useNavigate();
+  const handleRecipeClick = (recipeId) => {
+    navigate(`/recipe/${recipeId}`);
+  };
+
   // Function to handle clicking on a recent search
   const handleRecentSearchClick = (search) => {
     const ingredientsFromSearch = search.split(" + ");
@@ -101,10 +109,8 @@ export default function HomePage() {
   const handleSearch = async () => {
     setErrorMessage("");
     setIsLoading(true);
-
     // const userId = getUserId();
-    const userId = 1;
-
+    const userId = 1; // Mock user ID
     try {
       const requestBody = {
         ingredients: selectedIngredients,
@@ -127,7 +133,8 @@ export default function HomePage() {
         name: data.recipe.recipe_name,
         time_consuming: data.recipe.cooking_time,
         image: API_BASE_URL + data.image_path,
-        difficulty: data.recipe.difficulty
+        difficulty: data.recipe.difficulty,
+        id: data.recipeId,
       };
       setRecipes([responseFormat]);
       setShowRecipeDetails(true);
@@ -141,18 +148,49 @@ export default function HomePage() {
     }
   };
 
+  // Function to load more recipes
   const handleLoadMore = async () => {
     if (loadMoreCount < 2) {
-      const moreRecipes = [
-        {
-          name: "Vegan Curry",
-          time_consuming: "45 mins",
-          image: "/public/example-img-ingredient.png",
-          difficulty: "Medium",
-        },
-      ];
-      setRecipes((recipes) => [...recipes, ...moreRecipes]);
-      setLoadMoreCount(loadMoreCount + 1);
+      setIsLoading(true);
+
+      const userId = 1; // Mock user ID
+
+      try {
+        const existingRecipeNames = recipes.map((recipe) => recipe.name);
+        const requestBody = {
+          ingredients: selectedIngredients,
+          user_id: userId,
+          existing_recipe_name: existingRecipeNames, // 传递已存在的食谱名称
+        };
+
+        const response = await fetch(`${API_BASE_URL}/api/recipes`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        const newRecipes = {
+          name: data.recipe.recipe_name,
+          time_consuming: data.recipe.cooking_time,
+          image: API_BASE_URL + data.image_path,
+          difficulty: data.recipe.difficulty,
+          id: data.recipeId,
+        };
+        setRecipes((prevRecipes) => [...prevRecipes, newRecipes]);
+        setLoadMoreCount(loadMoreCount + 1);
+      } catch (error) {
+        setErrorMessage("Failed to load more recipes. Please try again.");
+        console.error("Error fetching more recipes:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -194,25 +232,30 @@ export default function HomePage() {
       {/* Error message */}
       {errorMessage && <ErrorBanner message={errorMessage} />}
 
-      {/* Loading spinner */}
-      {isLoading && <Loading />}
-
       {/* Recipe card */}
       {showRecipeDetails && (
         <div className="relative">
           {recipes.map((recipe, index) => (
-            <RecipeCard key={index} recipe={recipe} />
+            <RecipeCard
+              key={index}
+              recipe={recipe}
+              onClick={handleRecipeClick}
+            />
           ))}
           {loadMoreCount < 2 && (
             <button
               onClick={handleLoadMore}
               className="absolute right-0 bottom-[-2.5rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
+              disabled={isLoading}
             >
               Load More
             </button>
           )}
         </div>
       )}
+
+      {/* Loading spinner */}
+      {isLoading && <Loading />}
 
       {/* Recent searches */}
       {showRecentSearches && (

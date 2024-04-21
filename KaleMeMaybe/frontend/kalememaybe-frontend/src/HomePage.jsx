@@ -47,7 +47,33 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
 
+  // Fetch recent searches
+  useEffect(() => {
+    const fetchRecentSearches = async () => {
+      const userId = 1; // Mock user ID
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/users/${userId}/search-histories`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch recent searches");
+        }
+        const data = await response.json();
+        setRecentSearches(data);
+      } catch (error) {
+        console.error("Error fetching recent searches:", error);
+        setErrorMessage(
+          "Failed to retrieve recent searches. Please try again."
+        );
+      }
+    };
+
+    fetchRecentSearches();
+  }, []);
+
+  // updateIngredientsPerRow function
   useEffect(() => {
     const updateIngredientsPerRow = () => {
       const width = window.innerWidth;
@@ -61,17 +87,10 @@ export default function HomePage() {
         setIngredientsPerRow(2);
       }
     };
-
     updateIngredientsPerRow();
     window.addEventListener("resize", updateIngredientsPerRow);
     return () => window.removeEventListener("resize", updateIngredientsPerRow);
   }, []);
-  // Mock data for recent searches
-  const mockRecentSearches = [
-    "Chicken + Broccoli + Garlic",
-    "Shrimp + Coconut Milk + Curry",
-    "Pork + Apple + Cinnamon",
-  ];
 
   // Function to navigate to the recipe page
   const navigate = useNavigate();
@@ -80,8 +99,10 @@ export default function HomePage() {
   };
 
   // Function to handle clicking on a recent search
-  const handleRecentSearchClick = (search) => {
-    const ingredientsFromSearch = search.split(" + ");
+  const handleRecentSearchClick = (ingredientString) => {
+    const ingredientsFromSearch = ingredientString.split(" + ").map((name) => {
+      return ingredientList.find((ingredient) => ingredient.name === name);
+    });
     setSelectedIngredients(ingredientsFromSearch);
     setSearchValue(""); // Clear the search input
   };
@@ -160,7 +181,7 @@ export default function HomePage() {
         const requestBody = {
           ingredients: selectedIngredients,
           user_id: userId,
-          existing_recipe_name: existingRecipeNames, // 传递已存在的食谱名称
+          existing_recipe_name: existingRecipeNames, 
         };
 
         const response = await fetch(`${API_BASE_URL}/api/recipes`, {
@@ -260,8 +281,11 @@ export default function HomePage() {
       {/* Recent searches */}
       {showRecentSearches && (
         <RecentSearches
-          searches={mockRecentSearches}
+          searches={recentSearches.map((search) =>
+            search.ingredients.map((ing) => ing.name).join(" + ")
+          )}
           onSearchClick={handleRecentSearchClick}
+          isLoading={isLoading}
         />
       )}
     </div>

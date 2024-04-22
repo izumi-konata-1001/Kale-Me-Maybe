@@ -2,7 +2,6 @@ const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
 //retrive data of user's favorites
-//change userID into tokens later
 async function getFavorites(user) {
   try {
     const db = await dbPromise;

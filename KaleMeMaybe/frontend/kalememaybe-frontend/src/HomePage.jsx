@@ -326,8 +326,16 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Loading spinner */}
-      {isLoading && <Loading />}
+      {/* Loading spinner overlay */}
+      {isLoading && (
+        <div
+          className={`fixed inset-0 z-50 flex justify-center items-center bg-white bg-opacity-50 ${
+            isLoading ? "" : "hidden"
+          }`}
+        >
+          <Loading />
+        </div>
+      )}
 
       {/* Recent searches */}
       {showRecentSearches && (

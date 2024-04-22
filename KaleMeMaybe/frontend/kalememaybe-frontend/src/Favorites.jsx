@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "./contexts/AuthProvider";
 import Collection from "./component/Collection";
 import NewCollectionModal from "./component/NewCollectionModal";
 import SearchModal from "./component/SearchModal";
@@ -11,6 +12,8 @@ export default function Favorites() {
   const setFavorites = useStore((state) => state.setFavorites);
   const [modalOpen, setModalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  const { userId } = useContext(AuthContext);
 
   // open creating new collections modal window
   const handleOpenModal = (event) => {
@@ -36,8 +39,7 @@ export default function Favorites() {
       const response = await fetch(`${API_BASE_URL}/api/favorites`, {
         method: "GET",
         headers: {
-          //change it into tokens later
-          userid: "1",
+          userid: userId,
         },
       });
       if (response.ok) {
@@ -84,7 +86,9 @@ export default function Favorites() {
                 </g>
               </svg>
             </a>
-            <label className="text-gray-600 ml-4">Add a new board...</label>
+            <label className="text-gray-600 ml-4">
+              Add a new collection...
+            </label>
           </div>
           {/*  search icon */}
           <svg
@@ -115,6 +119,8 @@ export default function Favorites() {
               collectionName={favorite.CollectionName}
               recipeCount={favorite.RecipeCount}
               imgPath={favorite.LatestRecipeImagePath}
+              userid={userId}
+              id={favorite.id}
             />
           </div>
         ))}

@@ -117,6 +117,8 @@ export default function Favorites() {
               collectionName={favorite.CollectionName}
               recipeCount={favorite.RecipeCount}
               imgPath={favorite.LatestRecipeImagePath}
+              userid={userId}
+              id={favorite.id}
             />
           </div>
         ))}

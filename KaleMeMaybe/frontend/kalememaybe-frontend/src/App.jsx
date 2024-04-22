@@ -13,6 +13,7 @@ import SearchFavorites from "./SearchFavorites.jsx";
 import LoginSuccess from "./thirdparty/LoginSuccess.jsx";
 import About from "./About.jsx";
 import ContactUs from "./ContactUs.jsx";
+import CollectionDetail from "./CollectionDetail.jsx";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="contact" element={<ContactUs />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="collection/:userid/:id" element={<CollectionDetail/>} />
       </Route>
     </Routes>
   );

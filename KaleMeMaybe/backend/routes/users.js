@@ -8,6 +8,7 @@ const OAuth2 = google.auth.OAuth2;
 // Facebook login
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 router.post('/users/login', async (req, res) => {
     const { email, password } = req.body;
@@ -118,8 +119,8 @@ router.post('/users/updateprofile', async (req, res) => {
 
 // Google login
 const oauth2Client = new OAuth2(
-    '536497757195-m4gqdm1up3br3o2vtec9esvigjofr27q.apps.googleusercontent.com',
-    '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',
+    process.env.GOOGLE_APP_ID,
+    process.env.GOOGLE_APP_SECRET,
     'http://localhost:3000/api/auth/google/callback'
 );
 
@@ -187,30 +188,59 @@ router.get('/auth/google/callback', async (req, res) => {
 
     } catch(error){
         console.error('Failed to fetch user email:', error);
-        res.status(500).send('Authentication failed');
+        res.redirect(`http://localhost:5173/log-in`);
     }
 });
 
 // passport for facebook login
+router.use(passport.initialize());
+
 passport.use(new FacebookStrategy({
-    clientID: 2220830918250810,
-    clientSecret: "9a97d6d3e03f3b129d2e1a0cd719a153",
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:3000/api/auth/facebook/callback",
+    profileFields: ['id', 'emails']
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    const userEmail = profile.emails && profile.emails[0].value;
+    User.findOrCreate({ facebookId: profile.id, email: userEmail }, function (err, user) {
       return cb(err, user);
     });
   }
 ));
 
 router.get('/auth/facebook',
-  passport.authenticate('facebook'));
+passport.authenticate('facebook', { scope: ['email'] }));
 
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    // Successful authentication, redirect home.
+    const userEmail = req.user.email;
+    res.redirect('/');
+  });
+
+// twitter log in
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: "http://localhost:3000/api/auth/x/callback",
+    includeEmail: true
+  },
+  function(token, tokenSecret, profile, cb) {
+    const userEmail = profile.emails && profile.emails[0].value;
+    User.findOrCreate({ twitterId: profile.id, email: userEmail}, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+router.get('/auth/x',
+  passport.authenticate('twitter'));
+
+router.get('/auth/x/callback', 
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  function(req, res) {
+    const userEmail = req.user.email;
     res.redirect('/');
   });
 

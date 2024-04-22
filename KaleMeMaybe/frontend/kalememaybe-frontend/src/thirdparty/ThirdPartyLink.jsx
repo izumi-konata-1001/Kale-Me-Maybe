@@ -16,11 +16,17 @@ export default function ThirdPartyLink(){
 
     const handleFaceBookLoginClick = async () => {
         try {
-            // Request the Google Auth URL from your backend
-            const response = await fetch(`${API_BASE_URL}/api/auth/facebook/url`);
-            const data = await response.json();
             // Redirect the user to the FaceBook Auth URL
-            window.location.href = data.url;
+            window.location.href = `${API_BASE_URL}/api/auth/facebook`;
+        } catch (error) {
+            console.error('Failed to get FaceBook auth URL', error);
+        }
+    };
+
+    const handleTwitterLoginClick = async () => {
+        try {
+            // Redirect the user to the Twitter Auth URL
+            window.location.href = `${API_BASE_URL}/api/auth/x`;
         } catch (error) {
             console.error('Failed to get FaceBook auth URL', error);
         }
@@ -32,8 +38,8 @@ export default function ThirdPartyLink(){
         px-5 xl:px-6" onClick={handleGoogleLoginClick}></img>
         <img src="/facebook.png" className="py-4 
         px-5 xl:px-6" onClick={handleFaceBookLoginClick}></img>
-        <img src="apple-logo.png" className="py-4 
-        px-5 xl:px-6"></img>
+        <img src="twitter.png" className="py-4 
+        px-5 xl:px-6" onClick={handleTwitterLoginClick}></img>
     </div>
     );
 }

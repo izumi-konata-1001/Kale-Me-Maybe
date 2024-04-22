@@ -5,7 +5,7 @@ import ViewButton from './viewComponents/ViewButton';
 
 const ViewOptions = ({ activeView, setActiveView }) => {
   return (
-    <div className="flex space-x-2 ml-12">
+    <div className="flex space-x-2 s:ml-12">
       <ViewButton 
         icon={<IoGridOutline className="text-3xl"/>}
         active={activeView === 'grid'}

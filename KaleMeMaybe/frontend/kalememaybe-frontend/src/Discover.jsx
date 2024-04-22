@@ -12,17 +12,30 @@ const Discover = () => {
 
   useEffect(() => {
     let url = 'http://localhost:3000/api/discover';
+    let queryParams = [];
+  
     if (sort && direction) {
-        url += `?sort=${sort}&direction=${direction}`;
+      queryParams.push(`sort=${sort}&direction=${direction}`);
     }
-
+  
+    if (userId) {
+      queryParams.push(`userId=${userId}`);
+    }
+  
+    if (queryParams.length > 0) {
+      url += '?' + queryParams.join('&');
+    }
+  
     fetch(url)
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         setRecipes(data.recipes);
-    })
-    .catch(err => console.error('Error fetching sorted data:', err));
-  }, [sort, direction]);  
+        if (data.recipes.length > 0) {
+          console.log(data.recipes[2].favouriteState);
+        }
+      })
+      .catch(err => console.error('Error fetching sorted data:', err));
+  }, [sort, direction, userId]);  
 
   const handleLoadMore = () => {
     setVisibleCount((prevCount) => prevCount + 3);

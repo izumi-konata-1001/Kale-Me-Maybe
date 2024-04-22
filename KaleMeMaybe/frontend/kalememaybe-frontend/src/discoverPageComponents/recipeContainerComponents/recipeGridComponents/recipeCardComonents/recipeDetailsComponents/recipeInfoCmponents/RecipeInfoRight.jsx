@@ -1,4 +1,4 @@
-import RecipeFavouriteIcon from "../../../../../../component/RecipeFavouriteIcon.jsx";
+import TestFavouriteIcon from "../../../../../../component/TestFavouriteIcon.jsx";
 import { useContext } from 'react';
 import { AuthContext } from '../../../../../../contexts/AuthProvider.jsx';
 
@@ -7,7 +7,7 @@ const RecipeInfoRight = ({recipe}) => {
 
     return(
         <div className="flex justify-end items-center pr-1">
-            {userId && <RecipeFavouriteIcon recipe={recipe}/>}
+            {userId && <TestFavouriteIcon recipe={recipe}/>}
         </div>
     );
 }

@@ -11,7 +11,7 @@ async function retriveCollection(userId, collectionId) {
     }
 
     const collectionCheck = await db.get(SQL`
-            SELECT id FROM collection 
+            SELECT name FROM collection 
             WHERE id = ${collectionId} AND user_id = ${userId}
         `);
     if (!collectionCheck) {
@@ -25,7 +25,7 @@ async function retriveCollection(userId, collectionId) {
             WHERE cr.collection_id = ${collectionId}
         `);
 
-    return recipes;
+    return {name: collectionCheck.name, recipes: recipes};
   } catch (error) {
     console.error("Error retrieving collection: ", error);
     throw error;

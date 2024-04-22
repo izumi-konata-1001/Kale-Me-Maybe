@@ -1,16 +1,22 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 // Or maybe use PropTypes later
 
 // Collection component
 
-export default function Collection({ collectionName, recipeCount, imgPath, userid, id }) {
+export default function Collection({
+  collectionName,
+  recipeCount,
+  imgPath,
+  userid,
+  id,
+}) {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/collection/${userid}/${id}`);
-};
+  };
 
   return (
     <div onClick={handleClick} className="group">
@@ -21,9 +27,7 @@ export default function Collection({ collectionName, recipeCount, imgPath, useri
         />
       </div>
       <h3 className="mt-4 text-sm text-gray-700">Recipe · {recipeCount}</h3>
-      <p className="mt-1 text-lg font-medium text-gray-900">
-        {collectionName}
-      </p>
+      <p className="mt-1 text-lg font-medium text-gray-900">{collectionName}</p>
     </div>
   );
 }

@@ -86,7 +86,9 @@ export default function Favorites() {
                 </g>
               </svg>
             </a>
-            <label className="text-gray-600 ml-4">Add a new board...</label>
+            <label className="text-gray-600 ml-4">
+              Add a new collection...
+            </label>
           </div>
           {/*  search icon */}
           <svg

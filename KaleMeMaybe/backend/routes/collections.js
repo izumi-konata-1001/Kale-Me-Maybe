@@ -11,8 +11,8 @@ router.get("/:userid/:id", async function (req, res) {
     try {
         const result = await collectionDao.retriveCollection(userId, collectionId);
 
-        if (result.length === 0) {
-            res.json({ message: "There is nothing here yet." });
+        if (result.recipes.length === 0) {
+            res.json({ message: "There is nothing here yet." , name: result.name});
         } else {
             res.json(result);
         }

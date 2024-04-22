@@ -14,7 +14,7 @@ const SelectedIngredientsBar = ({
 }) => {
   return (
     <div className="flex flex-col mt-6 mb-4">
-      <div className="flex flex-row items-center justify-between">
+      <div className="flex md:flex-row flex-col items-center justify-between gap-4 md:gap-2">
         <div className="flex-grow flex flex-wrap items-center gap-2 p-2 border border-gray-300 bg-gray-100 rounded">
           {ingredients.map((ingredient, index) => (
             <div

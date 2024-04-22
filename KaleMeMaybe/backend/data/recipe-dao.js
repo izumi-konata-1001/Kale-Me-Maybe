@@ -58,6 +58,14 @@ async function insertRecipeAndSearchHistory(
       );
     }
 
+
+    // if user_id is null will not insert search_history and history_ingredient
+    if (!user_id) {
+      await db.run("COMMIT");
+      return recipeId;
+    }
+
+
     // insert search_history
     const searchHistoryResult = await db.run(
       `

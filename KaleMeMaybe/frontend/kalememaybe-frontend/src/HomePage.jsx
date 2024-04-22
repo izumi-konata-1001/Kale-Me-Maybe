@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./contexts/AuthProvider.jsx";
 import Ingredient from "./homePageComponents/Ingredient";
 import RecipeCard from "./homePageComponents/RecipeCard";
 import SelectedIngredientsBar from "./homePageComponents/SelectedIngredientsBar";
@@ -51,6 +51,8 @@ export default function HomePage() {
 
   const [suggestions, setSuggestions] = useState([]);
 
+  const { userId } = useContext(AuthContext);
+
   // Function to fetch ingredient suggestions api
   const fetchIngredientSuggestions = async (prefix) => {
     if (prefix.length >= 2) {
@@ -99,7 +101,12 @@ export default function HomePage() {
   // Fetch recent searches
   useEffect(() => {
     const fetchRecentSearches = async () => {
-      const userId = 1; // Mock user ID
+      // check if user is logged in
+      if (!userId) {
+        setRecentSearches([]);
+        setShowRecentSearches(false);
+        return;
+      }
       try {
         const response = await fetch(
           `${API_BASE_URL}/api/users/${userId}/search-histories`
@@ -109,6 +116,7 @@ export default function HomePage() {
         }
         const data = await response.json();
         setRecentSearches(data);
+        setShowRecentSearches(true);
       } catch (error) {
         console.error("Error fetching recent searches:", error);
         setErrorMessage(
@@ -118,7 +126,7 @@ export default function HomePage() {
     };
 
     fetchRecentSearches();
-  }, []);
+  }, [userId]);
 
   // updateIngredientsPerRow function
   useEffect(() => {
@@ -177,14 +185,11 @@ export default function HomePage() {
   const handleSearch = async () => {
     setErrorMessage("");
     setIsLoading(true);
-    // const userId = getUserId();
-    const userId = 1; // Mock user ID
     try {
       const requestBody = {
         ingredients: selectedIngredients,
         user_id: userId,
       };
-      console.log("requestBody", requestBody);
       const response = await fetch(`${API_BASE_URL}/api/recipes`, {
         method: "POST",
         headers: {
@@ -192,7 +197,6 @@ export default function HomePage() {
         },
         body: JSON.stringify(requestBody),
       });
-      console.log("response", response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -220,9 +224,6 @@ export default function HomePage() {
   const handleLoadMore = async () => {
     if (loadMoreCount < 2) {
       setIsLoading(true);
-
-      const userId = 1; // Mock user ID
-
       try {
         const existingRecipeNames = recipes.map((recipe) => recipe.name);
         const requestBody = {

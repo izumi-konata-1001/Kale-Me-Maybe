@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/recipes.js"));
 app.use("/api", require("./routes/histories.js"));
-app.use("/api", require("./routes/collections.js"));
+app.use("/api/collection", require("./routes/collections.js"));
 app.use("/api", require("./routes/ingredients.js"));
 app.use('/api', require('./routes/scores.js'));
 app.use("/api", require("./routes/search-histories.js"));

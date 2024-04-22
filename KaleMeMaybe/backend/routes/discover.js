@@ -6,7 +6,6 @@ router.get('/', async (req, res) => {
     try {
         const { sort, direction } = req.query;
         let recipes = [];
-        console.log(`Sorted by ${sort} in ${direction} direction`);
         if (sort == "time")
         {
             if (direction != "")
@@ -25,6 +24,13 @@ router.get('/', async (req, res) => {
         {
             if (direction !="")
                 recipes = await recipeDao.getRecipesSortedByAverageScore(direction);
+            else
+                recipes = await recipeDao.getAllRecipes();
+        }
+        else if(sort == "popularity")
+        {
+            if (direction !="")
+                recipes = await recipeDao.getRecipesSortedByPopularity(direction);
             else
                 recipes = await recipeDao.getAllRecipes();
         }

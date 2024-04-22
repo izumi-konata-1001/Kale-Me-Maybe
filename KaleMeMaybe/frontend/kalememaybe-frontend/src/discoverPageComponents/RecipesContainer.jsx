@@ -8,8 +8,10 @@ const RecipesContainer = ({ recipes, onSortChange}) => {
     const [activeView, setActiveView] = useState('grid');
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <RecipeOptions activeView={activeView} setActiveView={setActiveView} onSortChange={onSortChange} />
+        <div className="flex flex-col w-full items-center justify-center">
+            <div className="pb-3">
+                <RecipeOptions activeView={activeView} setActiveView={setActiveView} onSortChange={onSortChange}/>
+            </div>
             {activeView === 'grid' ? <RecipeGrid recipes={recipes} /> : <RecipeList recipes={recipes} />}
         </div>
     );

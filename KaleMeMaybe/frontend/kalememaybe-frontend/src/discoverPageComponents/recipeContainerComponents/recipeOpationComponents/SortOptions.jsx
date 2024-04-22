@@ -14,7 +14,7 @@ const SortOptions = ({ onSortChange }) => {
           } else {
               newDirection = 'asc';
           }
-          console.log("Sort Option:", sortOption);  // 正确打印变量名
+          console.log("Sort Option:", sortOption); 
           console.log("New Direction:", newDirection); 
           onSortChange(sortOption, newDirection); 
           return { field: sortOption, direction: newDirection };

@@ -1,32 +1,17 @@
 import { useEffect, useState } from 'react';
 import RecipesContainer from './discoverPageComponents/RecipesContainer';
 
+import { useContext } from 'react';
+import { AuthContext } from './contexts/AuthProvider';
+
 const Discover = () => {
   const [recipes, setRecipes] = useState([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [sort, setSort] = useState(''); 
   const [direction, setDirection] = useState(''); 
 
- /* useEffect(() => {
-    fetch('http://localhost:3000/api/discover')
-      .then(response => response.json())
-      .then(data => {
-        setRecipes(data.recipes);
-      })
-      .catch(err => console.error('Error fetching data: ', err));
-  }, []);
+  const { userId } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (sort && direction) {
-      fetch(`http://localhost:3000/api/discover?sort=${sort}&direction=${direction}`)
-      .then(response => response.json())
-      .then(data => {
-        setRecipes(data.recipes);
-        setVisibleCount(6);
-      })
-      .catch(err => console.error('Error fetching sorted data:', err));
-    }
-}, [sort, direction]);*/
 useEffect(() => {
   let url = 'http://localhost:3000/api/discover';
   if (sort && direction) {

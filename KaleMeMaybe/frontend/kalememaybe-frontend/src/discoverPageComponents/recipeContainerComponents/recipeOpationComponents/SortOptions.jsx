@@ -14,8 +14,6 @@ const SortOptions = ({ onSortChange }) => {
           } else {
               newDirection = 'asc';
           }
-          console.log("Sort Option:", sortOption); 
-          console.log("New Direction:", newDirection); 
           onSortChange(sortOption, newDirection); 
           return { field: sortOption, direction: newDirection };
       });
@@ -32,17 +30,19 @@ const SortOptions = ({ onSortChange }) => {
   };
 
   return (
-      <div className="flex justify-center space-x-3 items-center">
-          <span className="font-sans">Sort by:</span>
-          {['difficulty', 'rate', 'time', 'popularity'].map((sortOption) => (
-              <SortButton
-                  key={sortOption}
-                  label={getSortLabel(sortOption)}
-                  isActive={activeSort.field === sortOption && activeSort.direction !== ''}
-                  onClick={() => handleButtonClick(sortOption)}
-              />
-          ))}
-      </div>
+    <div className="flex s:flex-row justify-center flex-col items-center">
+        <span className="font-sans mb-2 s:mb-0 s:mr-3">Sort by:</span>
+            <div className="grid grid-cols-2 gap-3 w-full pr-0 s:flex s:space-x-1 s:justify-center s:w-auto">
+                {['difficulty', 'rate', 'time', 'popularity'].map((sortOption) => (
+                    <SortButton
+                        key={sortOption}
+                        label={getSortLabel(sortOption)}
+                        isActive={activeSort.field === sortOption && activeSort.direction !== ''}
+                        onClick={() => handleButtonClick(sortOption)}
+                    />
+                ))}
+            </div>
+    </div>
   );
 };
 

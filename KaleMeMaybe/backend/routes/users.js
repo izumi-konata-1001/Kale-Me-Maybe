@@ -5,6 +5,9 @@ const router = express.Router();
 // Google login
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
+// Facebook login
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 router.post('/users/login', async (req, res) => {
     const { email, password } = req.body;
@@ -187,5 +190,28 @@ router.get('/auth/google/callback', async (req, res) => {
         res.status(500).send('Authentication failed');
     }
 });
+
+// passport for facebook login
+passport.use(new FacebookStrategy({
+    clientID: 2220830918250810,
+    clientSecret: "9a97d6d3e03f3b129d2e1a0cd719a153",
+    callbackURL: "http://localhost:3000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+router.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 module.exports = router;

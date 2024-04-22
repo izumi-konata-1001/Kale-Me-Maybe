@@ -51,6 +51,7 @@ export default function HomePage() {
 
   const [suggestions, setSuggestions] = useState([]);
 
+  // Function to fetch ingredient suggestions api
   const fetchIngredientSuggestions = async (prefix) => {
     if (prefix.length >= 2) {
       try {
@@ -58,16 +59,31 @@ export default function HomePage() {
           `${API_BASE_URL}/api/ingredients?prefix=${prefix}`
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch suggestions");
+          if (response.status === 404) {
+            setErrorMessage("No ingredients found matching your search.");
+          } else {
+            setErrorMessage("No ingredients.");
+          }
+          setSuggestions([]);
+          return;
         }
         const data = await response.json();
         setSuggestions(data);
+        setErrorMessage("");
       } catch (error) {
         console.error("Error fetching ingredient suggestions:", error);
+        setErrorMessage("No ingredients.");
         setSuggestions([]);
       }
     } else {
       setSuggestions([]);
+      if (prefix.length !== 0) {
+        setErrorMessage(
+          "Please enter more characters to search for ingredients."
+        );
+      } else {
+        setErrorMessage("");
+      }
     }
   };
 
@@ -75,10 +91,10 @@ export default function HomePage() {
   useEffect(() => {
     const handler = setTimeout(() => {
       fetchIngredientSuggestions(searchValue);
-    }, 600); 
+    }, 600);
 
-    return () => clearTimeout(handler); 
-  }, [searchValue]); 
+    return () => clearTimeout(handler);
+  }, [searchValue]);
 
   // Fetch recent searches
   useEffect(() => {

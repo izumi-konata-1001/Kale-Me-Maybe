@@ -20,7 +20,7 @@ const RecipeInfo = ({recipe}) => {
             <div className="pl-2">
                 <RecipeScoreIcon recipeId={recipeId}/>
             </div>
-            <div className="pl-5">
+            <div className="pl-3">
                 {userId && <RecipeFavouriteIcon recipe={recipe}/>}
             </div>
         </div>

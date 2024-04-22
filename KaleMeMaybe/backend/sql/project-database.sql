@@ -559,4 +559,113 @@ Roast in the preheated oven for 30-35 minutes, or until the beetroot is tender a
 Remove the beetroot from the oven and drizzle with balsamic vinegar. Toss to combine.
 Transfer the roasted beetroot mixture to a serving platter and sprinkle with crumbled feta cheese and chopped parsley.
 Serve the salad warm or at room temperature. Enjoy!', '/generated-images/Roasted_Beetroot_Salad_with_Garlic_and_Onion_20240421.png', '2024-04-21 09:30:44', '2024-04-21 09:30:44');
-COMMIT;
+INSERT INTO "recipe"
+VALUES
+    (33, 'Kale and Chickpea Stuffed Sweet Potatoes', '45 mins', 'Medium', '2 large sweet potatoes
+1 bunch of kale, stems removed and chopped
+1 can of chickpeas, rinsed and drained
+1 small red onion, diced
+2 cloves of garlic, minced
+1 tablespoon olive oil
+1 teaspoon cumin
+1 teaspoon paprika
+Salt and pepper to taste
+1/4 cup of vegetable broth
+1/4 cup of crumbled feta cheese (optional)', 'Preheat the oven to 400°F (200°C).
+Pierce the sweet potatoes with a fork and place them on a baking sheet. Bake for 40-45 minutes, or until tender.
+In a large skillet, heat the olive oil over medium heat. Add the red onion and garlic, and sauté until softened.
+Add the chopped kale to the skillet and cook until wilted, about 5 minutes.
+Stir in the chickpeas, cumin, paprika, salt, and pepper. Cook for another 2-3 minutes.
+Pour in the vegetable broth and simmer for 5 minutes, allowing the flavors to meld.
+Once the sweet potatoes are cooked, slice them open and fluff the insides with a fork.
+Divide the kale and chickpea mixture among the sweet potatoes, and top with crumbled feta cheese if desired.
+Serve hot and enjoy!', '/generated-images/Kale_and_Chickpea_Stuffed_Sweet_Potatoes_20240421.png', '2024-04-21 10:19:59', '2024-04-21 10:19:59');
+INSERT INTO "recipe"
+VALUES
+    (34, 'Roasted Vegetable Salad', '40 mins', 'Medium', '1 red capsicum, sliced
+1 eggplant, diced
+2 cups kale, chopped
+2 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp paprika
+1/4 tsp garlic powder', 'Preheat the oven to 200°C (400°F).
+In a large bowl, toss the capsicum, eggplant, and kale with olive oil, salt, pepper, paprika, and garlic powder until well coated.
+Spread the vegetables in a single layer on a baking sheet lined with parchment paper.
+Roast in the preheated oven for 25-30 minutes, or until the vegetables are tender and slightly charred.
+Remove from the oven and let cool slightly before serving.
+Enjoy the roasted vegetable salad as a delicious and healthy vegetarian meal!', '/generated-images/Roasted_Vegetable_Salad_20240422.png', '2024-04-22 09:50:32', '2024-04-22 09:50:32');
+INSERT INTO "recipe"
+VALUES
+    (35, 'Tofu and Spinach Stir Fry', '20 mins', 'Medium', '1 block of firm tofu, drained and cubed
+2 cups of fresh spinach, washed and chopped
+2 cloves of garlic, minced
+1 tablespoon of soy sauce
+1 tablespoon of sesame oil
+1 teaspoon of ginger, grated
+1 teaspoon of cornstarch
+1/4 cup of vegetable broth
+1 tablespoon of vegetable oil', 'In a small bowl, mix together soy sauce, sesame oil, ginger, and cornstarch. Set aside.
+Heat vegetable oil in a pan over medium heat. Add minced garlic and cook until fragrant.
+Add cubed tofu to the pan and cook until golden brown on all sides.
+Pour the soy sauce mixture over the tofu and stir to coat. Cook for 2-3 minutes.
+Add vegetable broth and chopped spinach to the pan. Stir well and cook until the spinach is wilted.
+Serve hot and enjoy your delicious tofu and spinach stir fry!', '/generated-images/Tofu_and_Spinach_Stir_Fry_20240422.png', '2024-04-22 10:30:25', '2024-04-22 10:30:25');
+INSERT INTO "recipe"
+VALUES
+    (36, 'Crispy Tofu and Spinach Salad', '25 mins', 'Medium', '1 block of firm tofu, drained and pressed
+2 cups of fresh spinach leaves
+1 tablespoon of soy sauce
+1 tablespoon of cornstarch
+1 teaspoon of garlic powder
+1/2 teaspoon of salt
+1/4 teaspoon of black pepper
+2 tablespoons of olive oil
+1 tablespoon of sesame seeds
+1 tablespoon of rice vinegar
+1 tablespoon of maple syrup', 'Preheat the oven to 400°F (200°C).
+Cut the tofu into cubes and place in a bowl. Add soy sauce, cornstarch, garlic powder, salt, and black pepper. Toss gently to coat the tofu.
+Heat olive oil in a skillet over medium heat. Add the tofu cubes and cook until crispy and golden brown on all sides, about 5-7 minutes. Remove from the skillet and set aside.
+In the same skillet, add sesame seeds and toast for 1-2 minutes until fragrant. Add the spinach leaves and cook until wilted, about 2-3 minutes.
+In a small bowl, whisk together rice vinegar and maple syrup to make the dressing.
+In a large salad bowl, combine the crispy tofu, sautéed spinach, and dressing. Toss gently to coat everything evenly.
+Serve the crispy tofu and spinach salad immediately. Enjoy!', '/generated-images/Crispy_Tofu_and_Spinach_Salad_20240422.png', '2024-04-22 10:31:33', '2024-04-22 10:31:33');
+INSERT INTO "recipe"
+VALUES
+    (37, 'Tofu and Vegetable Stir-Fry', '25 mins', 'Medium', '1 block of tofu, pressed and cubed
+2 cups of fresh spinach, washed and chopped
+1 bunch of asparagus, trimmed and cut into 2-inch pieces
+2 cloves of garlic, minced
+1 tablespoon of soy sauce
+1 tablespoon of sesame oil
+1 teaspoon of ginger, grated
+1 tablespoon of cornstarch
+1/4 cup of vegetable broth
+Salt and pepper to taste
+Cooking oil', 'In a small bowl, mix together soy sauce, sesame oil, ginger, and cornstarch to make a sauce.
+Heat some cooking oil in a large pan over medium heat.
+Add the tofu cubes and cook until golden brown on all sides. Remove from the pan and set aside.
+In the same pan, add a bit more oil if needed and sauté the garlic until fragrant.
+Add the asparagus pieces and cook for 3-4 minutes until slightly tender.
+Add the spinach and cook until wilted.
+Pour in the vegetable broth and the sauce mixture. Stir well and let it simmer for a few minutes until the sauce thickens.
+Add the cooked tofu back into the pan and mix everything together.
+Season with salt and pepper to taste.
+Serve the tofu and vegetable stir-fry hot over rice or noodles.', '/generated-images/Tofu_and_Vegetable_Stir-Fry_20240422.png', '2024-04-22 10:33:03', '2024-04-22 10:33:03');
+INSERT INTO "recipe"
+VALUES
+    (38, 'Asparagus and Tofu Stir-Fry', '25 mins', 'Medium', '1 bunch of asparagus, trimmed and cut into 2-inch pieces
+1 block of firm tofu, drained and cubed
+2 cloves of garlic, minced
+1 tablespoon of ginger, minced
+2 tablespoons of soy sauce
+1 tablespoon of sesame oil
+1 tablespoon of vegetable oil
+Salt and pepper to taste
+Cooked rice for serving', 'In a large skillet, heat vegetable oil over medium heat.
+Add tofu cubes and cook until golden brown on all sides, about 5-7 minutes. Remove from skillet and set aside.
+In the same skillet, add sesame oil, garlic, and ginger. Cook for 1-2 minutes until fragrant.
+Add asparagus to the skillet and stir-fry for 3-4 minutes until slightly tender but still crisp.
+Return tofu to the skillet and add soy sauce. Stir well to combine and cook for another 2-3 minutes.
+Season with salt and pepper to taste.
+Serve hot over cooked rice. Enjoy your delicious asparagus and tofu stir-fry!', '/generated-images/Asparagus_and_Tofu_Stir-Fry_20240422.png', '2024-04-22 11:05:42', '2024-04-22 11:05:42');

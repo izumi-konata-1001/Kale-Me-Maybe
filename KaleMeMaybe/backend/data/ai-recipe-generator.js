@@ -23,7 +23,11 @@ async function generateRecipeWithIngredients(ingredients, existing_recipe_name) 
   let prompt = `
   Create a detailed vegetarian recipe using these ingredients: ${ingredients.join(
     ", "
-  )}. Format the response as JSON with keys for recipe_name, cooking_time, difficulty, ingredients and steps. The "ingredients" field is an array of strings, each describing the handling and quantity of an ingredient. The "steps" field is an array of strings, where each string details a cooking step.
+  )}. Format the response as JSON with keys for recipe_name, cooking_time, difficulty, ingredients and steps. 
+  The The "ingredients" field is an array of strings, each describing the handling and quantity of an ingredient. 
+  The "steps" field is an array of strings, where each string details a cooking step.
+  Ensure that the "difficulty" is one of the following values: 'Easy', 'Medium', 'Hard'. 
+  The "cooking_time" should be formatted as a number followed by "mins" (e.g., "30 mins").
   `;
 
   // check if existing recipe name is provided

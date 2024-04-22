@@ -314,7 +314,7 @@ Cook for another 2-3 minutes until all the flavors are combined.
 Serve hot as a side dish or over rice for a complete meal.', '/generated-images/Apple_Potato_Onion_Stir-Fry_20240421.png', '2024-04-21 04:18:58', '2024-04-21 04:18:58');
 INSERT INTO "recipe"
 VALUES
-    (17, 'Roasted Asparagus and Tofu with Spinach', '30 mins', 'Intermediate', '1 bunch of asparagus, trimmed
+    (17, 'Roasted Asparagus and Tofu with Spinach', '30 mins', 'Medium', '1 bunch of asparagus, trimmed
 1 block of tofu, pressed and cubed
 2 cups of fresh spinach
 2 tablespoons of olive oil
@@ -345,7 +345,7 @@ Remove from the oven and let cool slightly before serving.
 Enjoy your delicious Roasted Vegetable Medley!', '/generated-images/Roasted_Vegetable_Medley_20240421.png', '2024-04-21 05:11:29', '2024-04-21 05:11:29');
 INSERT INTO "recipe"
 VALUES
-    (19, 'Roasted Beetroot and Cauliflower with Garlic', '45 mins', 'Intermediate', '1 medium beetroot, peeled and diced
+    (19, 'Roasted Beetroot and Cauliflower with Garlic', '45 mins', 'Medium', '1 medium beetroot, peeled and diced
 1 small head of cauliflower, cut into florets
 3 cloves of garlic, minced
 2 tablespoons olive oil
@@ -416,7 +416,7 @@ Combine the cooked pumpkin with the kale and asparagus mixture, and stir well to
 Serve hot and enjoy!', '/generated-images/Garlic_Pumpkin_Kale_Asparagus_Stir-Fry_20240421.png', '2024-04-21 05:53:53', '2024-04-21 05:53:53');
 INSERT INTO "recipe"
 VALUES
-    (24, 'Roasted Pumpkin and Asparagus with Garlic Kale Pesto', '40 mins', 'Intermediate', '1 small pumpkin, peeled, seeded, and diced
+    (24, 'Roasted Pumpkin and Asparagus with Garlic Kale Pesto', '40 mins', 'Medium', '1 small pumpkin, peeled, seeded, and diced
 1 bunch of asparagus, trimmed
 2 cups kale leaves, stems removed
 4 cloves of garlic, minced
@@ -446,7 +446,7 @@ Top the salad with crumbled feta cheese and chopped parsley before serving.
 Enjoy your delicious Roasted Beetroot and Garlic Salad!', '/generated-images/Roasted_Beetroot_and_Garlic_Salad_20240421.png', '2024-04-21 05:57:44', '2024-04-21 05:57:44');
 INSERT INTO "recipe"
 VALUES
-    (26, 'Beetroot and Garlic Risotto', '45 mins', 'Intermediate', '2 medium beetroots, peeled and diced
+    (26, 'Beetroot and Garlic Risotto', '45 mins', 'Medium', '2 medium beetroots, peeled and diced
 4 cloves of garlic, minced
 1 onion, finely chopped
 1 1/2 cups arborio rice
@@ -497,7 +497,7 @@ Drizzle sesame oil over the stir fry before serving.
 Serve hot over rice or noodles. Enjoy!', '/generated-images/Crispy_Tofu_Asparagus_Stir_Fry_20240421.png', '2024-04-21 06:03:33', '2024-04-21 06:03:33');
 INSERT INTO "recipe"
 VALUES
-    (29, 'Crispy Tofu Asparagus Stir Fry', '30 mins', 'Intermediate', '1 block of firm tofu, pressed and cubed
+    (29, 'Crispy Tofu Asparagus Stir Fry', '30 mins', 'Medium', '1 block of firm tofu, pressed and cubed
 1 bunch of asparagus, trimmed and cut into bite-sized pieces
 4 cloves of garlic, minced
 2 tablespoons of soy sauce
@@ -515,7 +515,7 @@ Taste and adjust seasoning if needed. Serve hot over rice or noodles.
 Enjoy your delicious Crispy Tofu Asparagus Stir Fry!', '/generated-images/Crispy_Tofu_Asparagus_Stir_Fry_20240421.png', '2024-04-21 06:04:11', '2024-04-21 06:04:11');
 INSERT INTO "recipe"
 VALUES
-    (30, 'Crispy Tofu Asparagus Stir-Fry', '30 mins', 'Intermediate', '1 block of firm tofu, pressed and cubed
+    (30, 'Crispy Tofu Asparagus Stir-Fry', '30 mins', 'Medium', '1 block of firm tofu, pressed and cubed
 1 bunch of asparagus, trimmed and cut into 2-inch pieces
 4 cloves of garlic, minced
 2 tablespoons of soy sauce
@@ -545,7 +545,7 @@ Season with salt and pepper to taste.
 Serve the salad chilled and enjoy!', '/generated-images/Lettuce_and_Pea_Salad_20240421.png', '2024-04-21 07:39:31', '2024-04-21 07:39:31');
 INSERT INTO "recipe"
 VALUES
-    (32, 'Roasted Beetroot Salad with Garlic and Onion', '45 mins', 'Intermediate', '3 medium-sized beetroots, peeled and diced
+    (32, 'Roasted Beetroot Salad with Garlic and Onion', '45 mins', 'Medium', '3 medium-sized beetroots, peeled and diced
 4 cloves of garlic, minced
 1 large onion, thinly sliced
 2 tablespoons of olive oil

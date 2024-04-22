@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthProvider";
 import useStore from "../store/store";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
@@ -9,6 +10,8 @@ export default function SearchModal({ onClose }) {
   const [searchTerm, setSearchTerm] = useState("");
   const setSearchResults = useStore((state) => state.setSearchResults);
   const navigate = useNavigate();
+
+  const { userId } = useContext(AuthContext)
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -25,8 +28,7 @@ export default function SearchModal({ onClose }) {
           {
             method: "GET",
             headers: {
-              //change it into tokens later
-              userid: "1",
+              userid: userId,
             },
           }
         );

@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthProvider";
 import useStore from "../store/store";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
@@ -10,6 +11,8 @@ export default function NewCollectionModal({ onClose }) {
   const updateFavorites = useStore((state) => state.updateFavorites);
   const [inputValue, setValue] = useState("");
   const [showErrorMsg, setShow] = useState(false);
+
+  const { userId } = useContext(AuthContext)
 
   const handleInputChange = (event) => {
     setValue(event.target.value);
@@ -26,7 +29,7 @@ export default function NewCollectionModal({ onClose }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user: 1, name: inputValue }),
+        body: JSON.stringify({ user: userId, name: inputValue }),
       });
 
       if (response.ok) {

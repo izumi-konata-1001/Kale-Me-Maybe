@@ -10,7 +10,7 @@ const RecipesContainer = ({ recipes, onSortChange}) => {
     return (
         <div className="flex flex-col items-center justify-center">
             <RecipeOptions activeView={activeView} setActiveView={setActiveView} onSortChange={onSortChange} />
-            {activeView === 'grid' ? <RecipeGrid recipes={recipes} /> : <RecipeList recipes={recipes} />}
+                {activeView === 'grid' ? <RecipeGrid recipes={recipes} /> : <RecipeList recipes={recipes} />}
         </div>
     );
 };

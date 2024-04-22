@@ -155,6 +155,28 @@ async function getRecipesSortedByAverageScore(direction) {
   }
 }
 
+async function getRecipesSortedByPopularity(direction) {
+  const db = await dbPromise;
+  try {
+    const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
+
+    const query = `
+      SELECT r.id, r.name, r.time_consuming, r.difficulty, r.ingredient_details, r.method, r.image_path, r.created_at, r.updated_at, 
+             COUNT(cr.collection_id) AS popularity
+      FROM recipe r
+      LEFT JOIN collection_recipe cr ON r.id = cr.recipe_id
+      GROUP BY r.id
+      ORDER BY popularity ${orderByDirection}, r.created_at DESC
+    `;
+
+    const recipesWithPopularity = await db.all(query);
+
+    return recipesWithPopularity;
+  } catch (err) {
+    console.error('Failed to retrieve recipes sorted by collection count from the database:', err);
+    throw err;
+  }
+}
 
 // Export functions.
 module.exports = {
@@ -163,5 +185,6 @@ module.exports = {
   insertRecipeAndSearchHistory,
   getRecipesSortedByTimeConsuming,
   getRecipesSortedByDifficulty,
-  getRecipesSortedByAverageScore
+  getRecipesSortedByAverageScore,
+  getRecipesSortedByPopularity
 };

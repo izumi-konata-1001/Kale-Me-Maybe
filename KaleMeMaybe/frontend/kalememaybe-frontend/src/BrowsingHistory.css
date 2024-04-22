@@ -6,7 +6,7 @@
 
 .BrowsingHistory h1 {
 position: absolute;
-top: 17.5%;
+top: 15%;
 }
 
 .search {
@@ -31,8 +31,8 @@ top: 17.5%;
 }
 
 .BrowsingHistory .cardset {
-    max-height: 500px;  /* 设置容器最大高度 */
-    overflow-y: auto;   /* 允许在y轴方向上滚动 */
+    max-height: 500px;  
+    overflow-y: auto;  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,6 +61,7 @@ top: 17.5%;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
+    overflow: hidden;
 }
 
 .BrowsingHistory .card .content {
@@ -79,6 +80,10 @@ top: 17.5%;
     margin: 12px 0px;
 }
 
+.BrowsingHistory .card .fouricons .favIcon {
+    margin-top: -3.5%;
+}
+
 .BrowsingHistory .card .fouricons .firsttwo {
     background-color: #ECF7D3;
     color: #97C279;
@@ -91,6 +96,7 @@ top: 17.5%;
 
 .BrowsingHistory .card .fouricons > * {
     margin-right: 20px;
+    height: 30px;
 }
 
 .BrowsingHistory .card .des {

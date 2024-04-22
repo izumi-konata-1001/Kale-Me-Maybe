@@ -3,12 +3,12 @@ const router = express.Router();
 const broDao = require("../data/browsing-history-dao.js");
 
 router.get("/browsing", async (req, res) => {
-    //const user = req.headers["userid"];
-    //const userId = req.headers.userid;
-    const user_id = 1;
 
+     const user_id = req.body.userId;
+    // const user_id = 1;
     try {
         const history = await broDao.getBrowsingHistory(user_id);
+
         if (history) {
           res.status(200).json(history);
           console.log(history);

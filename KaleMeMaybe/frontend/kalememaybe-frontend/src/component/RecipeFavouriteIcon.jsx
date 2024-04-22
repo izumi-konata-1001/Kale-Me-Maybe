@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import NewCollectionModal from "./NewCollectionModal.jsx";
 
+
 const RecipeFavouriteIcon = () => {
     const [showModal, setShowModal] = useState(false);
     const [showNewCollectionModal, setShowNewCollectionModal] = useState(false);

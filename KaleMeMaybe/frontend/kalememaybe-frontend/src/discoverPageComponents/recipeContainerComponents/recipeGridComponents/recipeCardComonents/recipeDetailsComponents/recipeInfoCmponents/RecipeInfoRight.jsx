@@ -6,7 +6,7 @@ const RecipeInfoRight = ({recipe}) => {
     const { userId } = useContext(AuthContext);
 
     return(
-        <div className="flex justify-end items-center pr-10">
+        <div className="flex justify-end items-center pr-1">
             {userId && <RecipeFavouriteIcon recipe={recipe}/>}
         </div>
     );

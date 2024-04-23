@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import "./BrowsingHistory.css"
 import RecipeFavouriteIcon from "./component/RecipeFavouriteIcon.jsx";
 import { AuthContext } from "./contexts/AuthProvider.jsx";
 import RecipeScoreIcon from "./component/RecipeScoreIcon.jsx";
@@ -45,25 +44,26 @@ export default function BrowsingHistory() {
         }
     }, [authToken]);
 
-    return <div className="BrowsingHistory">
-        <h1 className="title">Browsing History</h1>
-        <div className="search-div">
-            <input type="text" name="search" className="search" placeholder="  Search for your specify recipes..." onChange={e => setSearchValue(e.target.value)} />
-            <button className="mt-4 bg-green-dark text-white px-4 py-2 rounded-md btt" onClick={() => { setFilter(searchValue); console.log(filterValue) }} >Search</button>
+
+    return <div className="flex flex-col items-center BrowsingHistory">
+        <h1 className="title absolute" style={{ top: '15%' }}>Browsing History</h1>
+        <div className="mt-24 mb-9 search-div">
+            <input type="text" name="search" className="border border-gray-300 border-r-0 h-10 bg-gray-100 rounded-tl-md rounded-bl-md search" placeholder="  Search for your specify recipes..." style={{ width: '600px' }} onChange={e => setSearchValue(e.target.value)} />
+            <button className="mt-4 bg-green-dark text-white px-4 py-2 rounded-md rounded-tl-none rounded-bl-none btt" onClick={() => { setFilter(searchValue); console.log(filterValue) }} >Search</button>
         </div>
-        {broData.length ? <div className="cardset">
+        {broData.length ? <div className="flex flex-col items-center overflow-y-auto cardset" style={{ maxHeight: '500px' }}>
             {broData.filter(item => item?.name?.toLowerCase().includes(filterValue.toLowerCase())).map((item) =>
-                <div className="card" key={item.recipe_id} onClick={() => navigate(`/recipe/${item.recipe_id}`)}>
-                    <div className="picture"><img src={`${API_BASE_URL}/${item.image_path}`}></img></div>
-                    <div className="content">
-                        <h3 className="subtitle text-xl font-mono font-bold pt-1 pb-1 ">{item.name}</h3>
-                        <div className="fouricons">
-                            <p className="rounded-xl px-3 py-1 text-sm font-medium firsttwo">{item.time_consuming}</p>
-                            <p className="rounded-xl px-3 py-1 text-sm font-medium firsttwo">{item.difficulty}</p>
-                            <RecipeScoreIcon recipeId={item.recipe_id} />
-                            <div className="favIcon">{authToken && <RecipeFavouriteIcon />}</div>
+                <div className="relative border border-gray-200 w-2/3 p-3 px-4 mb-6 shadow card" key={item.recipe_id} onClick={() => navigate(`/recipe/${item.recipe_id}`)}>
+                    <div className="absolute w-44 h-44 border-2 border-green-dark rounded-lg mr-12 mt-5 mb-5 ml-5 overflow-hidden picture"><img src={`${API_BASE_URL}/${item.image_path}`}></img></div>
+                    <div className="ml-60 relative content">
+                        <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle">{item.name}</h3>
+                        <div className="flex flex-row mt-3 mb-3 ml-0 mr-0 fouricons">
+                            <p className="rounded-xl px-3 py-1 text-sm font-semibold bg-green-light text-green-dark shadow mr-5 h-7.5 firsttwo">{item.time_consuming}</p>
+                            <p className="rounded-xl px-3 py-1 text-sm font-semibold bg-green-light text-green-dark shadow mr-5 h-7.5 firsttwo">{item.difficulty}</p>
+                            <div className="mr-5 h-2.5"><RecipeScoreIcon recipeId={item.recipe_id} /></div>
+                            <div className="favIcon -mt-3.5 mr-5 h-2.5">{authToken && <RecipeFavouriteIcon />}</div>
                         </div>
-                        <p className="text-base leading-normal text-gray-600 des">{item.method}</p>
+                        <p className="text-base leading-normal text-gray-600 break-words w-87 h-24 overflow-hidden text-ellipsis des">{item.method}</p>
                     </div>
                 </div>
             )}

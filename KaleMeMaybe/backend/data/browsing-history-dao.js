@@ -46,7 +46,6 @@ async function getRecipesWithIds(recipeIds) {
 }
 
 
-// Export functions.
 module.exports = {
     getBrowsingHistory,
     updateBrowsingHistory,

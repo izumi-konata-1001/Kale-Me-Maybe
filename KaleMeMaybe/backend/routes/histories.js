@@ -28,7 +28,6 @@ router.post("/updatebro", async (req, res) => {
     } else {
       recipeIds.push(recipeId);
       const local_recipes = await broDao.getRecipesWithIds(recipeIds);
-      // console.log(local_recipes);
       res.status(200).json(local_recipes);
     }
   } catch (error) {

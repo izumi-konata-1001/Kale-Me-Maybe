@@ -90,15 +90,16 @@ export default function CollectionDetail() {
   }, []);
 
   return (
-    <div className="flex flex-col w-2/3 mb-10 absolute top-[20%] left-1/2 transform -translate-x-1/2">
-      <div className="mb-10">
-        <div className="flex justify-center items-center mb-10">
+    <div className="flex flex-col w-2/3 mb-10 absolute left-1/2 transform -translate-x-1/2">
+      <div className="pb-10 recipes-scrollable max-h-screen overflow-y-auto w-full">
+        <div className="flex justify-center items-center pb-2">
           <h2 className="title">{collectionName}</h2>
         </div>
 
         {/* buttons */}
-        <div className="flex justify-between">
+        <div className="flex flex-col xs:flex-row justify-between w-full">
           {/* back to favorites */}
+          <div className="w-full">
           <svg
             onClick={backToFavorites}
             stroke="currentColor"
@@ -112,33 +113,10 @@ export default function CollectionDetail() {
           >
             <path d="M48 256c0 114.87 93.13 208 208 208s208-93.13 208-208S370.87 48 256 48 48 141.13 48 256zm212.65-91.36a16 16 0 0 1 .09 22.63L208.42 240H342a16 16 0 0 1 0 32H208.42l52.32 52.73A16 16 0 1 1 238 347.27l-79.39-80a16 16 0 0 1 0-22.54l79.39-80a16 16 0 0 1 22.65-.09z"></path>
           </svg>
+          </div>
 
           {isManageOpen ? (
-            <div className="flex justify-end space-x-2">
-              {/* button group for managing functions*/}
-
-              <div className="inline-flex rounded-md shadow-sm">
-                <a
-                  href="#"
-                  aria-current="page"
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
-                >
-                  Batch Management
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
-                >
-                  Rename
-                </a>
-                <a
-                  onClick={handleWarningOpen}
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
-                >
-                  Delete
-                </a>
-              </div>
-
+            <div className="flex flex-col xs:flex-row justify-end space-x-2 w-full">
               {/* close button */}
               <svg
                 onClick={toggle}
@@ -170,6 +148,28 @@ export default function CollectionDetail() {
                   </g>{" "}
                 </g>
               </svg>
+              {/* button group for managing functions*/}
+              <div className="inline-flex rounded-md w-full">
+                <a
+                  href="#"
+                  aria-current="page"
+                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
+                >
+                  Batch Management
+                </a>
+                <a
+                  href="#"
+                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
+                >
+                  Rename
+                </a>
+                <a
+                  onClick={handleWarningOpen}
+                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
+                >
+                  Delete
+                </a>
+              </div>
             </div>
           ) : (
             <button
@@ -180,7 +180,7 @@ export default function CollectionDetail() {
               Manage
             </button>
           )}
-        </div>
+      </div>
 
         {/* recipes */}
         {msg ? (
@@ -188,7 +188,7 @@ export default function CollectionDetail() {
             <p className="text-gray-600 text-xl">{msg}</p>
           </div>
         ) : (
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col w-full items-center justify-center">
             <RecipeGrid recipes={recipes} />
           </div>
         )}

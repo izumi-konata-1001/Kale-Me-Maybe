@@ -14,6 +14,7 @@ export default {
         'green-light': '#eef7d6',
       },
       screens:{
+        'xs':'700px',
         's':'925px',
         'list-s':'900px',
         'list-m':'1000px',

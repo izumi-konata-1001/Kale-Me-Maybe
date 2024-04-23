@@ -56,9 +56,9 @@ export default function Favorites() {
   }, []);
 
   return (
-    <div className="flex flex-col mb-10">
-      <div className="mb-10">
-        <div className="flex justify-center items-center mb-10">
+    <div className="flex flex-col max-h-screen overflow-y-auto w-full">
+      <div className="pb-5">
+        <div className="flex justify-center items-center pb-5">
           <h2 className="title">Favorites</h2>
         </div>
         <div className="flex justify-between">
@@ -111,7 +111,7 @@ export default function Favorites() {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mx-4">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 pb-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mx-4">
         {/* collection list */}
         {favorites.map((favorite, index) => (
           <div key={index}>

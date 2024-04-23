@@ -264,7 +264,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto">
       <h1 className="title">Pantry</h1>
       <p className="text-center mb-4">
         You have added {selectedIngredients.length} ingredient

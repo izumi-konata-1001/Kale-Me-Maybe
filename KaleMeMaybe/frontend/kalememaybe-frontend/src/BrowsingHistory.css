@@ -4,10 +4,6 @@
     align-items: center;
 }
 
-.BrowsingHistory h1 {
-position: absolute;
-top: 15%;
-}
 
 .BrowsingHistory .search-div .search {
     border: 1px solid #DDD;
@@ -26,7 +22,6 @@ top: 15%;
 }
 
 .BrowsingHistory .search-div {
-    margin-top: 100px;
     margin-bottom: 35px;
 }
 

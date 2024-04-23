@@ -11,7 +11,7 @@ export default function PageLayout() {
   return (
     <React.Fragment>
       <Header />
-        <main className="main-background">
+        <main className={"main-background"}>
       <div className="container w-2/3 my-0 mx-auto">
         <Outlet />
       </div>
@@ -37,11 +37,15 @@ function Header() {
               <img src="/logo.png" className="h-12 w-12" alt="Logo"/>
               <p className={"text-green-dark font-bold"}>KaleMeMaybe</p>
               <button className="text-green-dark font-semibold" onClick={toggleMenu}>
-                  Menu &#9776; {/* Menu Icon */}
+                  Menu &#9776;
               </button>
               {authToken?"": <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center">
                   Sign Up &rarr;
               </NavLink>}
+              <NavLink to="profile" className="flex flex-col items-center text-center">
+                  <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
+                  <p className="text-xs mt-1">{userName||'UserOne'}</p>
+              </NavLink>
               <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl dark:text-white"} />
           </div>
 
@@ -99,7 +103,7 @@ function Header() {
                               </NavLink>
                           </>
                       )}
-                      <BsFillMoonStarsFill />
+                      <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl dark:text-white"}  />
                   </div>
 
               </div>
@@ -111,7 +115,7 @@ function Header() {
               <NavLink to="browsing-history" className="block py-2 px-4 text-sm hover:bg-green-light">Browsing History</NavLink>
               {authToken &&<NavLink to="favorites" className="block py-2 px-4 text-sm hover:bg-green-light">Saved recipes</NavLink>}
               {authToken ?
-                  <Link to="/" onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light"><button className="block py-2 px-4 text-sm hover:bg-green-light">Log Out</button></Link> :
+                  <Link to="/" onClick={logout} className="block py-2 px-4 text-sm hover:bg-green-light ">Log out</Link> :
                   <NavLink to="log-in" className="block py-2 px-4 text-sm hover:bg-green-light">Log In</NavLink>
               }
           </div>

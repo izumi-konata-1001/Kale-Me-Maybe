@@ -9,7 +9,7 @@ position: absolute;
 top: 15%;
 }
 
-.search {
+.BrowsingHistory .search-div .search {
     border: 1px solid #DDD;
     border-right: 0;
     height: 40px;

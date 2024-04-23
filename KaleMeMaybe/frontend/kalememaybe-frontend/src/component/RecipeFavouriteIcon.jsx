@@ -14,9 +14,10 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
 
   useEffect(() => {
     setIsFavorited(isFavorited);
-  }, [isFavorited]);
+    fetchCollections();  // Fetch collections on component mount or when isFavorited changes
+  }, [isFavorited,collections]);
 
-  const fetchData = async () => {
+  const fetchCollections = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/favorites`, {
         method: "GET",
@@ -29,21 +30,22 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
         setCollections(data);
       }
     } catch (error) {
-      console.error("Error in fetching favorites: ", error);
+      console.error("Error fetching collections: ", error);
     }
   };
+
 
   const addToCollection = async (collectionId) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/collection/${userId}/${collectionId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ recipeId: recipeId }),
-        }
+          `${API_BASE_URL}/api/collection/${userId}/${collectionId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ recipeId: recipeId }),
+          }
       );
 
       if (response.ok) {
@@ -61,14 +63,14 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
   const removeRecipeFromFavourites = async (recipeId) => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/discover/remove-favourite",
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId: userId, recipeId }),
-        }
+          `${API_BASE_URL}/api/discover/remove-favourite`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: userId, recipeId }),
+          }
       );
       if (response.ok) {
         setIsFavorited(false);
@@ -91,50 +93,50 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
   };
 
   return (
-    <div className="flex justify-end m-4">
-      {isFavoritedState ? (
-        <svg
-          onClick={() => removeRecipeFromFavourites(recipeId)}
-          className="w-6 h-6 text-green-dark fill-current cursor-pointer"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ) : (
-        <svg
-          onClick={() => {
-            toggleModal();
-            fetchData();
-          }}
-          className="w-6 h-6 text-green-dark cursor-pointer hover:fill-current duration-100"
-          viewBox="0 0 20 20"
-          fill="none"
-          style={{ stroke: "currentColor", strokeWidth: "2" }}
-        >
-          <path
-            fillRule="evenodd"
-            d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )}
-      {showModal && (
-        <SimpleModal
-          onClose={toggleModal}
-          onNewCollection={handleNewCollection}
-          collections={collections}
-          addToCollection={addToCollection}
-        />
-      )}
-      {showNewCollectionModal && (
-        <NewCollectionModal onClose={closeNewCollectionModal} />
-      )}
-    </div>
+      <div className="flex justify-end m-4">
+        {isFavoritedState ? (
+            <svg
+                onClick={() => removeRecipeFromFavourites(recipeId)}
+                className="w-6 h-6 text-green-dark fill-current cursor-pointer"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+            >
+              <path
+                  fillRule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
+                  clipRule="evenodd"
+              />
+            </svg>
+        ) : (
+            <svg
+                onClick={() => {
+                  toggleModal();
+                  fetchCollections();
+                }}
+                className="w-6 h-6 text-green-dark cursor-pointer hover:fill-current duration-100"
+                viewBox="0 0 20 20"
+                fill="none"
+                style={{ stroke: "currentColor", strokeWidth: "2" }}
+            >
+              <path
+                  fillRule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
+                  clipRule="evenodd"
+              />
+            </svg>
+        )}
+        {showModal && (
+            <SimpleModal
+                onClose={toggleModal}
+                onNewCollection={handleNewCollection}
+                collections={collections}
+                addToCollection={addToCollection}
+            />
+        )}
+        {showNewCollectionModal && (
+            <NewCollectionModal onClose={closeNewCollectionModal} onCollectionAdded={fetchCollections} />
+        )}
+      </div>
   );
 };
 

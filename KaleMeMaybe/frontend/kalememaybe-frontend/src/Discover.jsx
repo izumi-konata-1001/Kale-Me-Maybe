@@ -12,17 +12,30 @@ const Discover = () => {
 
   useEffect(() => {
     let url = 'http://localhost:3000/api/discover';
+    let queryParams = [];
+  
     if (sort && direction) {
-        url += `?sort=${sort}&direction=${direction}`;
+      queryParams.push(`sort=${sort}&direction=${direction}`);
     }
-
+  
+    if (userId) {
+      queryParams.push(`userId=${userId}`);
+    }
+  
+    if (queryParams.length > 0) {
+      url += '?' + queryParams.join('&');
+    }
+  
     fetch(url)
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         setRecipes(data.recipes);
-    })
-    .catch(err => console.error('Error fetching sorted data:', err));
-  }, [sort, direction]);  
+        if (data.recipes.length > 0) {
+          console.log(data.recipes[2].favouriteState);
+        }
+      })
+      .catch(err => console.error('Error fetching sorted data:', err));
+  }, [sort, direction, userId]);  
 
   const handleLoadMore = () => {
     setVisibleCount((prevCount) => prevCount + 3);
@@ -36,7 +49,7 @@ const Discover = () => {
 
   return (
     <div className="recipes-scrollable max-h-screen overflow-y-auto w-full">
-      <div className="flex flex-col items-center justify-center py-5">
+      <div className="flex flex-col items-center justify-center pb-5">
         <h1 className="title">Pantry</h1>
         <h3 className="text-1xl font-mono pt-2 pb-3">Explore the Green Gastronomy</h3>
         <RecipesContainer recipes={recipes.slice(0, visibleCount)} onSortChange={sortMethod} />

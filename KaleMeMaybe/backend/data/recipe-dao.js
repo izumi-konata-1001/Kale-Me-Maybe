@@ -1,10 +1,15 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-async function getAllRecipes() {
+async function getAllRecipes(userId) {
   const db = await dbPromise;
   try {
-      const recipes = await db.all(SQL`SELECT * FROM recipe`);
+      const query = `
+        SELECT r.*, 
+               EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
+        FROM recipe r
+      `;
+      const recipes = await db.all(query, [userId]);
       return recipes;
   } catch (err) {
       console.error('Failed to retrieve recipes from the database:', err);
@@ -96,66 +101,61 @@ async function insertRecipeAndSearchHistory(
   }
 }
 
-async function getRecipesSortedByTimeConsuming(direction) {
-  const recipes = await getAllRecipes();
-  return recipes.sort((a, b) => {
-      // 从 'time_consuming' 中提取数值部分（例如，"30 mins" -> 30）
-      let timeA = parseInt(a.time_consuming.split(' ')[0]);  // 仅取数字部分
-      let timeB = parseInt(b.time_consuming.split(' ')[0]);  // 仅取数字部分
-
-      // 检查主排序条件 'time_consuming' 是否相同
-      if (timeA === timeB) {
-          // 主排序条件相同，按 'created_at' 降序排序
-          return new Date(b.created_at) - new Date(a.created_at);
-      }
-
-      // 根据提供的方向进行排序
-      if (direction === 'asc') {
-          return timeA - timeB;  // 升序排序
-      } else {
-          return timeB - timeA;  // 降序排序
-      }
-  });
-}
-
-async function getRecipesSortedByDifficulty(direction) {
-  const recipes = await getAllRecipes();
-  return recipes.sort((a, b) => {
-      const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
-      
-      let diffOrderA = difficultyOrder[a.difficulty];
-      let diffOrderB = difficultyOrder[b.difficulty];
-
-      if (diffOrderA === diffOrderB) {
-          return new Date(b.created_at) - new Date(a.created_at);
-      }
-
-      if (direction === 'asc') {
-          return diffOrderA - diffOrderB;
-      } else {
-          return diffOrderB - diffOrderA;
-      }
-  });
-}
-
-async function getRecipesSortedByAverageScore(direction) {
+async function getRecipesSortedByTimeConsuming(direction, userId) {
   const db = await dbPromise;
   try {
-    // 校验并设置排序方向
-    const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
+      const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
+      const query = `
+        SELECT r.*, 
+               EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
+        FROM recipe r
+        ORDER BY 
+          CAST(SUBSTR(r.time_consuming, 1, INSTR(r.time_consuming, ' ') - 1) AS INTEGER) ${orderByDirection},
+          r.created_at DESC
+      `;
+      const recipes = await db.all(query, [userId]);
+      return recipes;
+  } catch (err) {
+      console.error('Failed to retrieve sorted recipes by time consuming from the database:', err);
+      throw err;
+  }
+}
 
-    // 构建 SQL 查询字符串
+async function getRecipesSortedByDifficulty(direction, userId) {
+  const db = await dbPromise;
+  const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
+  const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
+  const query = `
+    SELECT r.*, 
+           EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
+    FROM recipe r
+    ORDER BY 
+      CASE r.difficulty 
+        WHEN 'Easy' THEN 1 
+        WHEN 'Medium' THEN 2 
+        WHEN 'Hard' THEN 3 
+      END ${orderByDirection},
+      r.created_at DESC
+  `;
+  const recipes = await db.all(query, [userId]);
+  return recipes;
+}
+
+
+async function getRecipesSortedByAverageScore(direction, userId) {
+  const db = await dbPromise;
+  try {
+    const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
     const query = `
-      SELECT r.id, r.name, r.time_consuming, r.difficulty, r.ingredient_details, r.method, r.image_path, r.created_at, r.updated_at, 
-             IFNULL(AVG(s.score), 0) as avg_score
+      SELECT r.*, 
+             IFNULL(AVG(s.score), 0) as avg_score,
+             EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
       FROM recipe r
       LEFT JOIN score s ON r.id = s.recipe_id
       GROUP BY r.id
       ORDER BY avg_score ${orderByDirection}, r.created_at DESC
     `;
-
-    const recipesWithScores = await db.all(query);
-
+    const recipesWithScores = await db.all(query, [userId]);
     return recipesWithScores;
   } catch (err) {
     console.error('Failed to retrieve recipes sorted by average score from the database:', err);
@@ -163,25 +163,38 @@ async function getRecipesSortedByAverageScore(direction) {
   }
 }
 
-async function getRecipesSortedByPopularity(direction) {
+async function getRecipesSortedByPopularity(direction, userId) {
   const db = await dbPromise;
   try {
     const orderByDirection = direction === 'asc' ? 'ASC' : 'DESC';
-
     const query = `
-      SELECT r.id, r.name, r.time_consuming, r.difficulty, r.ingredient_details, r.method, r.image_path, r.created_at, r.updated_at, 
-             COUNT(cr.collection_id) AS popularity
+      SELECT r.*, 
+             COUNT(cr.collection_id) AS popularity,
+             EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
       FROM recipe r
       LEFT JOIN collection_recipe cr ON r.id = cr.recipe_id
       GROUP BY r.id
       ORDER BY popularity ${orderByDirection}, r.created_at DESC
     `;
-
-    const recipesWithPopularity = await db.all(query);
-
+    const recipesWithPopularity = await db.all(query, [userId]);
     return recipesWithPopularity;
   } catch (err) {
     console.error('Failed to retrieve recipes sorted by collection count from the database:', err);
+    throw err;
+  }
+}
+
+async function removeRecipeFromFavourites(userId, recipeId) {
+  const db = await dbPromise;
+  try {
+    await db.run(`
+      DELETE FROM collection_recipe
+      WHERE recipe_id = ? AND collection_id IN (
+        SELECT id FROM collection WHERE user_id = ?
+      )
+    `, [recipeId, userId]);
+  } catch (err) {
+    console.error('Failed to remove recipe from favourites:', err);
     throw err;
   }
 }
@@ -194,5 +207,6 @@ module.exports = {
   getRecipesSortedByTimeConsuming,
   getRecipesSortedByDifficulty,
   getRecipesSortedByAverageScore,
-  getRecipesSortedByPopularity
+  getRecipesSortedByPopularity,
+  removeRecipeFromFavourites
 };

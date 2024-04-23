@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 
 const RecipeCard = ({recipe}) => {
     return(
-    <Link to={`/recipe/${recipe.id}`} className="block w-[270px] h-[350px]">
+    <div className="block w-[270px] h-[350px]">
         <div>
+            <Link to={`/recipe/${recipe.id}`}>
             <RecipeImage recipe={recipe}/>
+            </Link>
             <RecipeDetail recipe={recipe}/>
         </div>
-    </Link>
+    </div>
     );
 }
 export default RecipeCard;

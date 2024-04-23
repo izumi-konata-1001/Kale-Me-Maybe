@@ -1,16 +1,16 @@
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {IoArrowBackCircle} from "react-icons/io5";
+import { IoArrowBackCircle } from "react-icons/io5";
 import StarRating from "./component/StarRating.jsx";
-import {Loading} from "./component/Loading.jsx";
+import { Loading } from "./component/Loading.jsx";
 import RecipeFavouriteIcon from "./component/RecipeFavouriteIcon.jsx";
-import {AuthContext} from "./contexts/AuthProvider.jsx";
+import { AuthContext } from "./contexts/AuthProvider.jsx";
 import RecipeScoreIcon from "./component/RecipeScoreIcon.jsx";
 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 export default function RecipeDetails() {
-    const { authToken,userId } = useContext(AuthContext);
+    const { authToken, userId } = useContext(AuthContext);
 
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
@@ -31,6 +31,33 @@ export default function RecipeDetails() {
             });
     }, [id]);
 
+    //Send data to update the browsing history table - Zishuai
+    useEffect(() => {
+        const dataToSend = userId ?
+            { userId, recipeId: id, hasUserId: true } :
+            { recipeId: id, hasUserId: false };
+
+        fetch(`${API_BASE_URL}/api/updatebro/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update user and recipe info');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('User and recipe info updated successfully', data);
+            })
+            .catch(error => {
+                console.error('Error updating user and recipe info:', error);
+            });
+    }, [id, userId]);
+
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -39,7 +66,7 @@ export default function RecipeDetails() {
         return <Loading />;
     }
 
-    const ingredients =recipe.ingredient_details;
+    const ingredients = recipe.ingredient_details;
     const ingredientsArray = ingredients
         .replace(/[.]/g, '')
         .split('\n')
@@ -54,7 +81,7 @@ export default function RecipeDetails() {
         <div className={"pb-10"}>
             <div className="relative flex justify-center items-center w-full">
                 <BackButton />
-                <h1 className="text-5xl font-bold p-5 text-lime-900">{recipe.name}</h1>
+                <h1 className="text-5xl font-bold p-5 text-lime-900 mx-10 text-center">{recipe.name}</h1>
             </div>
 
 
@@ -69,24 +96,25 @@ export default function RecipeDetails() {
                 {authToken && <RecipeFavouriteIcon />}
             </div>
             <div className={"flex justify-center p-5"}>
-                <img src={imagePath || '/pasta.png'} alt={recipe.name} className="rounded-lg h-64 w-auto"/>
+                <img src={imagePath || '/pasta.png'} alt={recipe.name} className="rounded-lg h-64 w-auto" />
             </div>
 
-            <div className="flex justify-center">
-                <div className={"w-1/3 h-auto border-r-2 border-dotted border-green-dark p-2"}>
-                    <h1 className={"text-xl font-bold text-lime-900"}>Ingredients</h1>
-                    <ul className={"list-disc list-inside"}>
+            <div className="flex flex-col items-start md:flex-row md:justify-center">
+                <div className="w-full md:w-1/3 h-auto border-r-2 border-none md:border-dotted border-green-dark p-2">
+                    <h1 className="text-xl font-bold text-lime-900">Ingredients</h1>
+                    <ul className="list-disc list-inside">
                         {ingredientsArray.map((ingredient, index) => <li key={index}>{ingredient}</li>)}
                     </ul>
                 </div>
 
-                <div className={"w-1/3 p-2 pl-5"}>
-                    <h1 className={"text-xl font-bold text-lime-900"}>Method</h1>
-                    <ol className={"list-decimal list-inside"}>
+                <div className="w-full md:w-1/3 p-2 md:pl-5">
+                    <h1 className="text-xl font-bold text-lime-900">Method</h1>
+                    <ol className="list-decimal list-inside">
                         {methodArray.map((method, index) => <li key={index}>{method}</li>)}
                     </ol>
                 </div>
             </div>
+
 
             {authToken && <div className={"flex flex-col items-center justify-center p-5"}>
                 <StarRating userId={userId} recipeId={id} authToken={authToken} onSetRating={handleRatingSubmit} />
@@ -106,12 +134,12 @@ export function BackButton() {
 
     return (
         <button onClick={handleGoBack} className="absolute left-0 flex justify-center items-center">
-            <IoArrowBackCircle size={50} className={"text-green-dark"}/>
+            <IoArrowBackCircle size={50} className={"text-green-dark"} />
         </button>
     );
 }
 
-const handleRatingSubmit = (rating,userId,id,authToken) => {
+const handleRatingSubmit = (rating, userId, id, authToken) => {
     console.log("Rating:", rating, "UserID:", userId, "RecipeID:", id, "AuthToken:", authToken);
     fetch(`${API_BASE_URL}/api/score`, {
         method: 'POST',

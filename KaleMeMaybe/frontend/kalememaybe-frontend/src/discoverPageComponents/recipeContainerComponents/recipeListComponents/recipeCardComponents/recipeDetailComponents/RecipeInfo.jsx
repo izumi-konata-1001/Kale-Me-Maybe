@@ -1,5 +1,5 @@
 import RecipeDifficulty  from "./recipeInfoComponents/RecipeDifficulty";
-import RecipeFavouriteIcon from "../../../../../component/RecipeFavouriteIcon.jsx";
+import TestFavouriteIcon from "../../../../../component/TestFavouriteIcon.jsx";
 import RecipeScoreIcon from "../../../../../component/RecipeScoreIcon.jsx";
 import RecipeTimeConsume from "./recipeInfoComponents/RecipeTimeConsume";
 
@@ -21,7 +21,7 @@ const RecipeInfo = ({recipe}) => {
                 <RecipeScoreIcon recipeId={recipeId}/>
             </div>
             <div className="pl-3 whitespace-nowrap">
-                {userId && <RecipeFavouriteIcon recipe={recipe}/>}
+                {userId && <TestFavouriteIcon recipe={recipe}/>}
             </div>
         </div>
     );

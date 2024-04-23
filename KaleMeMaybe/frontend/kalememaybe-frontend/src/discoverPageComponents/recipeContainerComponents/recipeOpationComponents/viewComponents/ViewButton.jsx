@@ -1,19 +1,23 @@
 const ViewButton = ({ icon, active, onClick }) => {
-    const activeStyle = 'rounded-xl bg-green-dark text-white';
-    const inactiveStyle = 'bg-white text-green-dark border rounded-xl border-green-dark';
-    
-    // Assuming you want the buttons to be 10rem by 10rem as an example. Adjust the size as needed.
-    const sizeStyle = 'w-11 h-11'; // This sets both the width and height to 10rem
+  // Active and inactive styles
+  const activeStyle = 'rounded-xl bg-green-dark text-white hover:bg-green-dark hover:text-white';
+  const inactiveStyle = 'bg-white text-green-dark border rounded-xl border-green-dark hover:bg-green-light hover:border-green-light  hover:text-white';
   
-    return (
-      <button
-        onClick={onClick}
-        className={`flex items-center justify-center p-2 rounded ${sizeStyle} ${active ? activeStyle : inactiveStyle}`}
-      >
-        {icon}
-      </button>
-    );
-  };
+  // Size style
+  const sizeStyle = 'w-11 h-11'; // Sets the width and height to 2.75rem
   
-  export default ViewButton;
-  
+  // Add transition styles to the base styles
+  const transitionStyle = 'transition-colors duration-100';
+
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center justify-center p-2 border-2  border-green-dark rounded ${transitionStyle} ${sizeStyle} ${active ? activeStyle : inactiveStyle}`}
+    >
+      {icon}
+    </button>
+  );
+};
+
+export default ViewButton;
+

@@ -56,7 +56,7 @@ export default function Favorites() {
   }, []);
 
   return (
-    <div className="flex flex-col w-2/3 mb-10 absolute top-[20%] left-1/2 transform -translate-x-1/2">
+    <div className="flex flex-col mb-10">
       <div className="mb-10">
         <div className="flex justify-center items-center mb-10">
           <h2 className="title">Favorites</h2>

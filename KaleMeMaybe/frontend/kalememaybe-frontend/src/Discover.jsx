@@ -30,9 +30,6 @@ const Discover = () => {
       .then(response => response.json())
       .then(data => {
         setRecipes(data.recipes);
-        if (data.recipes.length > 0) {
-          console.log(data.recipes[2].favouriteState);
-        }
       })
       .catch(err => console.error('Error fetching sorted data:', err));
   }, [sort, direction, userId]);  
@@ -49,7 +46,8 @@ const Discover = () => {
 
   return (
     <div className="recipes-scrollable max-h-screen overflow-y-auto w-full">
-      <div className="flex flex-col items-center justify-center py-5">
+
+      <div className="flex flex-col items-center justify-center pt-5 pb-2">
         <h1 className="title">Pantry</h1>
         <h3 className="text-1xl font-mono pt-2 pb-3">Explore the Green Gastronomy</h3>
         <RecipesContainer recipes={recipes.slice(0, visibleCount)} onSortChange={sortMethod} />
@@ -57,10 +55,10 @@ const Discover = () => {
           <p className="text-1xl font-mono text-green-dark pt-6 pb-2">No more recipes</p>
         ) : (
           <button 
-            className="text-1xl font-mono text-green-dark pt-6 pb-2 cursor-pointer"
+            className="text-1xl font-mono text-green-dark pt-6 pb-2  hover:text-lime-800 transition-colors duration-100 cursor-pointer"
             onClick={handleLoadMore}
           >
-            Load more...
+            Load more<br/>...
           </button>
           )}
       </div>

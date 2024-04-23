@@ -21,4 +21,21 @@ router.get("/:userid/:id", async function (req, res) {
     }
 })
 
+router.delete("/:userid/:id", async function (req, res) {
+    const userId = req.params.userid;
+    const collectionId = req.params.id;
+
+    try {
+        const result = await collectionDao.deleteCollection(userId, collectionId);
+
+        if (result > 0) {
+            res.json({success: "Collection deleted successfully."});
+        } else {
+            res.status(404).json({fail: "No collection found to delete or collection does not belong to the user."});
+        }
+    } catch (error) {
+        res.status(500).send({ error: "Failed to delete the collection. " });
+    }
+})
+
 module.exports = router;

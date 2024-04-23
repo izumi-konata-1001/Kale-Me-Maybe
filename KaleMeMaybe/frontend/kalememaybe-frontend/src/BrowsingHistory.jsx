@@ -54,7 +54,7 @@ export default function BrowsingHistory() {
         {broData.length ? <div className="flex flex-col items-center overflow-y-auto cardset" style={{ maxHeight: '500px' }}>
             {broData.filter(item => item?.name?.toLowerCase().includes(filterValue.toLowerCase())).map((item) =>
                 <div className="relative border border-gray-200 w-2/3 p-3 px-4 mb-6 shadow card" key={item.recipe_id} onClick={() => navigate(`/recipe/${item.recipe_id}`)}>
-                    <div className="absolute w-44 h-44 border-2 border-green-dark rounded-lg mr-12 mt-5 mb-5 ml-5 overflow-hidden picture"><img src={item.image_path}></img></div>
+                    <div className="absolute w-44 h-44 border-2 border-green-dark rounded-lg mr-12 mt-5 mb-5 ml-5 overflow-hidden picture"><img src={`${API_BASE_URL}/${item.image_path}`}></img></div>
                     <div className="ml-60 relative content">
                         <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle">{item.name}</h3>
                         <div className="flex flex-row mt-3 mb-3 ml-0 mr-0 fouricons">

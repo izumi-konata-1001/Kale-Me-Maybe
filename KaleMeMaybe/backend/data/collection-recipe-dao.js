@@ -32,7 +32,45 @@ async function retriveCollection(userId, collectionId) {
   }
 }
 
+async function deleteCollection (userId, collectionId) {
+  try {
+    const db = await dbPromise;
+
+    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    if (!userCheck) {
+      throw new Error("User does not exist");
+    }
+
+    const collectionCheck = await db.get(SQL`
+            SELECT name FROM collection 
+            WHERE id = ${collectionId} AND user_id = ${userId}
+        `);
+    if (!collectionCheck) {
+      throw new Error("Collection does not belong to user");
+    }
+
+    const deleteStatement = SQL`
+      DELETE FROM collection 
+      WHERE id = ${collectionId} AND user_id = ${userId}
+    `;
+    const result = await db.run(deleteStatement);
+
+    if (result.changes > 0) {
+      console.log("Collection deleted successfully.");
+      return result.changes;
+    } else {
+      console.log("No collection was deleted.");
+    }
+    
+
+  } catch (error) {
+    console.error("Error retrieving collection: ", error);
+    throw error;
+  }
+}
+
 // Export functions.
 module.exports = {
   retriveCollection,
+  deleteCollection,
 };

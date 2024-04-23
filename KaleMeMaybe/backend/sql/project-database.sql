@@ -671,6 +671,21 @@ Return tofu to the skillet and add soy sauce. Stir well to combine and cook for 
 Season with salt and pepper to taste.
 Serve hot over cooked rice. Enjoy your delicious asparagus and tofu stir-fry!', '/generated-images/Asparagus_and_Tofu_Stir-Fry_20240422.png', '2024-04-22 11:05:42', '2024-04-22 11:05:42');
 
+INSERT INTO "recipe" VALUES (39,'Tofu and Spinach Stir-Fry','20 mins','Easy','1 block of tofu, cubed
+2 cups of fresh spinach
+2 cloves of garlic, minced
+1 tablespoon of soy sauce
+1 tablespoon of sesame oil
+1 teaspoon of ginger, grated
+1 tablespoon of vegetable oil
+Salt and pepper to taste','Press the tofu to remove excess moisture. Cut into cubes.
+Heat vegetable oil in a pan over medium heat. Add tofu cubes and cook until golden brown on all sides. Remove from pan and set aside.
+In the same pan, add sesame oil, garlic, and ginger. Cook for 1-2 minutes until fragrant.
+Add spinach to the pan and cook until wilted.
+Return tofu to the pan and add soy sauce. Stir well to combine.
+Season with salt and pepper to taste.
+Serve hot and enjoy!','/generated-images/Tofu_and_Spinach_Stir-Fry_20240423.png','2024-04-23 05:35:51','2024-04-23 05:35:51');
+
 INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
 (1, 15),
 (1, 16),

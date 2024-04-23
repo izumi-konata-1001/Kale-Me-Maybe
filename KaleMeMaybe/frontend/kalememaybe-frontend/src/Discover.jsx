@@ -30,9 +30,6 @@ const Discover = () => {
       .then(response => response.json())
       .then(data => {
         setRecipes(data.recipes);
-        if (data.recipes.length > 0) {
-          console.log(data.recipes[2].favouriteState);
-        }
       })
       .catch(err => console.error('Error fetching sorted data:', err));
   }, [sort, direction, userId]);  
@@ -58,7 +55,7 @@ const Discover = () => {
           <p className="text-1xl font-mono text-green-dark pt-6 pb-2">No more recipes</p>
         ) : (
           <button 
-            className="text-1xl font-mono text-green-dark pt-6 pb-2  hover:text-green-light transition-colors duration-200 cursor-pointer"
+            className="text-1xl font-mono text-green-dark pt-6 pb-2  hover:text-lime-800 transition-colors duration-100 cursor-pointer"
             onClick={handleLoadMore}
           >
             Load more<br/>...

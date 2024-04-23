@@ -119,9 +119,6 @@ export default function HomePage() {
         setShowRecentSearches(true);
       } catch (error) {
         console.error("Error fetching recent searches:", error);
-        setErrorMessage(
-          "Failed to retrieve recent searches. Please try again."
-        );
       }
     };
 
@@ -213,7 +210,9 @@ export default function HomePage() {
       setShowRecentSearches(false);
       setShowFullList(false);
     } catch (error) {
-      setErrorMessage("Something went wrong, but no worries—let's try again!");
+      setErrorMessage(
+        "Our AI chef is recharging its batteries! Please try again in a few minutes."
+      );
       console.error("There was a problem with the fetch operation:", error);
     } finally {
       setIsLoading(false);
@@ -255,7 +254,9 @@ export default function HomePage() {
         setRecipes((prevRecipes) => [...prevRecipes, newRecipes]);
         setLoadMoreCount(loadMoreCount + 1);
       } catch (error) {
-        setErrorMessage("Failed to load more recipes. Please try again.");
+        setErrorMessage(
+          "Our AI chef is recharging its batteries! Please try again in a few minutes."
+        );
         console.error("Error fetching more recipes:", error);
       } finally {
         setIsLoading(false);

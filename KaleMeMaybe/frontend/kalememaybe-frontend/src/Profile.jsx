@@ -84,7 +84,9 @@ export default function Profile(){
     <div className="flex flex-col justify-center items-center">
         <div  className="flex flex-col justify-center items-center m-10">
         <img src={userData.avatarPath || '/logo.png'} alt="Profile" className="w-32 h-32 rounded-full" onClick={() => setDisplayAvatars(!displayAvatars)}/>
-        {displayAvatars && <div className="grid grid-cols-5 border-2 border-green-light mt-5">
+        {displayAvatars && <div className="grid 
+        grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 
+        border-2 border-green-light mt-5">
             <div className="hover:bg-green-light" onClick={() => handleAvatarClick('/images/bear.png')}>
                 <img src='/images/bear.png' alt="avatarBear" className="w-16 h-16 rounded-full m-5"></img>
             </div>
@@ -148,7 +150,7 @@ export default function Profile(){
                     {successMessage && <p className="text-red-500 text-center self-start w-full px-4">{successMessage}</p>}
                     <label className="grid grid-cols-5 items-center">
                         <span className="col-span-1"></span>
-                        <button type="submit" className="bg-green-dark text-white px-4 py-3 rounded-md col-span-3">Save</button>
+                        <button type="submit" className="bg-green-dark text-white px-4 py-3 rounded-md col-span-3 mb-10">Save</button>
                         <span className="col-span-1"></span>
                     </label>
                 </div>

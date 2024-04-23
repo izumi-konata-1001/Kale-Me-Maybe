@@ -34,12 +34,18 @@ export default function ThirdPartyLink(){
 
     return(
         <div className="grid grid-cols-3">
-        <img src="/google.png" alt="Login with Google" className="py-4 
+            <div className="hover:bg-green-light">
+                <img src="/google.png" alt="Login with Google" className="py-4 
         px-5 xl:px-6" onClick={handleGoogleLoginClick}></img>
-        <img src="/facebook.png" className="py-4 
+            </div>
+            <div className="hover:bg-green-light">
+                <img src="/facebook.png" className="py-4 
         px-5 xl:px-6" onClick={handleFaceBookLoginClick}></img>
-        <img src="twitter.png" className="py-4 
+            </div>
+            <div className="hover:bg-green-light"> 
+                <img src="twitter.png" className="py-4 
         px-5 xl:px-6" onClick={handleTwitterLoginClick}></img>
+            </div>
     </div>
     );
 }

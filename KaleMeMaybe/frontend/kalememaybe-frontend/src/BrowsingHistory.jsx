@@ -45,7 +45,6 @@ export default function BrowsingHistory() {
         }
     }, [authToken]);
 
-
     return <div className="BrowsingHistory">
         <h1 className="title">Browsing History</h1>
         <div className="search-div">
@@ -55,7 +54,7 @@ export default function BrowsingHistory() {
         {broData.length ? <div className="cardset">
             {broData.filter(item => item?.name?.toLowerCase().includes(filterValue.toLowerCase())).map((item) =>
                 <div className="card" key={item.recipe_id} onClick={() => navigate(`/recipe/${item.recipe_id}`)}>
-                    <div className="picture"><img src={item.image_path}></img></div>
+                    <div className="picture"><img src={`${API_BASE_URL}/${item.image_path}`}></img></div>
                     <div className="content">
                         <h3 className="subtitle text-xl font-mono font-bold pt-1 pb-1 ">{item.name}</h3>
                         <div className="fouricons">

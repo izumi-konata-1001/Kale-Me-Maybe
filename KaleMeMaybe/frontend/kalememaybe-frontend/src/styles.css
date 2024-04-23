@@ -8,9 +8,10 @@
         @apply block py-2 px-3 md:p-0 font-semibold text-green-dark hover:text-white;
     }
     .title{
-        @apply text-5xl font-bold p-5 text-lime-900 text-center
+        @apply text-5xl font-bold text-lime-900 text-center p-5
     }
 }
+
 
 .main-background {
     background-image: url("/left-bg.png"),url("/right-bg.png");
@@ -20,6 +21,12 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
+}
+
+@media (max-width: 640px) {
+    .main-background {
+        background-image: none;
+    }
 }
 
 .singInUp-background {

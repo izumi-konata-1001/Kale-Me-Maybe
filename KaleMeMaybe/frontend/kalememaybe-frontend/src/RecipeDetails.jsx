@@ -81,7 +81,7 @@ export default function RecipeDetails() {
         <div className={"pb-10"}>
             <div className="relative flex justify-center items-center w-full">
                 <BackButton />
-                <h1 className="text-5xl font-bold p-5 text-lime-900">{recipe.name}</h1>
+                <h1 className="text-5xl font-bold p-5 text-lime-900 mx-10 text-center">{recipe.name}</h1>
             </div>
 
 
@@ -99,21 +99,22 @@ export default function RecipeDetails() {
                 <img src={imagePath || '/pasta.png'} alt={recipe.name} className="rounded-lg h-64 w-auto" />
             </div>
 
-            <div className="flex justify-center">
-                <div className={"w-1/3 h-auto border-r-2 border-dotted border-green-dark p-2"}>
-                    <h1 className={"text-xl font-bold text-lime-900"}>Ingredients</h1>
-                    <ul className={"list-disc list-inside"}>
+            <div className="flex flex-col items-start md:flex-row md:justify-center">
+                <div className="w-full md:w-1/3 h-auto border-r-2 border-none md:border-dotted border-green-dark p-2">
+                    <h1 className="text-xl font-bold text-lime-900">Ingredients</h1>
+                    <ul className="list-disc list-inside">
                         {ingredientsArray.map((ingredient, index) => <li key={index}>{ingredient}</li>)}
                     </ul>
                 </div>
 
-                <div className={"w-1/3 p-2 pl-5"}>
-                    <h1 className={"text-xl font-bold text-lime-900"}>Method</h1>
-                    <ol className={"list-decimal list-inside"}>
+                <div className="w-full md:w-1/3 p-2 md:pl-5">
+                    <h1 className="text-xl font-bold text-lime-900">Method</h1>
+                    <ol className="list-decimal list-inside">
                         {methodArray.map((method, index) => <li key={index}>{method}</li>)}
                     </ol>
                 </div>
             </div>
+
 
             {authToken && <div className={"flex flex-col items-center justify-center p-5"}>
                 <StarRating userId={userId} recipeId={id} authToken={authToken} onSetRating={handleRatingSubmit} />

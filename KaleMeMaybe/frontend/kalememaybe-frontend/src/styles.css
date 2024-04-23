@@ -96,3 +96,8 @@
     100% { transform: rotate(360deg); }
 }
 
+@media (max-width: 768px) {
+    .main-background {
+        background-image: none;
+    }
+}

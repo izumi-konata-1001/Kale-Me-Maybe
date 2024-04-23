@@ -29,10 +29,6 @@ router.post("/recipes", async (req, res) => {
       .status(400)
       .json({ error: "Ingredients list is required and cannot be empty." });
   }
-  // check if user id is provided
-  if (!user_id) {
-    return res.status(400).json({ error: "User ID is required." });
-  }
 
   const ingredientNames = ingredients.map((ingredient) => ingredient.name);
 

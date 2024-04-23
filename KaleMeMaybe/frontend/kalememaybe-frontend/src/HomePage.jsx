@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./contexts/AuthProvider.jsx";
 import Ingredient from "./homePageComponents/Ingredient";
 import RecipeCard from "./homePageComponents/RecipeCard";
 import SelectedIngredientsBar from "./homePageComponents/SelectedIngredientsBar";
@@ -51,6 +51,9 @@ export default function HomePage() {
 
   const [suggestions, setSuggestions] = useState([]);
 
+  const { userId } = useContext(AuthContext);
+
+  // Function to fetch ingredient suggestions api
   const fetchIngredientSuggestions = async (prefix) => {
     if (prefix.length >= 2) {
       try {
@@ -58,16 +61,31 @@ export default function HomePage() {
           `${API_BASE_URL}/api/ingredients?prefix=${prefix}`
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch suggestions");
+          if (response.status === 404) {
+            setErrorMessage("No ingredients found matching your search.");
+          } else {
+            setErrorMessage("No ingredients.");
+          }
+          setSuggestions([]);
+          return;
         }
         const data = await response.json();
         setSuggestions(data);
+        setErrorMessage("");
       } catch (error) {
         console.error("Error fetching ingredient suggestions:", error);
+        setErrorMessage("No ingredients.");
         setSuggestions([]);
       }
     } else {
       setSuggestions([]);
+      if (prefix.length !== 0) {
+        setErrorMessage(
+          "Please enter more characters to search for ingredients."
+        );
+      } else {
+        setErrorMessage("");
+      }
     }
   };
 
@@ -75,15 +93,20 @@ export default function HomePage() {
   useEffect(() => {
     const handler = setTimeout(() => {
       fetchIngredientSuggestions(searchValue);
-    }, 600); 
+    }, 600);
 
-    return () => clearTimeout(handler); 
-  }, [searchValue]); 
+    return () => clearTimeout(handler);
+  }, [searchValue]);
 
   // Fetch recent searches
   useEffect(() => {
     const fetchRecentSearches = async () => {
-      const userId = 1; // Mock user ID
+      // check if user is logged in
+      if (!userId) {
+        setRecentSearches([]);
+        setShowRecentSearches(false);
+        return;
+      }
       try {
         const response = await fetch(
           `${API_BASE_URL}/api/users/${userId}/search-histories`
@@ -93,6 +116,7 @@ export default function HomePage() {
         }
         const data = await response.json();
         setRecentSearches(data);
+        setShowRecentSearches(true);
       } catch (error) {
         console.error("Error fetching recent searches:", error);
         setErrorMessage(
@@ -102,7 +126,7 @@ export default function HomePage() {
     };
 
     fetchRecentSearches();
-  }, []);
+  }, [userId]);
 
   // updateIngredientsPerRow function
   useEffect(() => {
@@ -161,14 +185,11 @@ export default function HomePage() {
   const handleSearch = async () => {
     setErrorMessage("");
     setIsLoading(true);
-    // const userId = getUserId();
-    const userId = 1; // Mock user ID
     try {
       const requestBody = {
         ingredients: selectedIngredients,
         user_id: userId,
       };
-      console.log("requestBody", requestBody);
       const response = await fetch(`${API_BASE_URL}/api/recipes`, {
         method: "POST",
         headers: {
@@ -176,7 +197,6 @@ export default function HomePage() {
         },
         body: JSON.stringify(requestBody),
       });
-      console.log("response", response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -204,9 +224,6 @@ export default function HomePage() {
   const handleLoadMore = async () => {
     if (loadMoreCount < 2) {
       setIsLoading(true);
-
-      const userId = 1; // Mock user ID
-
       try {
         const existingRecipeNames = recipes.map((recipe) => recipe.name);
         const requestBody = {
@@ -309,8 +326,16 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Loading spinner */}
-      {isLoading && <Loading />}
+      {/* Loading spinner overlay */}
+      {isLoading && (
+        <div
+          className={`fixed inset-0 z-50 flex justify-center items-center bg-white bg-opacity-50 ${
+            isLoading ? "" : "hidden"
+          }`}
+        >
+          <Loading />
+        </div>
+      )}
 
       {/* Recent searches */}
       {showRecentSearches && (

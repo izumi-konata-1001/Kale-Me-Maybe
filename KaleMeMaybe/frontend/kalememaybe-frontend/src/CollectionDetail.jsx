@@ -131,7 +131,7 @@ export default function CollectionDetail() {
             <div className="flex flex-col xs:flex-row justify-end space-x-2 w-full">
               {/* close button */}
               <svg
-                onClick={() => toggle()}
+                onClick={toggle}
                 className="cursor-pointer"
                 width="50px"
                 height="50px"
@@ -170,7 +170,7 @@ export default function CollectionDetail() {
                   Batch Management
                 </a>
                 <a
-                  href="#"
+                  onClick={handleRenameOpen}
                   className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
                 >
                   Rename

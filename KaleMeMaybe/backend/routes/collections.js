@@ -48,7 +48,7 @@ router.post("/:userid/:id", async function (req, res) {
     }
 
     try {
-        const result = await addRecipeToCollection(userId, collectionId, recipeId);
+        const result = await collectionDao.addRecipeToCollection(userId, collectionId, recipeId);
 
         if (result.success) {
             res.status(200).json({ message: "Recipe successfully added to collection." });

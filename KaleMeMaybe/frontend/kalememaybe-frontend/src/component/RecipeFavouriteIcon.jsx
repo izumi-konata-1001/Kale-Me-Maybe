@@ -4,7 +4,7 @@ import NewCollectionModal from "./NewCollectionModal.jsx";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
-const RecipeFavouriteIcon = ({ recipe }) => {
+const RecipeFavouriteIcon = ({ recipeId }) => {
   const [showModal, setShowModal] = useState(false);
   const [showNewCollectionModal, setShowNewCollectionModal] = useState(false);
   const [collections, setCollections] = useState([]);
@@ -36,7 +36,7 @@ const RecipeFavouriteIcon = ({ recipe }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ recipeId: recipe.id }),
+          body: JSON.stringify({ recipeId: recipeId }),
         }
       );
 

@@ -18,12 +18,19 @@ async function getAllRecipes(userId) {
   }
 }
 
-async function retrieveRecipeById(id) {
+async function retrieveRecipeById(userid, id) {
   const db = await dbPromise;
 
   const recipe = await db.get(`select * from recipe where id=${id}`);
 
-  return recipe;
+  const favoriteCheck = await db.get(`
+      SELECT * FROM collection_recipe 
+      WHERE recipe_id = ? AND collection_id IN (
+        SELECT id FROM collection WHERE user_id = ?
+      )
+    `, [id, userid]);
+
+  return {isFavorited: favoriteCheck ? true : false, recipe: recipe};
 }
 
 // insert new generated recipe into recipe table and search history table

@@ -61,4 +61,24 @@ router.post("/:userid/:id", async function (req, res) {
     }
 })
 
+router.put("/:userid/:id", async function (req, res) {
+    const userId = req.params.userid;
+    const collectionId = req.params.id;
+    const newName = req.body.name;
+
+    try {
+        const result = await collectionDao.renameCollection(userId, collectionId, newName);
+
+        if (result.success) {
+            res.status(200).json({ message: "Renamed collection." });
+        } else {
+            res.status(400).json({ error: "Failed to rename collection." });
+        }
+    } catch (error) {
+        console.error("Error renaming collection: ", error);
+        res.status(500).json({ error: error.message });
+    }
+
+})
+
 module.exports = router;

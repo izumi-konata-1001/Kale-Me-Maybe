@@ -125,7 +125,7 @@ export default function Favorites() {
           </div>
         ))}
       </div>
-      {modalOpen && <NewCollectionModal onClose={() => closeModal()} />}
+      {modalOpen && <NewCollectionModal onClose={closeModal} />}
       {searchOpen && <SearchModal onClose={closeModal} />}
     </div>
   );

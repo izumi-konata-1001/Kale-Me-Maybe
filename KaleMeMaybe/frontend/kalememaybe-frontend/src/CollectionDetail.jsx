@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import RecipeGrid from "./discoverPageComponents/recipeContainerComponents/RecipeGrid";
 import ConfirmDeleteModal from "./component/ConfirmDeleteModal";
+import RenameCollectionModal from "./component/RenameCollectionModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -12,6 +13,7 @@ export default function CollectionDetail() {
   const [msg, setMsg] = useState("");
   const [isManageOpen, setManageOpen] = useState(false);
   const [isWarningOpen, setWarningOpen] = useState(false);
+  const [isRenameOpen, setRenameOpen] = useState(false);
   const [failMsg, setFailMsg] = useState("");
   const navigate = useNavigate();
 
@@ -26,6 +28,16 @@ export default function CollectionDetail() {
     setWarningOpen(false);
     document.body.classList.remove("body-no-scroll");
   };
+
+  const handleRenameOpen = () => {
+    setRenameOpen(true);
+    document.body.classList.add("body-no-scroll");
+  }
+
+  const handleRenameClose = () => {
+    setRenameOpen(false);
+    document.body.classList.remove("body-no-scroll");
+  }
 
   // delete this collection
   const handleDeleteCollection = async () => {
@@ -158,7 +170,7 @@ export default function CollectionDetail() {
                   Batch Management
                 </a>
                 <a
-                  href="#"
+                  onClick={handleRenameOpen}
                   className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
                 >
                   Rename
@@ -200,6 +212,14 @@ export default function CollectionDetail() {
           onClose={handleWarningClose}
           onDelete={handleDeleteCollection}
           failMsg={failMsg}
+        />
+      )}
+
+      {/* modal for renaming collections */}
+      {isRenameOpen && (
+        <RenameCollectionModal
+          onClose={handleRenameClose}
+          onRename={newName => setName(newName)}
         />
       )}
     </div>

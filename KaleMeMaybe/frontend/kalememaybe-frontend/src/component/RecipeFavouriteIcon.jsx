@@ -111,7 +111,7 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
             toggleModal();
             fetchData();
           }}
-          className="w-6 h-6 text-green-dark cursor-pointer"
+          className="w-6 h-6 text-green-dark cursor-pointer hover:fill-current duration-100"
           viewBox="0 0 20 20"
           fill="none"
           style={{ stroke: "currentColor", strokeWidth: "2" }}

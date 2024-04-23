@@ -38,4 +38,27 @@ router.delete("/:userid/:id", async function (req, res) {
     }
 })
 
+router.post("/:userid/:id", async function (req, res) {
+    const userId = req.params.userid;
+    const collectionId = req.params.id;
+    const recipeId = req.body.recipeId;
+
+    if (!recipeId) {
+        return res.status(400).json({ error: "Missing recipeId in request body." });
+    }
+
+    try {
+        const result = await collectionDao.addRecipeToCollection(userId, collectionId, recipeId);
+
+        if (result.success) {
+            res.status(200).json({ message: "Recipe successfully added to collection." });
+        } else {
+            res.status(400).json({ error: "Failed to add recipe to collection." });
+        }
+    } catch (error) {
+        console.error("Error adding recipe to collection: ", error);
+        res.status(500).json({ error: error.message });
+    }
+})
+
 module.exports = router;

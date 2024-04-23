@@ -60,10 +60,12 @@ router.post("/recipes", async (req, res) => {
 // get recipe by id
 router.get("/recipe/:id", async (req, res) => {
   const { id } = req.params;
+  const userid = req.headers['userid'];
+
   try {
-    const recipe = await retrieveRecipeById(id);
-    if (recipe) {
-      res.status(200).json(recipe);
+    const result = await retrieveRecipeById(userid, id);
+    if (result && result.recipe) {
+      res.status(200).json(result);
     } else {
       res.status(404).json({ error: "Recipe not found" });
     }

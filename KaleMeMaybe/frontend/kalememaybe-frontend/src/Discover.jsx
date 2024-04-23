@@ -49,6 +49,7 @@ const Discover = () => {
 
   return (
     <div className="recipes-scrollable max-h-screen overflow-y-auto w-full">
+
       <div className="flex flex-col items-center justify-center pt-5 pb-2">
         <h1 className="title">Pantry</h1>
         <h3 className="text-1xl font-mono pt-2 pb-3">Explore the Green Gastronomy</h3>

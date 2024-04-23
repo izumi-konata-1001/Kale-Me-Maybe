@@ -7,7 +7,7 @@ const RecipeImageWithBorder = ({recipe}) => {
         <div className="bg-transparent rounded-xl shadow-lg flex justify-center items-center" style={{ width: '270px', height: '270px' }}>
             <img src={imagePath}
                 alt={recipe.name}
-                className="object-cover border border-green-dark border-4 rounded-xl h-full w-full" // Make the image fill its container
+                className="object-cover border border-green-dark border-4 rounded-xl h-full w-full hover:border-green-light cursor-pointer" // Make the image fill its container
             />
         </div>
     );

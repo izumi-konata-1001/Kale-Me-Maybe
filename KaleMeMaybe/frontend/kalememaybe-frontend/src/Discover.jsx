@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import RecipesContainer from './discoverPageComponents/RecipesContainer';
 import { AuthContext } from './contexts/AuthProvider';
+import { Loading } from "./component/Loading.jsx";
 
 const Discover = () => {
   const [recipes, setRecipes] = useState([]);
@@ -43,6 +44,11 @@ const Discover = () => {
     setDirection(newDirection);
     console.log(`sort: ${sortOption}, direction: ${newDirection}`);
   };
+
+  if (!recipes)
+  {
+    return <Loading />
+  }
 
   return (
     <div className="recipes-scrollable max-h-screen overflow-y-auto w-full">

@@ -7,6 +7,8 @@ export default {
   ],
   theme: {
     extend: {
+      opacity: ['active'],
+      backgroundColor: ['active'],
       colors: {
         'green-dark': '#97c279',
         'green-light': '#eef7d6',

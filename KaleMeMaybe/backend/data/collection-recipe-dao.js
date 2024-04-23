@@ -69,8 +69,55 @@ async function deleteCollection (userId, collectionId) {
   }
 }
 
+async function addRecipeToCollection (userId, collectionId, recipeId) {
+  try {
+    const db = await dbPromise;
+
+    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    if (!userCheck) {
+      throw new Error("User does not exist");
+    }
+
+    // Check if the collection exists and belongs to the user
+    const collectionCheck = await db.get(SQL`
+      SELECT * FROM collection 
+      WHERE id = ${collectionId} AND user_id = ${userId}
+    `);
+    if (!collectionCheck) {
+      throw new Error("Collection does not exist or does not belong to the user");
+    }
+
+    // Check if the recipe exists
+    const recipeCheck = await db.get(SQL`
+      SELECT * FROM recipe 
+      WHERE id = ${recipeId}
+    `);
+    if (!recipeCheck) {
+      throw new Error("Recipe does not exist");
+    }
+
+    // Insert the recipe into the collection
+    const insertResult = await db.run(SQL`
+      INSERT INTO collection_recipe (collection_id, recipe_id)
+      VALUES (${collectionId}, ${recipeId})
+    `);
+
+    if (insertResult.lastID) {
+      console.log("Recipe added to collection successfully");
+      return { success: true, message: "Recipe added to collection successfully" };
+    } else {
+      throw new Error("Failed to add the recipe to the collection");
+    }
+
+  } catch (error) {
+    console.error("Error adding to collection: ", error);
+    throw error;
+  }
+}
+
 // Export functions.
 module.exports = {
   retriveCollection,
   deleteCollection,
+  addRecipeToCollection,
 };

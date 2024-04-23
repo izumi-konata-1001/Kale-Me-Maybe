@@ -18,7 +18,10 @@ const gpt_image_model = process.env.DALL_E_MODEL;
 const gpt_image_size = process.env.DALL_E_IMAGE_SIZE;
 
 // call gpt api to generate recipe with ingredients
-async function generateRecipeWithIngredients(ingredients, existing_recipe_name) {
+async function generateRecipeWithIngredients(
+  ingredients,
+  existing_recipe_name
+) {
   // Create prompt for GPT
   let prompt = `
   Create a detailed vegetarian recipe using these ingredients: ${ingredients.join(
@@ -32,7 +35,9 @@ async function generateRecipeWithIngredients(ingredients, existing_recipe_name) 
 
   // check if existing recipe name is provided
   if (existing_recipe_name && existing_recipe_name.length > 0) {
-    prompt += ` The recipe name should not be ${existing_recipe_name.join(",")}.`;
+    prompt += ` The recipe name should not be ${existing_recipe_name.join(
+      ","
+    )}.`;
   }
 
   try {
@@ -62,7 +67,11 @@ async function generateRecipeImage(recipe) {
 
   const recipeName = recipe.recipe_name;
 
-  const prompt = `Create an image for a vegetarian recipe using data from the recipe: ${recipe}.`;
+  const prompt = `Create a visually appealing and appetising image of a vegetarian dish called "${recipeName}". 
+  The image should prominently feature the final cooked dish, showcasing its colours and textures in a way that looks delicious and inviting.
+  Use the details from the recipe data: ${recipe}.
+`;
+
   try {
     const response = await openai.images.generate({
       model: gpt_image_model,

@@ -111,7 +111,8 @@ CREATE TABLE browsing_history (
     recipe_id INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe (id)
+    FOREIGN KEY (recipe_id) REFERENCES recipe (id),
+    UNIQUE(user_id, recipe_id)
 );
 
 CREATE TABLE score (

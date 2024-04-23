@@ -1,7 +1,7 @@
 import RecipeDifficulty  from "./recipeInfoComponents/RecipeDifficulty";
-import TestFavouriteIcon from "../../../../../component/TestFavouriteIcon.jsx";
 import RecipeScoreIcon from "../../../../../component/RecipeScoreIcon.jsx";
 import RecipeTimeConsume from "./recipeInfoComponents/RecipeTimeConsume";
+import RecipeFavouriteIcon from "../../../../../component/RecipeFavouriteIcon.jsx";
 
 import { useContext } from 'react';
 import { AuthContext } from '../../../../../contexts/AuthProvider.jsx';
@@ -21,7 +21,7 @@ const RecipeInfo = ({recipe}) => {
                 <RecipeScoreIcon recipeId={recipeId}/>
             </div>
             <div className="pl-3 whitespace-nowrap">
-                {userId && <TestFavouriteIcon recipe={recipe}/>}
+                {userId && <RecipeFavouriteIcon recipeId={recipe.id} isFavorited={recipe.favouriteState}/>}
             </div>
         </div>
     );

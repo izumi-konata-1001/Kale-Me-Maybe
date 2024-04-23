@@ -33,7 +33,7 @@ const TestFavouriteIcon = ({ recipe }) => {
         <div className="flex justify-end">
             <svg
                 onClick={toggleLike}
-                className={`w-6 h-6 cursor-pointer ${like ? 'text-green-dark fill-current' : 'text-green-dark'}`}
+                className={`w-6 h-6 cursor-pointer hover:fill-current duration-100 ${like ? 'text-green-dark fill-current' : 'text-green-dark'}`}
                 viewBox="0 0 20 20"
                 fill={like ? "currentColor" : "none"} 
                 style={{

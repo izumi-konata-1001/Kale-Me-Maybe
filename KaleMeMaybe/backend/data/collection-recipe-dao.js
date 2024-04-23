@@ -115,9 +115,48 @@ async function addRecipeToCollection (userId, collectionId, recipeId) {
   }
 }
 
+async function renameCollection (userId, collectionId, newName) {
+  try {
+    const db = await dbPromise;
+
+    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    if (!userCheck) {
+      throw new Error("User does not exist");
+    }
+
+    // Check if the collection exists and belongs to the user
+    const collectionCheck = await db.get(SQL`
+      SELECT * FROM collection 
+      WHERE id = ${collectionId} AND user_id = ${userId}
+    `);
+    if (!collectionCheck) {
+      throw new Error("Collection does not exist or does not belong to the user");
+    }
+
+    // Update the collection name
+    const updateResult = await db.run(SQL`
+      UPDATE collection
+      SET name = ${newName}
+      WHERE id = ${collectionId} AND user_id = ${userId}
+    `);
+
+    if (updateResult.changes === 0) {
+      throw new Error("No changes made to the collection");
+    }
+
+    return { success: true, message: "Collection renamed successfully." };
+
+
+  } catch (error) {
+    console.error("Error renaming collection in database: ", error);
+    throw error;
+  }
+}
+
 // Export functions.
 module.exports = {
   retriveCollection,
   deleteCollection,
   addRecipeToCollection,
+  renameCollection,
 };

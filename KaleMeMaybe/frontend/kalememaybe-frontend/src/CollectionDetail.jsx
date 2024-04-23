@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import RecipeGrid from "./discoverPageComponents/recipeContainerComponents/RecipeGrid";
 import ConfirmDeleteModal from "./component/ConfirmDeleteModal";
+import RenameCollectionModal from "./component/RenameCollectionModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -12,6 +13,7 @@ export default function CollectionDetail() {
   const [msg, setMsg] = useState("");
   const [isManageOpen, setManageOpen] = useState(false);
   const [isWarningOpen, setWarningOpen] = useState(false);
+  const [isRenameOpen, setRenameOpen] = useState(false);
   const [failMsg, setFailMsg] = useState("");
   const navigate = useNavigate();
 
@@ -26,6 +28,16 @@ export default function CollectionDetail() {
     setWarningOpen(false);
     document.body.classList.remove("body-no-scroll");
   };
+
+  const handleRenameOpen = () => {
+    setRenameOpen(true);
+    document.body.classList.add("body-no-scroll");
+  }
+
+  const handleRenameClose = () => {
+    setRenameOpen(false);
+    document.body.classList.remove("body-no-scroll");
+  }
 
   // delete this collection
   const handleDeleteCollection = async () => {
@@ -119,7 +131,7 @@ export default function CollectionDetail() {
             <div className="flex flex-col xs:flex-row justify-end space-x-2 w-full">
               {/* close button */}
               <svg
-                onClick={toggle}
+                onClick={() => toggle()}
                 className="cursor-pointer"
                 width="50px"
                 height="50px"
@@ -200,6 +212,14 @@ export default function CollectionDetail() {
           onClose={handleWarningClose}
           onDelete={handleDeleteCollection}
           failMsg={failMsg}
+        />
+      )}
+
+      {/* modal for renaming collections */}
+      {isRenameOpen && (
+        <RenameCollectionModal
+          onClose={handleRenameClose}
+          onRename={newName => setName(newName)}
         />
       )}
     </div>

@@ -670,3 +670,10 @@ Add asparagus to the skillet and stir-fry for 3-4 minutes until slightly tender 
 Return tofu to the skillet and add soy sauce. Stir well to combine and cook for another 2-3 minutes.
 Season with salt and pepper to taste.
 Serve hot over cooked rice. Enjoy your delicious asparagus and tofu stir-fry!', '/generated-images/Asparagus_and_Tofu_Stir-Fry_20240422.png', '2024-04-22 11:05:42', '2024-04-22 11:05:42');
+
+INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
+(1, 15),
+(1, 16),
+(1, 17),
+(1, 18),
+(1, 19);

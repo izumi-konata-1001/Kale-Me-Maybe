@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 const RecipeDescription = ({ recipe }) => {
 
     const truncateText = (text) => {
@@ -9,8 +10,18 @@ const RecipeDescription = ({ recipe }) => {
     };
 
     return (
-        <div>
-            <p>{truncateText(recipe.method)}</p>
+        <div className="pt-1">
+            <p className="flex justify-end">
+                <Link to={`/recipe/${recipe.id}`} className="text-dark hover:text-green-dark transition-colors duration-200 cursor-pointer">
+                    {truncateText(recipe.method)}
+                </Link>
+            </p>
+
+            <div className="flex justify-end">
+                <span className="text-green-dark hover:text-green-light transition-colors duration-200 cursor-pointer">
+                    <Link to={`/recipe/${recipe.id}`}>read more...</Link>
+                </span>
+            </div>
         </div>
     );
 }

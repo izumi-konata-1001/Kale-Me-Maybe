@@ -1,14 +1,20 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import NewCollectionModal from "./NewCollectionModal.jsx";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
-const RecipeFavouriteIcon = ({ recipeId }) => {
+const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
   const [showModal, setShowModal] = useState(false);
   const [showNewCollectionModal, setShowNewCollectionModal] = useState(false);
   const [collections, setCollections] = useState([]);
+  const [isFavoritedState, setIsFavorited] = useState(isFavorited);
+
   const { userId } = useContext(AuthContext);
+
+  useEffect(() => {
+    setIsFavorited(isFavorited);
+  }, [isFavorited]);
 
   const fetchData = async () => {
     try {
@@ -41,12 +47,34 @@ const RecipeFavouriteIcon = ({ recipeId }) => {
       );
 
       if (response.ok) {
+        setIsFavorited(true);
+        setShowModal(false);
         alert("Added to the collection.");
       } else {
         alert("Fail to collect. Please try again.");
       }
     } catch (error) {
       console.error("Error occurred:", error);
+    }
+  };
+
+  const removeRecipeFromFavourites = async (recipeId) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/discover/remove-favourite",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: userId, recipeId }),
+        }
+      );
+      if (response.ok) {
+        setIsFavorited(false);
+      }
+    } catch (error) {
+      console.error("Error removing recipe from favourites:", error);
     }
   };
 
@@ -64,24 +92,37 @@ const RecipeFavouriteIcon = ({ recipeId }) => {
 
   return (
     <div className="flex justify-end m-4">
-      <svg
-        onClick={() => {
-          toggleModal();
-          fetchData();
-        }}
-        className={`w-6 h-6 cursor-pointer ${
-          showModal ? "text-green-dark fill-current" : "text-green-dark"
-        }`}
-        viewBox="0 0 20 20"
-        fill={showModal ? "currentColor" : "none"}
-        style={{ stroke: "currentColor", strokeWidth: "2" }}
-      >
-        <path
-          fillRule="evenodd"
-          d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
-          clipRule="evenodd"
-        />
-      </svg>
+      {isFavoritedState ? (
+        <svg
+          onClick={() => removeRecipeFromFavourites(recipeId)}
+          className="w-6 h-6 text-green-dark fill-current cursor-pointer"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
+            clipRule="evenodd"
+          />
+        </svg>
+      ) : (
+        <svg
+          onClick={() => {
+            toggleModal();
+            fetchData();
+          }}
+          className="w-6 h-6 text-green-dark cursor-pointer"
+          viewBox="0 0 20 20"
+          fill="none"
+          style={{ stroke: "currentColor", strokeWidth: "2" }}
+        >
+          <path
+            fillRule="evenodd"
+            d="M3.172 5.172a4 4 0 015.656 0L10 6.344l1.172-1.172a4 4 0 115.656 5.656L10 17.5l-6.828-6.828a4 4 0 010-5.656z"
+            clipRule="evenodd"
+          />
+        </svg>
+      )}
       {showModal && (
         <SimpleModal
           onClose={toggleModal}

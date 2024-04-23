@@ -10,7 +10,6 @@ const TestFavouriteIcon = ({ recipe }) => {
         const newLikeState = !like; 
         setLike(newLikeState);
 
-        // 如果从收藏变为取消收藏，则发送删除收藏食谱的请求
         if (newLikeState === false) {
             removeRecipeFromFavourites(recipe.id);
         }

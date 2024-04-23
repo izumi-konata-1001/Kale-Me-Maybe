@@ -107,7 +107,7 @@ export default function RecipeDetails() {
           {recipe.difficulty}
         </span>
         <RecipeScoreIcon recipeId={id} />
-        {authToken && <RecipeFavouriteIcon recipeId={id} />}
+        {authToken && <RecipeFavouriteIcon recipeId={id} isFavorited={isFavorited}/>}
       </div>
       <div className={"flex justify-center p-5"}>
         <img

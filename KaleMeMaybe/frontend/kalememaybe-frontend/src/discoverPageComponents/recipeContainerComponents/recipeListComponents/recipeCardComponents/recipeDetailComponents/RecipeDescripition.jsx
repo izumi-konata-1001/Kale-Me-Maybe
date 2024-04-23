@@ -16,12 +16,6 @@ const RecipeDescription = ({ recipe }) => {
                     {truncateText(recipe.method)}
                 </Link>
             </p>
-
-            <div className="flex justify-end">
-                <span className="text-green-dark hover:text-green-light transition-colors duration-200 cursor-pointer">
-                    <Link to={`/recipe/${recipe.id}`}>read more...</Link>
-                </span>
-            </div>
         </div>
     );
 }

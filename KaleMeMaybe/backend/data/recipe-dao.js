@@ -4,16 +4,17 @@ const dbPromise = require("./database.js");
 async function getAllRecipes(userId) {
   const db = await dbPromise;
   try {
-      const query = `
-        SELECT r.*, 
-               EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
-        FROM recipe r
-      `;
-      const recipes = await db.all(query, [userId]);
-      return recipes;
+    const query = `
+      SELECT r.*, 
+             EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
+      FROM recipe r
+      ORDER BY r.created_at DESC
+    `;
+    const recipes = await db.all(query, [userId]);
+    return recipes;
   } catch (err) {
-      console.error('Failed to retrieve recipes from the database:', err);
-      throw err;
+    console.error('Failed to retrieve recipes from the database:', err);
+    throw err;
   }
 }
 

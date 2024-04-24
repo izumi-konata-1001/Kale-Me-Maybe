@@ -46,8 +46,8 @@ export default function BrowsingHistory() {
 
 
     return <div className="flex flex-col items-center BrowsingHistory">
-        <h1 className="title absolute" style={{ top: '15%' }}>Browsing History</h1>
-        <div className="mt-24 mb-9 search-div">
+        <h1 className="title">Browsing History</h1>
+        <div className="mt-10 mb-10 search-div">
             <input type="text" name="search" className="border border-gray-300 border-r-0 h-10 bg-gray-100 rounded-tl-md rounded-bl-md search" placeholder="  Search for your specify recipes..." style={{ width: '600px' }} onChange={e => setSearchValue(e.target.value)} />
             <button className="mt-4 bg-green-dark text-white px-4 py-2 rounded-md rounded-tl-none rounded-bl-none btt" onClick={() => { setFilter(searchValue); console.log(filterValue) }} >Search</button>
         </div>

@@ -42,21 +42,21 @@ function Header() {
               {authToken?"": <NavLink to="sign-up" className="text-white bg-green-dark hover:bg-lime-800 font-medium rounded-lg text-sm px-5 py-3 text-center">
                   Sign Up &rarr;
               </NavLink>}
-              <NavLink to="profile" className="flex flex-col items-center text-center">
+              {authToken && <NavLink to="profile" className="flex flex-col items-center text-center">
                   <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
                   <p className="text-xs mt-1">{userName||'UserOne'}</p>
-              </NavLink>
-              <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl dark:text-white"} />
+              </NavLink>}
+              <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl hover:text-green-dark dark:text-white"} />
           </div>
 
           <nav className="hidden md:flex items-stretch justify-between">
               <div className="flex items-center justify-evenly w-2/5">
-                  <NavLink to="." className="nav nav-link">
+                  <NavLink to="." className={({ isActive }) => isActive ? "nav nav-link bg-green-dark text-white font-bold" : "nav nav-link"}>
         <span className="flex items-center gap-2">
           <FaHome /> Home
         </span>
                   </NavLink>
-                  <NavLink to="discover" className="nav nav-link">
+                  <NavLink to="discover" className={({ isActive }) => isActive ? "nav nav-link bg-green-dark text-white font-bold" : "nav nav-link"}>
         <span className="flex items-center gap-2">
           <FaCompass /> Discover
         </span>
@@ -69,12 +69,12 @@ function Header() {
               </div>
 
               <div className="flex items-center justify-evenly w-2/5">
-                  <NavLink to="browsing-history" className="nav nav-link">
+                  <NavLink to="browsing-history" className={({ isActive }) => isActive ? "nav nav-link bg-green-dark text-white font-bold" : "nav nav-link"}>
         <span className="flex items-center gap-2">
           <FaHourglassStart /> Browsing History
         </span>
                   </NavLink>
-      {authToken && (<NavLink to="favorites" className="nav nav-link">
+      {authToken && (<NavLink to="favorites" className={({ isActive }) => isActive ? "nav nav-link bg-green-dark text-white font-bold" : "nav nav-link"}>
         <span className="flex items-center gap-2">
           <FaStar /> Saved recipes
         </span>
@@ -89,7 +89,7 @@ function Header() {
                                 </button>
                               </Link>
                               <NavLink to="profile" className="flex flex-col items-center text-center">
-                                  <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full" />
+                                  <img src={userAvatar || '/logo.png'} alt="Profile" className="w-10 h-10 rounded-full hover:border-2 hover:border-green-dark" />
                                   <p className="text-xs mt-1">{userName||'UserOne'}</p>
                               </NavLink>
                           </>
@@ -103,7 +103,7 @@ function Header() {
                               </NavLink>
                           </>
                       )}
-                      <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl dark:text-white"}  />
+                      <BsFillMoonStarsFill onClick={()=>setDarkMode(!darkMode)} className={"cursor-pointer text-xl hover:text-green-dark dark:text-white"}  />
                   </div>
 
               </div>
@@ -129,19 +129,19 @@ function Footer() {
     const { authToken } = useContext(AuthContext);
     return (
         <footer className="text-white text-center bg-green-dark w-full">
-                <div className="flex justify-between px-10 py-5">
-                    <div className="mb-6">
+                <div className="flex justify-between px-10">
+                    <div>
                         <h5 className="uppercase font-bold mb-2.5 underline">Company Info</h5>
                         <p><Link to="/about" className={"hover:underline"}>About us</Link></p>
                         <p><Link to="/contact" className={"hover:underline"} >Contact</Link></p>
                     </div>
-                    <div className="mb-6">
+                    <div>
                         <h5 className="uppercase font-bold mb-2.5 underline">Quick Links</h5>
                         <p><Link to="/discover" className={"hover:underline"}>Discover</Link></p>
                         {authToken&&<p><Link to="/favorites" className={"hover:underline"}>Saved recipes</Link></p>}
                         <p><Link to="/browsing-history" className={"hover:underline"}>Browsing history</Link></p>
                     </div>
-                    <div className="mb-6">
+                    <div>
                         <h5 className="uppercase font-bold mb-2.5 underline">Follow us</h5>
                         <span className={"flex items-center p-1 cursor-pointer hover:underline"}><AiFillInstagram/><p>Instagram</p></span>
                         <span className={"flex items-center p-1 hover:underline"}><AiFillFacebook/><p>Facebook</p></span>

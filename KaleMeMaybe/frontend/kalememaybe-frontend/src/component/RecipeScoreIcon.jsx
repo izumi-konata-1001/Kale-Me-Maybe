@@ -2,20 +2,19 @@ import{ useEffect, useState } from 'react';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
-const RecipeScoreIcon = ({ recipeId }) => {
-    const [averageScore, setAverageScore] = useState('Loading...');
+const RecipeScoreIcon = ({ recipeId,averageScore,onSetAverageScore }) => {
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/api/score/average/${recipeId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.averageScore !== undefined) {
-                    setAverageScore(data.averageScore);
+                    onSetAverageScore(data.averageScore);
                 } else {
-                    setAverageScore('n/a');
+                    onSetAverageScore('n/a');
                 }
             })
-            .catch(() => setAverageScore('Error'));
+            .catch(() => onSetAverageScore('Error'));
     }, [recipeId]);
 
     return(

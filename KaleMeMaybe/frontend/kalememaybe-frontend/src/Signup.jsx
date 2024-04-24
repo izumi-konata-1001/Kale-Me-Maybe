@@ -50,9 +50,10 @@ export default function Signup(){
 
     return (
     // backgroung image setting
-    <div className="singInUp-background relative min-h-screen bg-cover bg-center flex justify-center items-center">
+    <div className="singInUp-background relative min-h-screen bg-cover bg-center flex flex-col justify-center items-center">
         <div className="absolute inset-0 bg-green-200 opacity-50" style={{ background: 'radial-gradient(closest-side at center, rgba(201, 240, 156, 1), transparent)' }}></div>
         {/* sign up form */}
+        <img src="/logo.png" className="max-w-20 opacity-0"></img>
         <div className="py-2 
         px-12 sm:px-28 md:px-36 xl:px-40 
         max-w-xs sm:max-w-md md:max-w-lg xl:max-w-xl 

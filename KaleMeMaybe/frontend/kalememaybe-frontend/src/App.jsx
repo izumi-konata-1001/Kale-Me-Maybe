@@ -23,7 +23,7 @@ function App() {
       <Route path="/login-success" element={<LoginSuccess />} />
       <Route path="/" element={<PageLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="recipe/:id" element={<RecipeDetails/>} />
+        <Route path="recipe/:id" element={<RecipeDetails />} />
         <Route path="discover" element={<Discover />} />
         <Route path="browsing-history" element={<BrowsingHistory />} />
         <Route path="favorites" element={<Favorites/>} />

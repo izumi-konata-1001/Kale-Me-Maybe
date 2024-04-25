@@ -7,14 +7,15 @@
     .nav {
         @apply block py-2 px-3 md:p-0 font-semibold text-green-dark hover:text-white;
     }
-    .title{
+
+    .title {
         @apply text-5xl font-bold text-lime-900 text-center p-5
     }
 }
 
 
 .main-background {
-    background-image: url("/left-bg.png"),url("/right-bg.png");
+    background-image: url("/left-bg.png"), url("/right-bg.png");
     background-position: left top, right top;
     background-repeat: no-repeat, no-repeat;
     background-size: 15% 100%, 15% 100%;
@@ -30,7 +31,7 @@
 }
 
 .singInUp-background {
-    position: relative; 
+    position: relative;
     height: 100vh;
     width: 100%;
     display: flex;
@@ -80,7 +81,8 @@
 }
 
 .circle {
-    width: 100px;  /* Adjust size of the circle */
+    width: 100px;
+    /* Adjust size of the circle */
     height: 100px;
     position: relative;
     animation: spin 4s linear infinite;
@@ -89,20 +91,28 @@
 .emoji {
     position: absolute;
     font-size: 2rem;
-    width: 100%;  /* Full width of the circle container */
+    width: 100%;
+    /* Full width of the circle container */
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     transform-origin: 50% 50%;
-    transform: rotate(calc(360deg / 4 * var(--i))) translateX(50px);  /* Adjust translation based on circle radius */
+    transform: rotate(calc(360deg / 4 * var(--i))) translateX(50px);
+    /* Adjust translation based on circle radius */
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
+/* remove background image on smaller screens */
 @media (max-width: 768px) {
     .main-background {
         background-image: none;

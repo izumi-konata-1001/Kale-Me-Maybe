@@ -32,12 +32,12 @@ export default function CollectionDetail() {
   const handleRenameOpen = () => {
     setRenameOpen(true);
     document.body.classList.add("body-no-scroll");
-  }
+  };
 
   const handleRenameClose = () => {
     setRenameOpen(false);
     document.body.classList.remove("body-no-scroll");
-  }
+  };
 
   // delete this collection
   const handleDeleteCollection = async () => {
@@ -112,19 +112,19 @@ export default function CollectionDetail() {
         <div className="flex flex-col xs:flex-row justify-between w-full">
           {/* back to favorites */}
           <div className="w-full">
-          <svg
-            onClick={backToFavorites}
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            className="text-green-dark cursor-pointer"
-            height="50"
-            width="50"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M48 256c0 114.87 93.13 208 208 208s208-93.13 208-208S370.87 48 256 48 48 141.13 48 256zm212.65-91.36a16 16 0 0 1 .09 22.63L208.42 240H342a16 16 0 0 1 0 32H208.42l52.32 52.73A16 16 0 1 1 238 347.27l-79.39-80a16 16 0 0 1 0-22.54l79.39-80a16 16 0 0 1 22.65-.09z"></path>
-          </svg>
+            <svg
+              onClick={backToFavorites}
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 512 512"
+              className="text-green-dark cursor-pointer"
+              height="50"
+              width="50"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M48 256c0 114.87 93.13 208 208 208s208-93.13 208-208S370.87 48 256 48 48 141.13 48 256zm212.65-91.36a16 16 0 0 1 .09 22.63L208.42 240H342a16 16 0 0 1 0 32H208.42l52.32 52.73A16 16 0 1 1 238 347.27l-79.39-80a16 16 0 0 1 0-22.54l79.39-80a16 16 0 0 1 22.65-.09z"></path>
+            </svg>
           </div>
 
           {isManageOpen ? (
@@ -192,7 +192,7 @@ export default function CollectionDetail() {
               Manage
             </button>
           )}
-      </div>
+        </div>
 
         {/* recipes */}
         {msg ? (
@@ -219,7 +219,7 @@ export default function CollectionDetail() {
       {isRenameOpen && (
         <RenameCollectionModal
           onClose={handleRenameClose}
-          onRename={newName => setName(newName)}
+          onRename={(newName) => setName(newName)}
         />
       )}
     </div>

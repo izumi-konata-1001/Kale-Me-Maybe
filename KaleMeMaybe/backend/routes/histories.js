@@ -4,7 +4,6 @@ const broDao = require("../data/browsing-history-dao.js");
 let recipeIds = [];
 
 router.get("/browsing", async (req, res) => {
-
   const user_id = req.query.id;
   try {
     const history = await broDao.getBrowsingHistory(user_id);
@@ -31,8 +30,8 @@ router.post("/updatebro", async (req, res) => {
       res.status(200).json(local_recipes);
     }
   } catch (error) {
-    console.error('Error processing request:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

@@ -4,29 +4,29 @@ import { useLocalStorage } from "./useLocalStorage";
 export const AuthContext = React.createContext({});
 
 export function AuthProvider({ children }) {
-    const [authToken, setAuthToken] = useLocalStorage("authToken", null);
-    const [userName, setUserName] = useLocalStorage("userName", null);
-    const [userAvatar, setuserAvatar] = useLocalStorage("userAvatar", null);
-    const [userId, setUserId] = useLocalStorage("userId", null);
+  const [authToken, setAuthToken] = useLocalStorage("authToken", null);
+  const [userName, setUserName] = useLocalStorage("userName", null);
+  const [userAvatar, setuserAvatar] = useLocalStorage("userAvatar", null);
+  const [userId, setUserId] = useLocalStorage("userId", null);
 
-    const updateUser = (name, avatar) => {
-        setUserName(name);
-        setuserAvatar(avatar);
-    }
+  const updateUser = (name, avatar) => {
+    setUserName(name);
+    setuserAvatar(avatar);
+  };
 
-    const login = (token, name, avatar,id) => {
-        setAuthToken(token);
-        setUserName(name);
-        setuserAvatar(avatar);
-        setUserId(id);
-    };
+  const login = (token, name, avatar, id) => {
+    setAuthToken(token);
+    setUserName(name);
+    setuserAvatar(avatar);
+    setUserId(id);
+  };
 
-    const logout = () => {
-        setAuthToken(null);
-        setUserName(null);
-        setuserAvatar(null)
-        setUserId(null);
-    };
+  const logout = () => {
+    setAuthToken(null);
+    setUserName(null);
+    setuserAvatar(null);
+    setUserId(null);
+  };
 
   const context = {
     authToken,
@@ -35,8 +35,10 @@ export function AuthProvider({ children }) {
     userId,
     updateUser,
     login,
-    logout
+    logout,
   };
 
-  return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+  );
 }

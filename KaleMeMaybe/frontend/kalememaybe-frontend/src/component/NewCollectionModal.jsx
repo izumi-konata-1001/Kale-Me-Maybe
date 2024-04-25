@@ -12,7 +12,7 @@ export default function NewCollectionModal({ onClose }) {
   const [inputValue, setValue] = useState("");
   const [showErrorMsg, setShow] = useState(false);
 
-  const { userId } = useContext(AuthContext)
+  const { userId } = useContext(AuthContext);
 
   const handleInputChange = (event) => {
     setValue(event.target.value);

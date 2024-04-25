@@ -37,7 +37,9 @@ const SelectedIngredientsBar = ({
             onChange={onIngredientSearchChange}
             className="flex-1 p-1  bg-gray-100 focus:outline-none"
             placeholder={
-              ingredients.length === 0 ? "What’s in your fridge?" : ""
+              ingredients.length === 0
+                ? "What’s in your fridge?"
+                : "Add by typing..."
             }
           />
         </div>

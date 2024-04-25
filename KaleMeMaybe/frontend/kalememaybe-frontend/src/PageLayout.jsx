@@ -7,7 +7,8 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { AuthContext } from "./contexts/AuthProvider";
 
 export default function PageLayout() {
-  return (
+
+    return (
     <React.Fragment>
       <Header />
       <main className={"main-background"}>
@@ -21,9 +22,8 @@ export default function PageLayout() {
 }
 
 function Header() {
-  const { authToken, userAvatar, userName, logout } = useContext(AuthContext);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+    const { authToken, userAvatar, userName, logout,darkMode,setDarkMode } = useContext(AuthContext);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -235,60 +235,32 @@ function Header() {
 }
 
 function Footer() {
-  const { authToken } = useContext(AuthContext);
-  return (
-    <footer className="text-white text-center bg-green-dark w-full">
-      <div className="flex justify-between px-10">
-        <div>
-          <h5 className="uppercase font-bold mb-2.5 underline">Company Info</h5>
-          <p>
-            <Link to="/about" className={"hover:underline"}>
-              About us
-            </Link>
-          </p>
-          <p>
-            <Link to="/contact" className={"hover:underline"}>
-              Contact
-            </Link>
-          </p>
+    const { authToken,darkMode} = useContext(AuthContext);
+    return (
+        <div className={darkMode?"dark":""} >
+        <footer className="text-white text-center bg-green-dark w-full dark:bg-green-light dark:text-black">
+                <div className="flex justify-between px-10">
+                    <div>
+                        <h5 className="uppercase font-bold mb-2.5 underline">Company Info</h5>
+                        <p><Link to="/about" className={"hover:underline"}>About us</Link></p>
+                        <p><Link to="/contact" className={"hover:underline"} >Contact</Link></p>
+                    </div>
+                    <div>
+                        <h5 className="uppercase font-bold mb-2.5 underline">Quick Links</h5>
+                        <p><Link to="/discover" className={"hover:underline"}>Discover</Link></p>
+                        {authToken&&<p><Link to="/favorites" className={"hover:underline"}>Saved recipes</Link></p>}
+                        <p><Link to="/browsing-history" className={"hover:underline"}>Browsing history</Link></p>
+                    </div>
+                    <div>
+                        <h5 className="uppercase font-bold mb-2.5 underline">Follow us</h5>
+                        <span className={"flex items-center p-1 cursor-pointer hover:underline"}><AiFillInstagram/><p>Instagram</p></span>
+                        <span className={"flex items-center p-1 hover:underline"}><AiFillFacebook/><p>Facebook</p></span>
+                    </div>
+                </div>
+            <div className="text-black text-center p-4 bg-green-light dark:bg-black dark:text-green-light">
+                Copyright ©️ Kale Me Maybe, {new Date().getFullYear()}
+            </div>
+        </footer>
         </div>
-        <div>
-          <h5 className="uppercase font-bold mb-2.5 underline">Quick Links</h5>
-          <p>
-            <Link to="/discover" className={"hover:underline"}>
-              Discover
-            </Link>
-          </p>
-          {authToken && (
-            <p>
-              <Link to="/favorites" className={"hover:underline"}>
-                Saved recipes
-              </Link>
-            </p>
-          )}
-          <p>
-            <Link to="/browsing-history" className={"hover:underline"}>
-              Browsing history
-            </Link>
-          </p>
-        </div>
-        <div>
-          <h5 className="uppercase font-bold mb-2.5 underline">Follow us</h5>
-          <span
-            className={"flex items-center p-1 cursor-pointer hover:underline"}
-          >
-            <AiFillInstagram />
-            <p>Instagram</p>
-          </span>
-          <span className={"flex items-center p-1 hover:underline"}>
-            <AiFillFacebook />
-            <p>Facebook</p>
-          </span>
-        </div>
-      </div>
-      <div className="text-black text-center p-4 bg-green-light">
-        Copyright ©️ Kale Me Maybe, {new Date().getFullYear()}
-      </div>
-    </footer>
-  );
+    );
 }

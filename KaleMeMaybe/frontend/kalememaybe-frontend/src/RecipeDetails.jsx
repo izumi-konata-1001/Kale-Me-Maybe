@@ -9,165 +9,116 @@ import RecipeScoreIcon from "./component/RecipeScoreIcon.jsx";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 export default function RecipeDetails() {
-  const { authToken, userId } = useContext(AuthContext);
+    const { authToken, userId } = useContext(AuthContext);
 
-  const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-  const [error, setError] = useState(null);
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [averageScore, setAverageScore] = useState("Loading...");
+    const { id } = useParams();
+    const [recipe, setRecipe] = useState(null);
+    const [error, setError] = useState(null);
+    const [isFavorited, setIsFavorited] = useState(false);
 
-  const fetchRecipeDetails = () => {
-    const url = `${API_BASE_URL}/api/recipe/${id}`;
+    useEffect(() => {
+        const url = `${API_BASE_URL}/api/recipe/${id}`;
 
-    fetch(url, {
-      headers: {
-        userid: userId,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setRecipe(data.recipe);
-        setIsFavorited(data.isFavorited);
-      })
-      .catch((error) => {
-        console.error("Error fetching recipe:", error);
-        setError(error.message);
-      });
-  };
+        fetch(url, {
+            headers: {
+                userid: userId,
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.recipe) {
+                    setRecipe(data.recipe);
+                }
+                if (data && typeof data.isFavorited !== 'undefined') {
+                    setIsFavorited(data.isFavorited);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching recipe:", error);
+                setError(error.message);
+            });
+    }, [id]);
 
-  useEffect(() => {
-    fetchRecipeDetails();
-  }, [id, userId]);
+    //Send data to update the browsing history table - Zishuai
+    useEffect(() => {
+        const dataToSend = userId
+            ? { userId, recipeId: id, hasUserId: true }
+            : { recipeId: id, hasUserId: false };
 
-  const fetchAverageScore = () => {
-    fetch(`${API_BASE_URL}/api/score/average/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.averageScore !== undefined) {
-          setAverageScore(data.averageScore.toString()); // Ensure you handle the data type appropriately
-        } else {
-          setAverageScore("n/a");
-        }
-      })
-      .catch(() => {
-        setAverageScore("Error");
-      });
-  };
+        fetch(`${API_BASE_URL}/api/updatebro/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to update user and recipe info");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("User and recipe info updated successfully", data);
+            })
+            .catch((error) => {
+                console.error("Error updating user and recipe info:", error);
+            });
+    }, [id, userId]);
 
-  const handleRatingSubmit = (rating, userId, id, authToken) => {
-    fetch(`${API_BASE_URL}/api/score`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`, // Assuming you use Bearer tokens
-      },
-      body: JSON.stringify({
-        userId: userId,
-        recipeId: id,
-        score: rating,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to update rating");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Rating updated successfully", data);
-        fetchAverageScore();
-      })
-      .catch((error) => {
-        console.error("Error updating rating:", error);
-      });
-  };
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
-  //Send data to update the browsing history table - Zishuai
-  useEffect(() => {
-    const dataToSend = userId
-      ? { userId, recipeId: id, hasUserId: true }
-      : { recipeId: id, hasUserId: false };
+    if (!recipe) {
+        return <Loading />;
+    }
 
-    fetch(`${API_BASE_URL}/api/updatebro/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to update user and recipe info");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("User and recipe info updated successfully", data);
-      })
-      .catch((error) => {
-        console.error("Error updating user and recipe info:", error);
-      });
-  }, [id, userId, averageScore]);
+    const ingredients = recipe.ingredient_details;
+    const ingredientsArray = ingredients
+        .replace(/[.]/g, "")
+        .split("\n")
+        .map((item) => item.trim());
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+    const method = recipe.method;
+    const methodArray = method.split("\n").map((item) => item.trim());
+    const imagePath = `${API_BASE_URL}/${recipe.image_path}`;
 
-  if (!recipe) {
-    return <Loading />;
-  }
+    return (
+        <div className={"pb-10"}>
+            <div className="relative flex justify-center items-center w-full">
+                <BackButton />
+                <h1 className="text-5xl font-bold p-5 text-lime-900 mx-10 text-center">
+                    {recipe.name}
+                </h1>
+            </div>
 
-  const ingredients = recipe.ingredient_details;
-  const ingredientsArray = ingredients
-    .replace(/[.]/g, "")
-    .split("\n")
-    .map((item) => item.trim());
-
-  const method = recipe.method;
-  const methodArray = method.split("\n").map((item) => item.trim());
-  const imagePath = `${API_BASE_URL}/${recipe.image_path}`;
-
-  return (
-    <div className={"pb-10"}>
-      <div className="relative flex justify-center items-center w-full">
-        <BackButton />
-        <h1 className="text-5xl font-bold p-5 text-lime-900 mx-10 text-center">
-          {recipe.name}
-        </h1>
-      </div>
-
-      <div className="flex justify-center gap-5 items-center">
+            <div className="flex justify-center gap-5 items-center">
         <span className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">
           {recipe.time_consuming}
         </span>
-        <span className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">
+                <span className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">
           {recipe.difficulty}
         </span>
-        <RecipeScoreIcon
-          recipeId={id}
-          averageScore={averageScore}
-          onSetAverageScore={setAverageScore}
-        />
-        {authToken && (
-          <RecipeFavouriteIcon recipeId={id} isFavorited={isFavorited} />
-        )}
-      </div>
-      <div className={"flex justify-center p-5"}>
-        <img
-          src={imagePath || "/pasta.png"}
-          alt={recipe.name}
-          className="rounded-lg h-64 w-auto"
-        />
-      </div>
+
+                <RecipeScoreIcon recipeId={id} />
+                {authToken && <RecipeFavouriteIcon recipeId={id} isFavorited={isFavorited}/>}
+            </div>
+            <div className={"flex justify-center p-5"}>
+                <img
+                    src={imagePath || "/pasta.png"}
+                    alt={recipe.name}
+                    className="rounded-lg h-64 w-auto"
+                />
+            </div>
 
       <div className="flex flex-col items-start md:flex-row md:justify-center">
-        <div className="w-full md:w-1/3 h-auto border-r-2 border-none md:border-dotted border-green-dark p-2">
+        <div className="w-full md:w-1/3 h-auto border-r-2 border-none md:border-dotted border-green-dark p-2 overflow-y-auto max-h-96">
           <h1 className="text-xl font-bold text-lime-900">Ingredients</h1>
           <ul className="list-disc list-inside">
             {ingredientsArray.map((ingredient, index) => (
@@ -176,7 +127,7 @@ export default function RecipeDetails() {
           </ul>
         </div>
 
-        <div className="w-full md:w-1/3 p-2 md:pl-5">
+        <div className="w-full md:w-1/3 p-2 md:pl-5 overflow-y-auto max-h-96">
           <h1 className="text-xl font-bold text-lime-900">Method</h1>
           <ol className="list-decimal list-inside">
             {methodArray.map((method, index) => (
@@ -186,34 +137,71 @@ export default function RecipeDetails() {
         </div>
       </div>
 
-      {authToken && (
-        <div className={"flex flex-col items-center justify-center p-5"}>
-          <StarRating
-            userId={userId}
-            recipeId={id}
-            authToken={authToken}
-            onSetRating={handleRatingSubmit}
-          />
-          <p className={"text-green-dark"}>How do you like this recipe?</p>
+            {authToken && (
+                <div className={"flex flex-col items-center justify-center p-5"}>
+                    <StarRating
+                        userId={userId}
+                        recipeId={id}
+                        authToken={authToken}
+                        onSetRating={handleRatingSubmit}
+                    />
+                    <p className={"text-green-dark"}>How do you like this recipe?</p>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export function BackButton() {
-  let navigate = useNavigate();
+    let navigate = useNavigate();
 
-  function handleGoBack() {
-    navigate(-1);
-  }
+    function handleGoBack() {
+        navigate(-1);
+    }
 
-  return (
-    <button
-      onClick={handleGoBack}
-      className="absolute left-0 flex justify-center items-center"
-    >
-      <IoArrowBackCircle size={50} className={"text-green-dark"} />
-    </button>
-  );
+    return (
+        <button
+            onClick={handleGoBack}
+            className="absolute left-0 flex justify-center items-center"
+        >
+            <IoArrowBackCircle size={50} className={"text-green-dark"} />
+        </button>
+    );
 }
+
+const handleRatingSubmit = (rating, userId, id, authToken) => {
+    console.log(
+        "Rating:",
+        rating,
+        "UserID:",
+        userId,
+        "RecipeID:",
+        id,
+        "AuthToken:",
+        authToken
+    );
+    fetch(`${API_BASE_URL}/api/score`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`, // Assuming you use Bearer tokens
+        },
+        body: JSON.stringify({
+            userId: userId,
+            recipeId: id,
+            score: rating,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to update rating");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Rating updated successfully", data);
+        })
+        .catch((error) => {
+            console.error("Error updating rating:", error);
+        });
+};

@@ -34,7 +34,10 @@ router.post("/recipes", async (req, res) => {
 
   try {
     // generate recipe with ingredients
-    const recipeData = await generateRecipeWithIngredients(ingredientNames, existing_recipe_name);
+    const recipeData = await generateRecipeWithIngredients(
+      ingredientNames,
+      existing_recipe_name
+    );
     const recipe = JSON.parse(recipeData);
 
     // generate image using the recipe name
@@ -60,7 +63,7 @@ router.post("/recipes", async (req, res) => {
 // get recipe by id
 router.get("/recipe/:id", async (req, res) => {
   const { id } = req.params;
-  const userid = req.headers['userid'];
+  const userid = req.headers["userid"];
 
   try {
     const result = await retrieveRecipeById(userid, id);

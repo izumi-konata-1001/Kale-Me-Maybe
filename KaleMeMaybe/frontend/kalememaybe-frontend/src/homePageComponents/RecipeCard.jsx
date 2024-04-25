@@ -1,4 +1,3 @@
-// RecipeCard.jsx
 import React from "react";
 
 const RecipeCard = ({ recipe, onClick }) => {

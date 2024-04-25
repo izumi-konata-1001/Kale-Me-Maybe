@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 // Or maybe use PropTypes later
 
 // Collection component
-
 export default function Collection({
   collectionName,
   recipeCount,

@@ -15,8 +15,7 @@ export default function RecipeDetails() {
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [averageScore, setAverageScore] = useState('Loading...');
-
+  const [averageScore, setAverageScore] = useState("Loading...");
 
   const fetchRecipeDetails = () => {
     const url = `${API_BASE_URL}/api/recipe/${id}`;
@@ -26,41 +25,39 @@ export default function RecipeDetails() {
         userid: userId,
       },
     })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then(data => {
-          setRecipe(data.recipe);
-          setIsFavorited(data.isFavorited);
-        })
-        .catch(error => {
-          console.error("Error fetching recipe:", error);
-          setError(error.message);
-        });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setRecipe(data.recipe);
+        setIsFavorited(data.isFavorited);
+      })
+      .catch((error) => {
+        console.error("Error fetching recipe:", error);
+        setError(error.message);
+      });
   };
-
 
   useEffect(() => {
     fetchRecipeDetails();
   }, [id, userId]);
 
-
   const fetchAverageScore = () => {
     fetch(`${API_BASE_URL}/api/score/average/${id}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.averageScore !== undefined) {
-            setAverageScore(data.averageScore.toString());  // Ensure you handle the data type appropriately
-          } else {
-            setAverageScore('n/a');
-          }
-        })
-        .catch(() => {
-          setAverageScore('Error');
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.averageScore !== undefined) {
+          setAverageScore(data.averageScore.toString()); // Ensure you handle the data type appropriately
+        } else {
+          setAverageScore("n/a");
+        }
+      })
+      .catch(() => {
+        setAverageScore("Error");
+      });
   };
 
   const handleRatingSubmit = (rating, userId, id, authToken) => {
@@ -76,19 +73,19 @@ export default function RecipeDetails() {
         score: rating,
       }),
     })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update rating");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Rating updated successfully", data);
-          fetchAverageScore();
-        })
-        .catch((error) => {
-          console.error("Error updating rating:", error);
-        });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update rating");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Rating updated successfully", data);
+        fetchAverageScore();
+      })
+      .catch((error) => {
+        console.error("Error updating rating:", error);
+      });
   };
 
   //Send data to update the browsing history table - Zishuai
@@ -116,7 +113,7 @@ export default function RecipeDetails() {
       .catch((error) => {
         console.error("Error updating user and recipe info:", error);
       });
-  }, [id, userId,averageScore]);
+  }, [id, userId, averageScore]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -152,8 +149,14 @@ export default function RecipeDetails() {
         <span className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">
           {recipe.difficulty}
         </span>
-        <RecipeScoreIcon recipeId={id} averageScore={averageScore} onSetAverageScore={setAverageScore} />
-        {authToken && <RecipeFavouriteIcon recipeId={id} isFavorited={isFavorited}/>}
+        <RecipeScoreIcon
+          recipeId={id}
+          averageScore={averageScore}
+          onSetAverageScore={setAverageScore}
+        />
+        {authToken && (
+          <RecipeFavouriteIcon recipeId={id} isFavorited={isFavorited} />
+        )}
       </div>
       <div className={"flex justify-center p-5"}>
         <img
@@ -214,7 +217,3 @@ export function BackButton() {
     </button>
   );
 }
-
-
-
-

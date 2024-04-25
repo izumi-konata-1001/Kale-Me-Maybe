@@ -11,7 +11,7 @@ export default function SearchModal({ onClose }) {
   const setSearchResults = useStore((state) => state.setSearchResults);
   const navigate = useNavigate();
 
-  const { userId } = useContext(AuthContext)
+  const { userId } = useContext(AuthContext);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);

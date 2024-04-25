@@ -5,45 +5,47 @@ import { useState } from "react";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 export default function RenameCollectionModal({ onClose, onRename }) {
-    const [inputValue, setValue] = useState("");
-    const [showErrorMsg, setShow] = useState(false);
-    const { userid, id } = useParams();
+  const [inputValue, setValue] = useState("");
+  const [showErrorMsg, setShow] = useState(false);
+  const { userid, id } = useParams();
 
-
-    const handleInputChange = (event) => {
-        setValue(event.target.value);
-        if (showErrorMsg) {
-          setShow(false);
-        }
-      };
-
-    const renameCollection = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/collection/${userid}/${id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ name: inputValue }),
-            });
-      
-            if (response.ok) {
-                onRename(inputValue);
-              onClose(true);
-            } else {
-              setShow(true);
-            }
-          } catch (error) {
-            console.error("Error occurred while creating a collection: ", error);
-            onClose(false);
-            setShow(true);
-          }
+  const handleInputChange = (event) => {
+    setValue(event.target.value);
+    if (showErrorMsg) {
+      setShow(false);
     }
+  };
 
-    return ReactDOM.createPortal(
-        <>
-        <div
+  const renameCollection = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/collection/${userid}/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: inputValue }),
+        }
+      );
+
+      if (response.ok) {
+        onRename(inputValue);
+        onClose(true);
+      } else {
+        setShow(true);
+      }
+    } catch (error) {
+      console.error("Error occurred while creating a collection: ", error);
+      onClose(false);
+      setShow(true);
+    }
+  };
+
+  return ReactDOM.createPortal(
+    <>
+      <div
         onClick={() => onClose(false)}
         className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"
       ></div>
@@ -104,7 +106,7 @@ export default function RenameCollectionModal({ onClose, onRename }) {
           )}
         </div>
       </div>
-        </>,
+    </>,
     document.body
-    )
+  );
 }

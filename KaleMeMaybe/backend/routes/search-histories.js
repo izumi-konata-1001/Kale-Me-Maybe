@@ -20,8 +20,8 @@ function uniqueSearches(searches, limit) {
   searches.forEach((search) => {
     const ingredientsKey = search.ingredients
       .map((ing) => ing.id)
-      .sort((a, b) => a - b) 
-      .join("|"); 
+      .sort((a, b) => a - b)
+      .join("|");
     if (!unique.has(ingredientsKey)) {
       unique.set(ingredientsKey, search);
     }

@@ -5,7 +5,9 @@ async function retriveCollection(userId, collectionId) {
   try {
     const db = await dbPromise;
 
-    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    const userCheck = await db.get(
+      SQL`SELECT * FROM user WHERE id = ${userId}`
+    );
     if (!userCheck) {
       throw new Error("User does not exist");
     }
@@ -25,18 +27,20 @@ async function retriveCollection(userId, collectionId) {
             WHERE cr.collection_id = ${collectionId}
         `);
 
-    return {name: collectionCheck.name, recipes: recipes};
+    return { name: collectionCheck.name, recipes: recipes };
   } catch (error) {
     console.error("Error retrieving collection: ", error);
     throw error;
   }
 }
 
-async function deleteCollection (userId, collectionId) {
+async function deleteCollection(userId, collectionId) {
   try {
     const db = await dbPromise;
 
-    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    const userCheck = await db.get(
+      SQL`SELECT * FROM user WHERE id = ${userId}`
+    );
     if (!userCheck) {
       throw new Error("User does not exist");
     }
@@ -61,19 +65,19 @@ async function deleteCollection (userId, collectionId) {
     } else {
       console.log("No collection was deleted.");
     }
-    
-
   } catch (error) {
     console.error("Error retrieving collection: ", error);
     throw error;
   }
 }
 
-async function addRecipeToCollection (userId, collectionId, recipeId) {
+async function addRecipeToCollection(userId, collectionId, recipeId) {
   try {
     const db = await dbPromise;
 
-    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    const userCheck = await db.get(
+      SQL`SELECT * FROM user WHERE id = ${userId}`
+    );
     if (!userCheck) {
       throw new Error("User does not exist");
     }
@@ -84,7 +88,9 @@ async function addRecipeToCollection (userId, collectionId, recipeId) {
       WHERE id = ${collectionId} AND user_id = ${userId}
     `);
     if (!collectionCheck) {
-      throw new Error("Collection does not exist or does not belong to the user");
+      throw new Error(
+        "Collection does not exist or does not belong to the user"
+      );
     }
 
     // Check if the recipe exists
@@ -104,22 +110,26 @@ async function addRecipeToCollection (userId, collectionId, recipeId) {
 
     if (insertResult.lastID) {
       console.log("Recipe added to collection successfully");
-      return { success: true, message: "Recipe added to collection successfully" };
+      return {
+        success: true,
+        message: "Recipe added to collection successfully",
+      };
     } else {
       throw new Error("Failed to add the recipe to the collection");
     }
-
   } catch (error) {
     console.error("Error adding to collection: ", error);
     throw error;
   }
 }
 
-async function renameCollection (userId, collectionId, newName) {
+async function renameCollection(userId, collectionId, newName) {
   try {
     const db = await dbPromise;
 
-    const userCheck = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
+    const userCheck = await db.get(
+      SQL`SELECT * FROM user WHERE id = ${userId}`
+    );
     if (!userCheck) {
       throw new Error("User does not exist");
     }
@@ -130,7 +140,9 @@ async function renameCollection (userId, collectionId, newName) {
       WHERE id = ${collectionId} AND user_id = ${userId}
     `);
     if (!collectionCheck) {
-      throw new Error("Collection does not exist or does not belong to the user");
+      throw new Error(
+        "Collection does not exist or does not belong to the user"
+      );
     }
 
     // Update the collection name
@@ -145,8 +157,6 @@ async function renameCollection (userId, collectionId, newName) {
     }
 
     return { success: true, message: "Collection renamed successfully." };
-
-
   } catch (error) {
     console.error("Error renaming collection in database: ", error);
     throw error;

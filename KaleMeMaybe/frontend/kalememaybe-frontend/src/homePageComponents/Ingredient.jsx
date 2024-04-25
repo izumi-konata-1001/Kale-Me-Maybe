@@ -12,7 +12,7 @@ const Ingredient = ({ ingredient, onSelectIngredient, image }) => {
       <img
         src={image}
         alt={ingredient.name}
-        className="object-contain h-full w-full" // This will prevent stretching
+        className="object-contain h-full w-full" // prevent stretching
         style={{ maxWidth: "76%", maxHeight: "76%" }} // Slightly smaller than the container
       />
       <span className="text-sm font-medium">{ingredient.name}</span>

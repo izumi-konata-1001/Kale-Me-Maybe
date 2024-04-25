@@ -1,7 +1,7 @@
 import React from "react";
 
 function ErrorBanner({ message }) {
-  if (!message) return null; 
+  if (!message) return null;
 
   return (
     <div

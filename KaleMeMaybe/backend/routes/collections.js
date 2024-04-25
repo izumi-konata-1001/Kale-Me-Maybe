@@ -5,80 +5,93 @@ const collectionDao = require("../data/collection-recipe-dao.js");
 router.use(express.json());
 
 router.get("/:userid/:id", async function (req, res) {
-    const userId = req.params.userid;
-    const collectionId = req.params.id;
+  const userId = req.params.userid;
+  const collectionId = req.params.id;
 
-    try {
-        const result = await collectionDao.retriveCollection(userId, collectionId);
+  try {
+    const result = await collectionDao.retriveCollection(userId, collectionId);
 
-        if (result.recipes.length === 0) {
-            res.json({ message: "There is nothing here yet." , name: result.name});
-        } else {
-            res.json(result);
-        }
-    } catch (error) {
-        res.status(500).send({ error: "Failed to retrive collection details. " });
+    if (result.recipes.length === 0) {
+      res.json({ message: "There is nothing here yet.", name: result.name });
+    } else {
+      res.json(result);
     }
-})
+  } catch (error) {
+    res.status(500).send({ error: "Failed to retrive collection details. " });
+  }
+});
 
 router.delete("/:userid/:id", async function (req, res) {
-    const userId = req.params.userid;
-    const collectionId = req.params.id;
+  const userId = req.params.userid;
+  const collectionId = req.params.id;
 
-    try {
-        const result = await collectionDao.deleteCollection(userId, collectionId);
+  try {
+    const result = await collectionDao.deleteCollection(userId, collectionId);
 
-        if (result > 0) {
-            res.json({success: "Collection deleted successfully."});
-        } else {
-            res.status(404).json({fail: "No collection found to delete or collection does not belong to the user."});
-        }
-    } catch (error) {
-        res.status(500).send({ error: "Failed to delete the collection. " });
+    if (result > 0) {
+      res.json({ success: "Collection deleted successfully." });
+    } else {
+      res
+        .status(404)
+        .json({
+          fail: "No collection found to delete or collection does not belong to the user.",
+        });
     }
-})
+  } catch (error) {
+    res.status(500).send({ error: "Failed to delete the collection. " });
+  }
+});
 
 router.post("/:userid/:id", async function (req, res) {
-    const userId = req.params.userid;
-    const collectionId = req.params.id;
-    const recipeId = req.body.recipeId;
+  const userId = req.params.userid;
+  const collectionId = req.params.id;
+  const recipeId = req.body.recipeId;
 
-    if (!recipeId) {
-        return res.status(400).json({ error: "Missing recipeId in request body." });
+  if (!recipeId) {
+    return res.status(400).json({ error: "Missing recipeId in request body." });
+  }
+
+  try {
+    const result = await collectionDao.addRecipeToCollection(
+      userId,
+      collectionId,
+      recipeId
+    );
+
+    if (result.success) {
+      res
+        .status(200)
+        .json({ message: "Recipe successfully added to collection." });
+    } else {
+      res.status(400).json({ error: "Failed to add recipe to collection." });
     }
-
-    try {
-        const result = await collectionDao.addRecipeToCollection(userId, collectionId, recipeId);
-
-        if (result.success) {
-            res.status(200).json({ message: "Recipe successfully added to collection." });
-        } else {
-            res.status(400).json({ error: "Failed to add recipe to collection." });
-        }
-    } catch (error) {
-        console.error("Error adding recipe to collection: ", error);
-        res.status(500).json({ error: error.message });
-    }
-})
+  } catch (error) {
+    console.error("Error adding recipe to collection: ", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 router.put("/:userid/:id", async function (req, res) {
-    const userId = req.params.userid;
-    const collectionId = req.params.id;
-    const newName = req.body.name;
+  const userId = req.params.userid;
+  const collectionId = req.params.id;
+  const newName = req.body.name;
 
-    try {
-        const result = await collectionDao.renameCollection(userId, collectionId, newName);
+  try {
+    const result = await collectionDao.renameCollection(
+      userId,
+      collectionId,
+      newName
+    );
 
-        if (result.success) {
-            res.status(200).json({ message: "Renamed collection." });
-        } else {
-            res.status(400).json({ error: "Failed to rename collection." });
-        }
-    } catch (error) {
-        console.error("Error renaming collection: ", error);
-        res.status(500).json({ error: error.message });
+    if (result.success) {
+      res.status(200).json({ message: "Renamed collection." });
+    } else {
+      res.status(400).json({ error: "Failed to rename collection." });
     }
-
-})
+  } catch (error) {
+    console.error("Error renaming collection: ", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;

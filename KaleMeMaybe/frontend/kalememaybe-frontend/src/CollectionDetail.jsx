@@ -11,7 +11,6 @@ export default function CollectionDetail() {
   const [recipes, setRecipes] = useState([]);
   const [collectionName, setName] = useState("");
   const [msg, setMsg] = useState("");
-  const [isManageOpen, setManageOpen] = useState(false);
   const [isWarningOpen, setWarningOpen] = useState(false);
   const [isRenameOpen, setRenameOpen] = useState(false);
   const [failMsg, setFailMsg] = useState("");
@@ -20,11 +19,15 @@ export default function CollectionDetail() {
 
   const navigate = useNavigate();
 
-  const toggle = () => setManageOpen(!isManageOpen);
-
   const handleToggleBatchManage = () => {
-    setShowCheckboxes(!showCheckboxes);
-  };
+    setShowCheckboxes(prev => {
+        if (prev) {
+            setSelectedRecipes([]);
+        }
+        return !prev;
+    });
+};
+
 
   const handleToggleSelect = (recipeId) => {
     if (selectedRecipes.includes(recipeId)) {
@@ -155,7 +158,7 @@ export default function CollectionDetail() {
         {/* buttons */}
         <div className="flex flex-col xs:flex-row justify-between w-full">
           {/* back to favorites */}
-          <div className="w-full">
+          <div>
             <svg
               onClick={backToFavorites}
               stroke="currentColor"
@@ -171,84 +174,42 @@ export default function CollectionDetail() {
             </svg>
           </div>
 
-          {isManageOpen ? (
-            <div className="flex flex-col xs:flex-row justify-end space-x-2 w-full">
-              {/* close button */}
-              <svg
-                onClick={() => {
-                  toggle();
-                  setShowCheckboxes(false);
-                }}
-                className="cursor-pointer"
-                width="50px"
-                height="50px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          <div className="flex flex-col xs:flex-row justify-end space-x-2">
+            {/* button group for managing functions*/}
+            {selectedRecipes.length > 0 && showCheckboxes && (
+              <button
+                onClick={handleBatchDelete}
+                type="button"
+                className="bg-green-dark text-white font-bold py-1 px-3 rounded-[30%]"
               >
-                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <g id="Menu / Close_SM">
-                    {" "}
-                    <path
-                      id="Vector"
-                      d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16"
-                      stroke="#97C279"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>{" "}
-                  </g>{" "}
-                </g>
-              </svg>
-              {/* button group for managing functions*/}
-              <div className="inline-flex rounded-md w-full">
-                <a
-                  onClick={handleToggleBatchManage}
-                  aria-current="page"
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
-                >
-                  {showCheckboxes ? "Close Batch Manage" : "Batch Manage"}
-                </a>
-                <a
-                  onClick={handleRenameOpen}
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
-                >
-                  Rename
-                </a>
-                <a
-                  onClick={handleWarningOpen}
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
-                >
-                  Delete
-                </a>
-              </div>
+                Delete Selected
+              </button>
+            )}
 
-              {selectedRecipes.length > 0 && (
-                <button
-                  onClick={handleBatchDelete}
-                  type="button"
-                  className="bg-red-500 text-white font-bold py-1 px-3 rounded-[30px]"
-                >
-                  Delete Selected
-                </button>
-              )}
+            <div className="inline-flex rounded-md">
+              <button
+                onClick={handleToggleBatchManage}
+                type="button"
+                className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-green-dark focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
+              >
+                {showCheckboxes ? "Close Batch Manage" : "Batch Manage"}
+              </button>
+              <button
+                onClick={handleRenameOpen}
+                type="button"
+                className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-green-dark focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
+              >
+                Rename
+              </button>
+              <button
+                onClick={handleWarningOpen}
+                type="button"
+                className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-green-dark focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
+              >
+                Delete Collection
+              </button>
             </div>
-          ) : (
-            <button
-              onClick={toggle}
-              type="button"
-              className="bg-green-dark text-white font-bold py-1 px-3 rounded-[30px]"
-            >
-              Manage
-            </button>
-          )}
+          </div>
         </div>
 
         {/* recipes */}

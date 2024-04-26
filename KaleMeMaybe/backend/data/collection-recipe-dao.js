@@ -163,10 +163,34 @@ async function renameCollection(userId, collectionId, newName) {
   }
 }
 
+async function batchDeletion(userId, collectionId, recipeIds) {
+  try {
+    const db = await dbPromise;
+    await db.run("BEGIN TRANSACTION");
+
+    const stmt = await db.prepare(
+      "DELETE FROM collection_recipe WHERE collection_id = ? AND recipe_id = ? AND EXISTS (SELECT 1 FROM collection WHERE id = ? AND user_id = ?)"
+    );
+
+    for (const recipeId of recipeIds) {
+      await stmt.run(collectionId, recipeId, collectionId, userId);
+    }
+
+    await db.run("COMMIT");
+
+    console.log("Batch deletion successful.");
+  } catch (error) {
+    console.error("Failed to delete recipes from collection:", error);
+    await db.run("ROLLBACK");
+    throw error;
+  }
+}
+
 // Export functions.
 module.exports = {
   retriveCollection,
   deleteCollection,
   addRecipeToCollection,
   renameCollection,
+  batchDeletion,
 };

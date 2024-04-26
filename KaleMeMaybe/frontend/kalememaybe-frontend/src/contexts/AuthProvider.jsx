@@ -4,10 +4,12 @@ import { useLocalStorage } from "./useLocalStorage";
 export const AuthContext = React.createContext({});
 
 export function AuthProvider({ children }) {
-  const [authToken, setAuthToken] = useLocalStorage("authToken", null);
-  const [userName, setUserName] = useLocalStorage("userName", null);
-  const [userAvatar, setuserAvatar] = useLocalStorage("userAvatar", null);
-  const [userId, setUserId] = useLocalStorage("userId", null);
+
+    const [authToken, setAuthToken] = useLocalStorage("authToken", null);
+    const [userName, setUserName] = useLocalStorage("userName", null);
+    const [userAvatar, setuserAvatar] = useLocalStorage("userAvatar", null);
+    const [userId, setUserId] = useLocalStorage("userId", null);
+    const [darkMode, setDarkMode] =  useState(false);
 
   const updateUser = (name, avatar) => {
     setUserName(name);
@@ -36,6 +38,8 @@ export function AuthProvider({ children }) {
     updateUser,
     login,
     logout,
+    darkMode,
+    setDarkMode
   };
 
   return (

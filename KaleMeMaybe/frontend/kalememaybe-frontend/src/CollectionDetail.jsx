@@ -15,9 +15,24 @@ export default function CollectionDetail() {
   const [isWarningOpen, setWarningOpen] = useState(false);
   const [isRenameOpen, setRenameOpen] = useState(false);
   const [failMsg, setFailMsg] = useState("");
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [selectedRecipes, setSelectedRecipes] = useState([]);
+
   const navigate = useNavigate();
 
   const toggle = () => setManageOpen(!isManageOpen);
+
+  const handleToggleBatchManage = () => {
+    setShowCheckboxes(!showCheckboxes);
+  };
+
+  const handleToggleSelect = (recipeId) => {
+    if (selectedRecipes.includes(recipeId)) {
+      setSelectedRecipes(selectedRecipes.filter((id) => id !== recipeId));
+    } else {
+      setSelectedRecipes([...selectedRecipes, recipeId]);
+    }
+  };
 
   const handleWarningOpen = () => {
     setWarningOpen(true);
@@ -58,6 +73,35 @@ export default function CollectionDetail() {
         handleWarningClose();
         backToFavorites();
       } else {
+        setFailMsg(data.message);
+      }
+    } catch (error) {
+      console.error("Network error or server is unreachable: ", error);
+      setFailMsg("Network error or server is unreachable.");
+    }
+  };
+
+  // batch delete recipes
+  const handleBatchDelete = async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/collection/${userid}/${id}/batch`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ recipeIds: selectedRecipes }),
+        }
+      );
+
+      if (response.ok) {
+        setRecipes(
+          recipes.filter((recipe) => !selectedRecipes.includes(recipe.id))
+        );
+        setSelectedRecipes([]);
+      } else {
+        const data = await response.json();
         setFailMsg(data.message);
       }
     } catch (error) {
@@ -131,7 +175,10 @@ export default function CollectionDetail() {
             <div className="flex flex-col xs:flex-row justify-end space-x-2 w-full">
               {/* close button */}
               <svg
-                onClick={toggle}
+                onClick={() => {
+                  toggle();
+                  setShowCheckboxes(false);
+                }}
                 className="cursor-pointer"
                 width="50px"
                 height="50px"
@@ -163,11 +210,11 @@ export default function CollectionDetail() {
               {/* button group for managing functions*/}
               <div className="inline-flex rounded-md w-full">
                 <a
-                  href="#"
+                  onClick={handleToggleBatchManage}
                   aria-current="page"
                   className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-green-dark focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-green-dark dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-green-dark dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-green-dark"
                 >
-                  Batch Management
+                  {showCheckboxes ? "Close Batch Manage" : "Batch Manage"}
                 </a>
                 <a
                   onClick={handleRenameOpen}
@@ -182,6 +229,16 @@ export default function CollectionDetail() {
                   Delete
                 </a>
               </div>
+
+              {selectedRecipes.length > 0 && (
+                <button
+                  onClick={handleBatchDelete}
+                  type="button"
+                  className="bg-red-500 text-white font-bold py-1 px-3 rounded-[30px]"
+                >
+                  Delete Selected
+                </button>
+              )}
             </div>
           ) : (
             <button
@@ -201,7 +258,12 @@ export default function CollectionDetail() {
           </div>
         ) : (
           <div className="mt-8 flex flex-col w-full items-center justify-center">
-            <RecipeGrid recipes={recipes} />
+            <RecipeGrid
+              recipes={recipes}
+              onToggleSelect={handleToggleSelect}
+              selectedRecipes={selectedRecipes}
+              showCheckboxes={showCheckboxes}
+            />
           </div>
         )}
       </div>

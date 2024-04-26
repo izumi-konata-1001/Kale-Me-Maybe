@@ -31,11 +31,9 @@ router.delete("/:userid/:id", async function (req, res) {
     if (result > 0) {
       res.json({ success: "Collection deleted successfully." });
     } else {
-      res
-        .status(404)
-        .json({
-          fail: "No collection found to delete or collection does not belong to the user.",
-        });
+      res.status(404).json({
+        fail: "No collection found to delete or collection does not belong to the user.",
+      });
     }
   } catch (error) {
     res.status(500).send({ error: "Failed to delete the collection. " });
@@ -90,6 +88,21 @@ router.put("/:userid/:id", async function (req, res) {
     }
   } catch (error) {
     console.error("Error renaming collection: ", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.delete("/:userid/:id/batch", async function (req, res) {
+  const userId = req.params.userid;
+  const collectionId = req.params.id;
+  const recipeIds = req.body.recipeIds;
+
+  try {
+    await collectionDao.batchDeletion(userId, collectionId, recipeIds);
+
+    res.status(200).json({ message: "Batch deletion completed." });
+  } catch (error) {
+    console.error("Error ocurred while batch deletion: ", error);
     res.status(500).json({ error: error.message });
   }
 });

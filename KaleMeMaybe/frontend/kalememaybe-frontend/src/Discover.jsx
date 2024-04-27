@@ -3,6 +3,8 @@ import RecipesContainer from "./discoverPageComponents/RecipesContainer";
 import { AuthContext } from "./contexts/AuthProvider";
 import { Loading } from "./component/Loading.jsx";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
+
 const Discover = () => {
   const [recipes, setRecipes] = useState([]);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -12,7 +14,7 @@ const Discover = () => {
   const { userId } = useContext(AuthContext);
 
   useEffect(() => {
-    let url = "http://localhost:3000/api/discover";
+    let url = `${API_BASE_URL}/api/discover`;
     let queryParams = [];
 
     if (sort && direction) {

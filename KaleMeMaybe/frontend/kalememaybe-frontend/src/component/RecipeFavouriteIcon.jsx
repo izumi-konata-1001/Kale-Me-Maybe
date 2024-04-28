@@ -3,17 +3,19 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import NewCollectionModal from "./NewCollectionModal.jsx";
 import ToastMessage from "./ToastMessage.jsx";
+import useStore from "../store/store.js";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
   const [showModal, setShowModal] = useState(false);
   const [showNewCollectionModal, setShowNewCollectionModal] = useState(false);
-  const [collections, setCollections] = useState([]);
   const [isFavoritedState, setIsFavorited] = useState(isFavorited);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [flag, setFlag] = useState("");
+  const favorites = useStore((state) => state.favorites);
+  const setFavorites = useStore((state) => state.setFavorites);
 
   const { userId } = useContext(AuthContext);
 
@@ -39,7 +41,7 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        setCollections(data);
+        setFavorites(data);
       }
     } catch (error) {
       console.error("Error fetching collections: ", error);
@@ -133,7 +135,7 @@ const RecipeFavouriteIcon = ({ recipeId, isFavorited }) => {
         <SimpleModal
           onClose={toggleModal}
           onNewCollection={handleNewCollection}
-          collections={collections}
+          collections={favorites}
           addToCollection={addToCollection}
         />
       )}
@@ -164,7 +166,9 @@ const SimpleModal = ({
       ></div>
       <div className="rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4">
         <div className="flex justify-between items-center">
-          <label className="block text-xl font-bold text-green-dark">Add to Favorites</label>
+          <label className="block text-xl font-bold text-green-dark">
+            Add to Favorites
+          </label>
           <button onClick={onClose} className="text-red-500">
             <svg
               className="w-6 h-6"
@@ -181,18 +185,20 @@ const SimpleModal = ({
             </svg>
           </button>
         </div>
-        <ul className={"text-center flex flex-col"}>
-          {collections.map((collection, index) => (
-            <li key={index} className="py-2">
-              <button
-                className="block px-4 text-sm hover:bg-green-light w-full h-12 rounded"
-                onClick={() => addToCollection(collection.id)}
-              >
-                {collection.CollectionName}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="overflow-auto hide-scrollbar">
+          <ul className={"text-center flex flex-col"}>
+            {collections.map((collection, index) => (
+              <li key={index} className="py-2">
+                <button
+                  className="block px-4 text-sm hover:bg-green-light w-full h-12 rounded"
+                  onClick={() => addToCollection(collection.id)}
+                >
+                  {collection.CollectionName}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
         <button
           onClick={onNewCollection}
           className="mt-4 bg-green-dark hover:bg-green-light text-white hover:text-green-dark font-bold py-2 px-4 rounded"

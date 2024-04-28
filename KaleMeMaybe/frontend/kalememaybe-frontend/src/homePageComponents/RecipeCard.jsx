@@ -5,7 +5,7 @@ const RecipeCard = ({ recipe, onClick }) => {
 
   return (
     <div
-      className="max-w-sm mx-auto rounded-lg overflow-hidden shadow-lg my-6 bg-white text-center cursor-pointer"
+      className="max-w-sm mx-auto rounded-lg overflow-hidden shadow-lg my-8 bg-white text-center cursor-pointer"
       onClick={() => onClick(recipe.id)}
     >
       <div className="p-2">

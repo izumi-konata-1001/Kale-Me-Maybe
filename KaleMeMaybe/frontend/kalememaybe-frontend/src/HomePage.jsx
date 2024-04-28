@@ -318,7 +318,7 @@ export default function HomePage() {
           {loadMoreCount < 2 && (
             <button
               onClick={handleLoadMore}
-              className="absolute right-0 bottom-[-2.5rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
+              className="absolute right-0 bottom-[-0.5rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
               disabled={isLoading}
             >
               Load More

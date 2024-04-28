@@ -150,7 +150,7 @@ export default function CollectionDetail() {
 
   return (
     <div className="flex flex-col w-2/3 mb-10 absolute left-1/2 transform -translate-x-1/2">
-      <div className="pb-10 recipes-scrollable max-h-screen overflow-y-auto w-full">
+      <div className="pb-10 recipes-scrollable max-h-screen overflow-y-auto w-full hide-scrollbar">
         <div className="flex justify-center items-center pb-2">
           <h2 className="title">{collectionName}</h2>
         </div>
@@ -180,7 +180,7 @@ export default function CollectionDetail() {
               <button
                 onClick={handleBatchDelete}
                 type="button"
-                className="bg-green-dark text-white font-bold py-1 px-3 rounded-[30%]"
+                className="bg-green-dark text-white font-bold py-1 px-3 rounded-md"
               >
                 Delete Selected
               </button>
@@ -229,7 +229,7 @@ export default function CollectionDetail() {
         )}
       </div>
 
-      {/* modal for deleting collecrions */}
+      {/* modal for deleting collections */}
       {isWarningOpen && (
         <ConfirmDeleteModal
           onClose={handleWarningClose}

@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 const RecipeCard = ({ recipe, onToggleSelect, isSelected, showCheckboxes }) => {
   return (
-    <div className="block w-[270px] h-[360px]">
+    <div className="block w-[270px] h-[360px] relative">
       {showCheckboxes && (      
-        <div className="inline-flex items-center absolute">
+        <div className="inline-flex items-center absolute top-0 left-0">
           <label
             className="relative flex items-center p-3 rounded-full cursor-pointer"
           >

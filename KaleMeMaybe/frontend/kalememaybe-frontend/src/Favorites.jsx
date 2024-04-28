@@ -56,7 +56,7 @@ export default function Favorites() {
   }, []);
 
   return (
-    <div className="flex flex-col max-h-screen overflow-y-auto w-full">
+    <div className="flex flex-col max-h-screen overflow-y-auto w-full hide-scrollbar">
       <div className="pb-5">
         <div className="flex justify-center items-center pb-5">
           <h2 className="title">Favorites</h2>

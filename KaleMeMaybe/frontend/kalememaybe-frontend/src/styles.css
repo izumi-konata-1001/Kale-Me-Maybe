@@ -148,3 +148,11 @@
 .fade-out {
     animation: fadeOut 0.5s ease-out forwards;
 }
+
+.hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }  

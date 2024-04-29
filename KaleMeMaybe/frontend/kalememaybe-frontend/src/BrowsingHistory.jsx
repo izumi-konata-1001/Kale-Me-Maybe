@@ -58,7 +58,6 @@ export default function BrowsingHistory() {
           name="search"
           className="flex-grow border border-gray-300 border-r-0 h-10 bg-gray-100 rounded-tl-md rounded-bl-md search"
           placeholder="  Search for your specify recipes..."
-        //   style={{ width: "600px" }}
           onChange={(e) => setSearchValue(e.target.value)}
         />
         <button
@@ -83,8 +82,6 @@ export default function BrowsingHistory() {
             .map((item) => (
               <div
                 className="relative border border-gray-200 w-full md:w-2/3 p-3 px-4 mb-6 shadow card"
-                // key={item.recipe_id}
-                // onClick={() => navigate(`/recipe/${item.recipe_id}`)}
               >
                 <div className="absolute w-44 h-44 border-2 border-green-dark rounded-lg mr-12 mt-5 mb-5 ml-5 overflow-hidden picture"
                 key={item.recipe_id}

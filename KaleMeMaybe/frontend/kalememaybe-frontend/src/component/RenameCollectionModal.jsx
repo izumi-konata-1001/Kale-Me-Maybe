@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import {useContext, useState} from "react";
+import {AuthContext} from "../contexts/AuthProvider.jsx";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -8,6 +9,8 @@ export default function RenameCollectionModal({ onClose, onRename }) {
   const [inputValue, setValue] = useState("");
   const [showErrorMsg, setShow] = useState(false);
   const { userid, id } = useParams();
+  const { darkMode } = useContext(AuthContext);
+
 
   const handleInputChange = (event) => {
     setValue(event.target.value);
@@ -49,7 +52,7 @@ export default function RenameCollectionModal({ onClose, onRename }) {
         onClick={() => onClose(false)}
         className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"
       ></div>
-      <div className="rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4">
+      <div className={`rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4 ${darkMode ? 'bg-gray-800' : 'bg-white text-white'}`}>
         <div className="flex justify-between items-center mb-8">
           <label></label>
           <svg
@@ -84,7 +87,7 @@ export default function RenameCollectionModal({ onClose, onRename }) {
           </svg>
         </div>
         <div className="flex flex-col items-center p-4 gap-6 h-full">
-          <label className="block text-2xl font-bold">Rename collection</label>
+          <label className="block text-2xl font-bold text-green-dark">Rename collection</label>
           <input
             type="text"
             placeholder="New name..."

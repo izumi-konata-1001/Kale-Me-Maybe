@@ -86,7 +86,7 @@ export default function Favorites() {
                 </g>
               </svg>
             </a>
-            <label className="text-gray-600 ml-4">
+            <label className="text-gray-600 ml-4 dark:text-white">
               Add a new collection...
             </label>
           </div>

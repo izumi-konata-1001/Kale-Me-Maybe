@@ -12,7 +12,7 @@ export default function NewCollectionModal({ onClose }) {
   const [inputValue, setValue] = useState("");
   const [showErrorMsg, setShow] = useState(false);
 
-  const { userId } = useContext(AuthContext);
+  const { userId,darkMode } = useContext(AuthContext);
 
   const handleInputChange = (event) => {
     setValue(event.target.value);
@@ -48,12 +48,12 @@ export default function NewCollectionModal({ onClose }) {
   };
 
   return ReactDOM.createPortal(
-    <>
+    <div className={darkMode?'dark':''}>
       <div
         onClick={() => onClose(false)}
         className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"
       ></div>
-      <div className="rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4">
+      <div className={`rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${darkMode ? 'bg-gray-800' : 'bg-white text-white'} p-4 z-50`}>
         <div className="flex justify-between items-center mb-8">
           <label></label>
           <svg
@@ -88,7 +88,7 @@ export default function NewCollectionModal({ onClose }) {
           </svg>
         </div>
         <div className="flex flex-col items-center p-4 gap-6 h-full">
-          <label className="block text-2xl font-bold">New collection</label>
+          <label className="block text-2xl font-bold text-green-dark">New collection</label>
           <input
             type="text"
             placeholder="New collection name"
@@ -104,13 +104,13 @@ export default function NewCollectionModal({ onClose }) {
             Create
           </button>
           {showErrorMsg && (
-            <label className="text-gray-500 text-sm">
+            <label className="text-gray-500 text-sm dark:text-white">
               Operation failed, please try again
             </label>
           )}
         </div>
-      </div>
-    </>,
+        </div>
+    </div>,
     document.body
   );
 }

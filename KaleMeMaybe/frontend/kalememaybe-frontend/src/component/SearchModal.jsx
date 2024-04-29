@@ -11,7 +11,7 @@ export default function SearchModal({ onClose }) {
   const setSearchResults = useStore((state) => state.setSearchResults);
   const navigate = useNavigate();
 
-  const { userId } = useContext(AuthContext);
+  const { userId,darkMode } = useContext(AuthContext);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -54,15 +54,13 @@ export default function SearchModal({ onClose }) {
 
       <form
         onSubmit={searchFavorites}
-        className="
-              z-50 w-full max-w-lg fixed top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 transition-all opacity-100 scale-100
-            "
+        className={`z-50 w-full max-w-lg fixed top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 transition-all opacity-100 scale-100`}
       >
         <div
           className="overflow-hidden rounded-lg bg-white shadow-md"
           //  id="headlessui-dialog-panel-287" data-headlessui-state="open"
         >
-          <div className="relative">
+          <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white text-white'}`}>
             <input
               className="block w-full appearance-none bg-transparent py-4 pl-4 pr-12 text-base text-slate-900 placeholder:text-slate-600 focus:outline-none sm:text-sm sm:leading-6"
               placeholder="Find favorites..."

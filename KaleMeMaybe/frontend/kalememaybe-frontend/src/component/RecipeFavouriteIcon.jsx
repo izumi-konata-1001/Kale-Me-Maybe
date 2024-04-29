@@ -158,13 +158,14 @@ const SimpleModal = ({
   userId,
   addToCollection,
 }) => {
+  const {darkMode} = useContext(AuthContext);
   return (
     <>
       <div
         onClick={onClose}
         className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"
       ></div>
-      <div className="rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4">
+      <div className={`rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4 ${darkMode ? 'bg-gray-800' : 'bg-white text-white'}`}>
         <div className="flex justify-between items-center">
           <label className="block text-xl font-bold text-green-dark">
             Add to Favorites
@@ -186,7 +187,7 @@ const SimpleModal = ({
           </button>
         </div>
         <div className="overflow-auto hide-scrollbar">
-          <ul className={"text-center flex flex-col"}>
+          <ul className={"text-center flex flex-col text-black dark:text-white"}>
             {collections.map((collection, index) => (
               <li key={index} className="py-2">
                 <button

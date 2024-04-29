@@ -51,7 +51,7 @@ export default function HomePage() {
 
   const [suggestions, setSuggestions] = useState([]);
 
-  const { userId } = useContext(AuthContext);
+  const { userId,darkMode } = useContext(AuthContext);
 
   // Function to fetch ingredient suggestions api
   const fetchIngredientSuggestions = async (prefix) => {
@@ -265,9 +265,10 @@ export default function HomePage() {
   };
 
   return (
+      <div className={darkMode ? "dark" : ""}>
     <div className="container mx-auto">
       <h1 className="title">Pantry</h1>
-      <p className="text-center mb-4">
+      <p className="text-center mb-4 dark:text-white">
         You have added {selectedIngredients.length} ingredient
         {selectedIngredients.length !== 1 ? "s" : ""}
       </p>
@@ -349,5 +350,6 @@ export default function HomePage() {
         />
       )}
     </div>
+      </div>
   );
 }

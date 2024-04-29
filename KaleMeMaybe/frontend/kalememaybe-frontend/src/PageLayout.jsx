@@ -7,12 +7,12 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { AuthContext } from "./contexts/AuthProvider";
 
 export default function PageLayout() {
-
+    const { darkMode} = useContext(AuthContext);
     return (
     <React.Fragment>
       <Header />
-      <main className={"main-background"}>
-        <div className="container w-2/3 my-0 mx-auto">
+      <main className={darkMode ? " dark bg-black" : "main-background"}>
+        <div className="container w-2/3 my-0 mx-auto dark:bg-black">
           <Outlet />
         </div>
       </main>
@@ -32,11 +32,11 @@ function Header() {
   return (
     <header className="bg-lime-50">
       <div className={darkMode ? "dark" : ""}>
-        <div className="md:hidden flex justify-between items-center px-4 py-2">
+        <div className="md:hidden flex justify-between items-center px-4 py-2 dark:bg-green-dark">
           <img src="/logo.png" className="h-12 w-12" alt="Logo" />
-          <p className={"text-green-dark font-bold"}>KaleMeMaybe</p>
+          <p className={"text-green-dark font-bold dark:text-white"}>KaleMeMaybe</p>
           <button
-            className="text-green-dark font-semibold"
+            className="text-green-dark font-semibold dark:text-white"
             onClick={toggleMenu}
           >
             Menu &#9776;
@@ -61,13 +61,13 @@ function Header() {
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
               />
-              <p className="text-xs mt-1">{userName || "UserOne"}</p>
+              <p className="text-xs mt-1 dark:text-white">{userName || "UserOne"}</p>
             </NavLink>
           )}
           <BsFillMoonStarsFill
             onClick={() => setDarkMode(!darkMode)}
             className={
-              "cursor-pointer text-xl hover:text-green-dark dark:text-white"
+              "cursor-pointer text-xl hover:text-green-dark dark:text-green-dark"
             }
           />
         </div>
@@ -78,8 +78,8 @@ function Header() {
               to="."
               className={({ isActive }) =>
                 isActive
-                  ? "nav nav-link bg-green-dark text-white font-bold"
-                  : "nav nav-link"
+                  ? "nav nav-link bg-green-dark text-white font-bold dark:text-green-light dark:bg-black"
+                  : "nav nav-link dark:text-black"
               }
             >
               <span className="flex items-center gap-2">
@@ -90,8 +90,8 @@ function Header() {
               to="discover"
               className={({ isActive }) =>
                 isActive
-                  ? "nav nav-link bg-green-dark text-white font-bold"
-                  : "nav nav-link"
+                  ? "nav nav-link bg-green-dark text-white font-bold dark:text-green-light dark:bg-black"
+                  : "nav nav-link dark:text-black"
               }
             >
               <span className="flex items-center gap-2">
@@ -102,7 +102,7 @@ function Header() {
 
           <div className="flex flex-col items-center justify-center">
             <img src="/logo.png" className="h-20 w-20" alt="Logo" />
-            <h1 className={"text-xl text-green-dark font-bold"}>KaleMeMaybe</h1>
+            <h1 className={"text-xl text-green-dark font-bold dark:text-black"}>KaleMeMaybe</h1>
           </div>
 
           <div className="flex items-center justify-evenly w-2/5">
@@ -110,8 +110,8 @@ function Header() {
               to="browsing-history"
               className={({ isActive }) =>
                 isActive
-                  ? "nav nav-link bg-green-dark text-white font-bold"
-                  : "nav nav-link"
+                  ? "nav nav-link bg-green-dark text-white font-bold dark:text-green-light dark:bg-black"
+                  : "nav nav-link dark:text-black"
               }
             >
               <span className="flex items-center gap-2">
@@ -123,8 +123,8 @@ function Header() {
                 to="favorites"
                 className={({ isActive }) =>
                   isActive
-                    ? "nav nav-link bg-green-dark text-white font-bold"
-                    : "nav nav-link"
+                    ? "nav nav-link bg-green-dark text-white font-bold dark:text-green-light dark:bg-black"
+                    : "nav nav-link dark:text-black"
                 }
               >
                 <span className="flex items-center gap-2">
@@ -140,7 +140,7 @@ function Header() {
                     onClick={logout}
                     className="text-green-dark hover:text-lime-800"
                   >
-                    <button className="text-green-dark hover:text-lime-800">
+                    <button className="text-green-dark hover:text-lime-800 dark:text-black">
                       Log Out
                     </button>
                   </Link>
@@ -160,13 +160,13 @@ function Header() {
                 <>
                   <NavLink
                     to="log-in"
-                    className="text-green-dark hover:text-lime-800"
+                    className="text-green-dark hover:text-lime-800 dark:text-black"
                   >
                     Log In
                   </NavLink>
                   <NavLink
                     to="sign-up"
-                    className="text-white bg-green-dark hover:bg-lime-800 font-bold rounded-lg text-sm px-5 py-3 text-center"
+                    className="text-white bg-green-dark hover:bg-lime-800 font-bold rounded-lg text-sm px-5 py-3 text-center dark:text-green-light dark:bg-lime-900"
                   >
                     Sign Up &rarr;
                   </NavLink>
@@ -175,7 +175,7 @@ function Header() {
               <BsFillMoonStarsFill
                 onClick={() => setDarkMode(!darkMode)}
                 className={
-                  "cursor-pointer text-xl hover:text-green-dark dark:text-white"
+                  "cursor-pointer text-xl hover:text-green-dark dark:text-green-dark dark:hover:text-black"
                 }
               />
             </div>

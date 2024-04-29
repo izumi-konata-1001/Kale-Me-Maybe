@@ -81,15 +81,14 @@ export default function BrowsingHistory() {
             )
             .map((item) => (
               <div
-                className="relative border border-gray-200 w-2/3 p-3 px-4 mb-6 shadow card"
+                className="relative border border-gray-200 w-2/3 p-3 px-4 mb-6 shadow card rounded-md"
                 key={item.recipe_id}
-                onClick={() => navigate(`/recipe/${item.recipe_id}`)}
               >
                 <div className="absolute w-44 h-44 border-2 border-green-dark rounded-lg mr-12 mt-5 mb-5 ml-5 overflow-hidden picture">
-                  <img src={`${API_BASE_URL}/${item.image_path}`}></img>
+                  <img src={`${API_BASE_URL}/${item.image_path}`}  onClick={() => navigate(`/recipe/${item.recipe_id}`)}></img>
                 </div>
                 <div className="ml-60 relative content">
-                  <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle">
+                  <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle dark:text-white"  onClick={() => navigate(`/recipe/${item.recipe_id}`)}>
                     {item.name}
                   </h3>
                   <div className="flex flex-row mt-3 mb-3 ml-0 mr-0 fouricons">
@@ -106,7 +105,7 @@ export default function BrowsingHistory() {
                       {authToken && <RecipeFavouriteIcon />}
                     </div>
                   </div>
-                  <p className="text-base leading-normal text-gray-600 break-words w-87 h-24 overflow-hidden text-ellipsis des">
+                  <p className="text-base leading-normal text-gray-600 break-words w-87 h-24 overflow-hidden text-ellipsis des dark:text-white"  onClick={() => navigate(`/recipe/${item.recipe_id}`)}>
                     {item.method}
                   </p>
                 </div>

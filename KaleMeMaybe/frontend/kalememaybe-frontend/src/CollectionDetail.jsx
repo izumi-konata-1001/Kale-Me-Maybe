@@ -149,7 +149,7 @@ export default function CollectionDetail() {
   }, []);
 
   return (
-    <div className="flex flex-col w-2/3 mb-10 absolute left-1/2 transform -translate-x-1/2">
+      <>
       <div className="pb-10 recipes-scrollable max-h-screen overflow-y-auto w-full hide-scrollbar">
         <div className="flex justify-center items-center pb-2">
           <h2 className="title">{collectionName}</h2>
@@ -245,6 +245,6 @@ export default function CollectionDetail() {
           onRename={(newName) => setName(newName)}
         />
       )}
-    </div>
+      </>
   );
 }

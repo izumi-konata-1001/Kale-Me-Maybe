@@ -93,7 +93,7 @@ export default function RecipeDetails() {
         <div className={"pb-10"}>
             <div className="relative flex justify-center items-center w-full">
                 <BackButton />
-                <h1 className="text-5xl font-bold p-5 text-lime-900 mx-10 text-center">
+                <h1 className="title">
                     {recipe.name}
                 </h1>
             </div>
@@ -113,14 +113,14 @@ export default function RecipeDetails() {
                 <img
                     src={imagePath || "/pasta.png"}
                     alt={recipe.name}
-                    className="rounded-lg h-64 w-auto"
+                    className="rounded-lg h-64 w-auto  dark:border-4 dark:border-green-dark"
                 />
             </div>
 
       <div className="flex flex-col items-start md:flex-row md:justify-center">
         <div className="w-full md:w-1/3 h-auto border-r-2 border-none md:border-dotted border-green-dark p-2 overflow-y-auto max-h-96">
-          <h1 className="text-xl font-bold text-lime-900">Ingredients</h1>
-          <ul className="list-disc list-inside">
+          <h1 className="text-xl font-bold text-lime-900 dark:text-green-light">Ingredients</h1>
+          <ul className="list-disc list-inside dark:text-white">
             {ingredientsArray.map((ingredient, index) => (
               <li key={index}>{ingredient}</li>
             ))}
@@ -128,8 +128,8 @@ export default function RecipeDetails() {
         </div>
 
         <div className="w-full md:w-1/3 p-2 md:pl-5 overflow-y-auto max-h-96">
-          <h1 className="text-xl font-bold text-lime-900">Method</h1>
-          <ol className="list-decimal list-inside">
+          <h1 className="text-xl font-bold text-lime-900 dark:text-green-light">Method</h1>
+          <ol className="list-decimal list-inside dark:text-white">
             {methodArray.map((method, index) => (
               <li key={index}>{method}</li>
             ))}
@@ -145,7 +145,7 @@ export default function RecipeDetails() {
                         authToken={authToken}
                         onSetRating={handleRatingSubmit}
                     />
-                    <p className={"text-green-dark"}>How do you like this recipe?</p>
+                    <p className={"text-green-dark dark:text-white"}>How do you like this recipe?</p>
                 </div>
             )}
         </div>

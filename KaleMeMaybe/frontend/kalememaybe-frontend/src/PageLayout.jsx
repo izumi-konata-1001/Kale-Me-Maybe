@@ -11,7 +11,7 @@ export default function PageLayout() {
     return (
     <React.Fragment>
       <Header />
-      <main className={darkMode ? " dark bg-black" : "main-background"}>
+      <main className={darkMode ? " dark bg-black h-screen" : "main-background"}>
         <div className="container w-2/3 my-0 mx-auto dark:bg-black">
           <Outlet />
         </div>

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const fs = require("fs").promises;
 const path = require("path");
 const dbPromise = require("../data/database.js");
@@ -14,7 +15,7 @@ async function insertIngredients() {
       const imagePath = `images/${ingredient.name
         .toLowerCase()
         .replace(/ /g, "_")}.png`;
-      return db.run(
+      return db.execute(
         `INSERT INTO ingredient (id, name, image_path) VALUES (?, ?, ?)`,
         [ingredient.id, ingredient.name, imagePath]
       );

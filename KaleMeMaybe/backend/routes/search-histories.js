@@ -4,12 +4,7 @@ const { getRecentSearchesByUserId } = require("../data/history-ingredient-dao");
 
 router.get("/users/:userId/search-histories", async (req, res) => {
   const userId = req.params.userId;
-  let limit = req.query.limit;
-  // check limit
-  if (!limit) {
-    limit = 60;
-  }
-  const recentSearches = await getRecentSearchesByUserId(userId, limit);
+  const recentSearches = await getRecentSearchesByUserId(userId);
   const uniqueSearchesResult = uniqueSearches(recentSearches, 6);
   res.json(uniqueSearchesResult);
 });

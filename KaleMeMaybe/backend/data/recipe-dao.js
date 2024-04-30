@@ -46,10 +46,10 @@ async function insertRecipeAndSearchHistory(
   let db = await dbPromise;
   try {
     // start transaction
-    await db.run("BEGIN");
+    await db.beginTransaction();
 
     // insert recipe data
-    const recipeResult = await db.run(
+    const [recipeResult] = await db.execute(
       `
             INSERT INTO recipe (name, time_consuming, difficulty, ingredient_details, method, image_path)
             VALUES (?, ?, ?, ?, ?, ?)`,
@@ -62,11 +62,11 @@ async function insertRecipeAndSearchHistory(
         image_path,
       ]
     );
-    const recipeId = recipeResult.lastID;
+    const recipeId = recipeResult.insertId;
 
     // insert recipe_ingredient
     for (let ingredient of ingredients) {
-      await db.run(
+      await db.execute(
         `
                 INSERT INTO recipe_ingredient (recipe_id, ingredient_id)
                 VALUES (?, ?)`,
@@ -76,22 +76,23 @@ async function insertRecipeAndSearchHistory(
 
     // if user_id is null will not insert search_history and history_ingredient
     if (!user_id) {
-      await db.run("COMMIT");
+      await db.commit();
       return recipeId;
     }
 
     // insert search_history
-    const searchHistoryResult = await db.run(
+    const [searchHistoryResult] = await db.execute(
       `
             INSERT INTO search_history (user_id)
             VALUES (?)`,
       [user_id]
     );
-    const searchHistoryId = searchHistoryResult.lastID;
+    const searchHistoryId = searchHistoryResult.insertId;
+
 
     // insert history_ingredient table
     for (let ingredient of ingredients) {
-      await db.run(
+      await db.execute(
         `
                 INSERT INTO history_ingredient (search_history_id, ingredient_id)
                 VALUES (?, ?)`,
@@ -100,11 +101,11 @@ async function insertRecipeAndSearchHistory(
     }
 
     // commit transaction
-    await db.run("COMMIT");
+    await db.commit();
 
     return recipeId;
   } catch (err) {
-    await db.run("ROLLBACK");
+    await db.rollback();
     console.error("Failed to insert recipe and search history:", err);
     throw err;
   }

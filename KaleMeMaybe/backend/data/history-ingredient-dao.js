@@ -1,10 +1,10 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-async function getRecentSearchesByUserId(userId, limit) {
+async function getRecentSearchesByUserId(userId) {
   const db = await dbPromise;
   try {
-    const recentSearches = await db.all(
+    const [recentSearches] = await db.execute(
       SQL`      
     SELECT 
       sh.id AS search_id, 
@@ -16,7 +16,7 @@ async function getRecentSearchesByUserId(userId, limit) {
     JOIN ingredient i ON hi.ingredient_id = i.id
     WHERE sh.user_id = ${userId}
     ORDER BY sh.created_at DESC, sh.id, hi.ingredient_id
-    LIMIT ${limit};
+    LIMIT 60;
   `
     );
     const formattedSearches = formatSearchResults(recentSearches);

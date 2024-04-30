@@ -7,7 +7,7 @@ async function queryIngredients(prefix) {
   const query = SQL`SELECT id, name FROM ingredient WHERE LOWER(name) LIKE ${
     "%" + prefix.toLowerCase() + "%"
   } ORDER BY name`;
-  const ingredients = await db.all(query);
+  const ingredients = await db.execute(query);
   return ingredients;
 }
 

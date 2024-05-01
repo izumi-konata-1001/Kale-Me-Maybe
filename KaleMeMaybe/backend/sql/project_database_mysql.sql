@@ -170,111 +170,244 @@ INSERT INTO ingredient (id, name, image_path, created_at, updated_at) VALUES
 (17, 'Spinach', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (18, 'Tofu', 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-/* Insert into recipe */
-INSERT INTO recipe (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at) VALUES
-(1, 'Tomato Pasta', '30 mins', 'Easy', 'Fresh tomatoes, garlic, olive oil, and basil.', 'Boil pasta, prepare sauce with crushed tomatoes and garlic, mix with cooked pasta, top with basil.', './example-image-recipe.png', '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Cheese Pizza', '15 mins', 'Medium', 'Mozzarella cheese, homemade tomato sauce, Italian herbs.', 'Prepare dough, apply tomato sauce, add cheese and herbs, bake in oven.', './example-image-recipe.png', '2023-04-13 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Basil Chicken', '45 mins', 'Hard', 'Chicken pieces, fresh basil leaves, garlic, lemon zest.', 'Marinate chicken with garlic and basil, grill until cooked, serve with a sprinkle of lemon zest.', './example-image-recipe.png', '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Chicken Curry', '60 mins', 'Medium', 'Chicken pieces, onions, tomatoes, garlic, ginger, spices.', 'Cook onions, garlic, and ginger, add spices, then chicken, simmer with tomatoes until done.', './example-image-recipe.png', '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Salad with Olive Oil', '10 mins', 'Easy', 'Mixed greens, cherry tomatoes, cucumbers, feta cheese, olive oil.', 'Combine all ingredients in a bowl, dress with olive oil.', './example-image-recipe.png', '2023-04-15 08:30:00', '2023-04-16 11:00:00');
-
-/* Insert into recipe_ingredient */
-INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
-(1, 1),  -- Tomato Pasta includes Tomato
-(2, 2),  -- Cheese Pizza includes Cheese
-(3, 3),  -- Basil Chicken includes Basil
-(4, 4),  -- Chicken Curry includes Chicken
-(5, 5);  -- Salad with Olive Oil includes Olive Oil
-
-/* Continue with other insert statements in a similar fashion. */
-
-INSERT INTO search_history (id, user_id, created_at) VALUES
-(1, 1, '2023-04-12 10:30:00'),
-(2, 2, '2023-04-12 11:00:00'),
-(3, 3, '2023-04-13 10:30:00'),
-(4, 4, '2023-04-14 10:30:00'),
-(5, 5, '2023-04-15 10:30:00');
-
-INSERT INTO history_ingredient (search_history_id, ingredient_id) VALUES
-(1, 1),
-(1, 3),
-(2, 2),
-(2, 5),
-(3, 4);
-
-INSERT INTO collection (id, name, user_id, created_at, updated_at) VALUES
-(1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
-(2, 'Italian', 1, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
-(3, 'Quick Meals', 1, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
-(4, 'Dinner Specials', 2, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
-(5, 'Healthy Choices', 2, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
-
-INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
-(1, 1),
-(1, 3),
-(2, 5),
-(3, 2),
-(4, 4);
-
-INSERT INTO browsing_history (user_id, recipe_id, created_at) VALUES
-(1, 1, '2023-04-12 12:00:00'),
-(2, 2, '2023-04-12 12:30:00'),
-(3, 3, '2023-04-13 12:00:00'),
-(4, 4, '2023-04-14 12:00:00'),
-(5, 5, '2023-04-15 12:00:00');
-
-INSERT INTO score (score, user_id, recipe_id, created_at, updated_at) VALUES
-(5, 1, 1, '2023-04-12 13:00:00', '2023-04-12 13:00:00'),
-(4, 2, 2, '2023-04-13 13:30:00', '2023-04-15 14:00:00'),
-(3, 3, 3, '2023-04-13 13:00:00', '2023-04-13 13:00:00'),
-(2, 4, 4, '2023-04-14 13:00:00', '2023-04-15 14:30:00'),
-(1, 5, 5, '2023-04-15 13:00:00', '2023-04-16 14:00:00');
-/*test data, 6-8&10-15 recipe*/
-INSERT INTO recipe
-    (id, name, time_consuming, difficulty, ingredient_details, method, image_path, created_at, updated_at)
-VALUES
-    (6, 'Beef Stew', '90 mins', 'Medium', 'Beef chunks, potatoes, carrots, onions, celery, beef broth, tomato paste.', 'Season beef with salt and pepper. Brown in a hot pan with oil. Remove beef, add chopped onions and garlic, cook until soft. Return beef to pan, add broth, carrots, potatoes, celery, and tomato paste. Cover and simmer for 1.5 hours.', './example-image-recipe.png', '2023-04-16 12:30:00', '2023-04-16 14:00:00'),
-    (7, 'Vegan Chili', '35 mins', 'Easy', 'Chopped onions, red beans, diced tomatoes, corn, bell peppers, chili spices.', 'Cook onions in a large pot until translucent. Add bell peppers, cook for 5 mins. Add tomatoes, beans, corn, and chili spices. Simmer for 25 mins. Serve hot.', './example-image-recipe.png', '2023-04-17 12:30:00', '2023-04-17 13:05:00'),
-    (8, 'Pancakes', '20 mins', 'Easy', 'Flour, eggs, milk, sugar, baking powder, butter.', 'Mix flour, sugar, baking powder. In another bowl, beat eggs with milk. Combine wet and dry ingredients. Heat a pan with butter, pour batter to form pancakes. Cook each side until golden.', './example-image-recipe.png', '2023-04-18 08:00:00', '2023-04-18 08:20:00'),
-    (10, 'Mushroom Risotto', '50 mins', 'Hard', 'Arborio rice, chicken broth, Parmesan cheese, mushrooms, onions, white wine, butter.', 'Saute chopped onions and mushrooms in butter until soft. Add rice, stir to coat with butter. Add wine, cook until evaporated. Add broth gradually, stirring constantly, until rice is creamy and al dente. Stir in Parmesan.', './example-image-recipe.png', '2023-04-20 17:00:00', '2023-04-20 17:50:00'),
-    (11, 'Quiche Lorraine', '60 mins', 'Medium', 'Eggs, cream, bacon, cheese, pastry shell.', 'Cook bacon until crisp. Beat eggs with cream, season. Sprinkle bacon and cheese into pastry shell, pour over egg mixture. Bake at 180°C for 45 mins.', './example-image-recipe.png', '2023-04-21 09:00:00', '2023-04-21 10:00:00'),
-    (12, 'Fish Tacos', '30 mins', 'Easy', 'White fish, cabbage slaw, sour cream, lime, corn tortillas, avocado, cilantro.', 'Season fish with salt and pepper, grill until cooked. Mix sour cream with lime juice for sauce. Serve fish in tortillas with slaw, sauce, sliced avocado, and cilantro.', './example-image-recipe.png', '2023-04-22 12:45:00', '2023-04-22 13:15:00'),
-    (13, 'Lamb Curry', '120 mins', 'Hard', 'Lamb pieces, onions, garlic, ginger, tomatoes, curry powder, yogurt, cilantro.', 'Brown lamb with garlic and ginger, set aside. Cook onions until golden, add curry powder, tomatoes, and yogurt. Return lamb to pot, cover, simmer for 2 hours. Garnish with cilantro.', './example-image-recipe.png', '2023-04-23 10:30:00', '2023-04-23 12:30:00'),
-    (14, 'Banana Bread', '75 mins', 'Medium', 'Ripe bananas, flour, sugar, butter, eggs, baking soda.', 'Mash bananas. Mix with melted butter. Beat in eggs and sugar. Add flour and baking soda, mix until smooth. Pour into a loaf pan, bake at 175°C for 1 hour.', './example-image-recipe.png', '2023-04-24 14:30:00', '2023-04-24 15:45:00'),
-    (15, 'Stuffed Bell Peppers', '70 mins', 'Medium', 'Bell peppers, ground beef, rice, tomatoes, onions, cheese.', 'Cook rice. Saute onions, ground beef until cooked. Mix in tomatoes and cooked rice. Stuff mixture into halved bell peppers, top with cheese. Bake at 190°C for 30 mins.', './example-image-recipe.png', '2023-04-25 13:30:00', '2023-04-25 14:40:00');
-/*test data, score*/
-INSERT INTO score (score, user_id, recipe_id, created_at, updated_at) VALUES
-(3, 1, 6, '2023-04-16 15:00:00', '2023-04-16 15:00:00'),
-(4, 2, 6, '2023-04-16 16:00:00', '2023-04-16 16:00:00'),
-(5, 3, 6, '2023-04-16 17:00:00', '2023-04-16 17:00:00'),
-(3, 1, 7, '2023-04-17 15:00:00', '2023-04-17 15:00:00'),
-(2, 2, 7, '2023-04-17 16:00:00', '2023-04-17 16:00:00'),
-(4, 3, 7, '2023-04-17 17:00:00', '2023-04-17 17:00:00'),
-(5, 1, 8, '2023-04-18 09:00:00', '2023-04-18 09:00:00'),
-(5, 2, 8, '2023-04-18 10:00:00', '2023-04-18 10:00:00'),
-(4, 3, 8, '2023-04-18 11:00:00', '2023-04-18 11:00:00'),
-(4, 1, 10, '2023-04-20 18:00:00', '2023-04-20 18:50:00'),
-(5, 2, 10, '2023-04-20 19:00:00', '2023-04-20 19:50:00'),
-(3, 3, 10, '2023-04-20 20:00:00', '2023-04-20 20:50:00'),
-(2, 1, 11, '2023-04-21 11:00:00', '2023-04-21 12:00:00'),
-(3, 2, 11, '2023-04-21 13:00:00', '2023-04-21 14:00:00'),
-(4, 3, 11, '2023-04-21 15:00:00', '2023-04-21 16:00:00'),
-(5, 1, 12, '2023-04-22 14:00:00', '2023-04-22 14:30:00'),
-(4, 2, 12, '2023-04-22 15:00:00', '2023-04-22 15:30:00'),
-(3, 3, 12, '2023-04-22 16:00:00', '2023-04-22 16:30:00'),
-(2, 1, 13, '2023-04-23 13:00:00', '2023-04-23 13:30:00'),
-(4, 2, 13, '2023-04-23 14:00:00', '2023-04-23 14:30:00'),
-(1, 3, 13, '2023-04-23 15:00:00', '2023-04-23 15:30:00'),
-(3, 1, 14, '2023-04-24 16:00:00', '2023-04-24 16:45:00'),
-(2, 2, 14, '2023-04-24 17:00:00', '2023-04-24 17:45:00'),
-(5, 3, 14, '2023-04-24 18:00:00', '2023-04-24 18:45:00'),
-(4, 1, 15, '2023-04-25 15:00:00', '2023-04-25 15:40:00'),
-(5, 2, 15, '2023-04-25 16:00:00', '2023-04-25 16:40:00'),
-(3, 3, 15, '2023-04-25 17:00:00', '2023-04-25 17:40:00');
-
-
-
 /* AI generated recipes */
+INSERT INTO recipe
+VALUES
+    (1, 'Vegetarian Capsicum and Pea Salad', '15 mins', 'Easy', '1 head of lettuce, washed and torn into bite-sized pieces
+1 red capsicum, diced
+1 cup of peas, fresh or frozen
+1/4 cup of olive oil
+2 tablespoons of balsamic vinegar
+Salt and pepper to taste', 'In a large salad bowl, combine the torn lettuce, diced capsicum, and peas.
+In a small bowl, whisk together the olive oil, balsamic vinegar, salt, and pepper to make the dressing.
+Pour the dressing over the salad and toss well to coat all the ingredients.
+Serve immediately as a refreshing and nutritious vegetarian salad.', '/generated-images/Vegetarian_Capsicum_and_Pea_Salad_20240425.png', '2024-04-25 09:46:18', '2024-04-25 09:46:18');
+INSERT INTO recipe
+VALUES
+    (2, 'Pumpkin, Potato, and Tofu Stir Fry', '30 mins', 'Medium', '1 cup diced pumpkin
+1 cup diced potato
+1 block of tofu, pressed and cubed
+2 tbsp soy sauce
+1 tbsp sesame oil
+1 tsp ginger, minced
+2 cloves garlic, minced
+1 red chili, sliced
+1/4 cup vegetable broth
+Salt and pepper to taste
+2 green onions, sliced', 'In a large skillet, heat sesame oil over medium heat.
+Add ginger, garlic, and red chili to the skillet. Cook for 1-2 minutes until fragrant.
+Add diced pumpkin and potato to the skillet. Cook for 10-15 minutes until vegetables are slightly tender.
+Push vegetables to one side of the skillet and add cubed tofu. Cook for 5-7 minutes until tofu is golden brown.
+Mix everything together in the skillet and add soy sauce and vegetable broth. Cook for another 5 minutes.
+Season with salt and pepper to taste.
+Garnish with sliced green onions before serving.
+Serve hot over rice or quinoa.', '/generated-images/Pumpkin,_Potato,_and_Tofu_Stir_Fry_20240425.png', '2024-04-25 09:52:48', '2024-04-25 09:52:48');
+INSERT INTO recipe
+VALUES
+    (3, 'Stir-Fried Vegetables with Asparagus, Capsicum, and Bok Choy', '20 mins', 'Easy', '1 bunch asparagus, trimmed and cut into 2-inch pieces
+1 red capsicum, sliced
+1 yellow capsicum, sliced
+2 bok choy, chopped
+2 cloves garlic, minced
+2 tbsp soy sauce
+1 tbsp sesame oil
+1 tsp ginger, grated
+Salt and pepper to taste
+Cooking oil', 'Heat some cooking oil in a large pan or wok over medium heat.
+Add the minced garlic and grated ginger, and sauté for 1-2 minutes until fragrant.
+Add the sliced capsicum and stir-fry for 3-4 minutes until slightly softened.
+Add the asparagus and bok choy, and continue to stir-fry for another 3-4 minutes until the vegetables are tender-crisp.
+Drizzle the soy sauce and sesame oil over the vegetables, and season with salt and pepper to taste. Stir well to combine.
+Cook for an additional 1-2 minutes, then remove from heat.
+Serve the stir-fried vegetables hot as a side dish or over cooked rice for a complete meal.', '/generated-images/Stir-Fried_Vegetables_with_Asparagus,_Capsicum,_and_Bok_Choy_20240428.png', '2024-04-28 07:25:58', '2024-04-28 07:25:58');
+INSERT INTO recipe
+VALUES
+    (4, 'Garlic Kale Scramble', '20 mins', 'Easy', '2 cloves of garlic, minced
+2 cups of kale, chopped
+1 tablespoon of egg replacer powder
+2 tablespoons of water
+Salt and pepper to taste', 'In a small bowl, mix the egg replacer powder with water and set aside.
+In a pan, heat some oil over medium heat and add the minced garlic. Cook for 1-2 minutes until fragrant.
+Add the chopped kale to the pan and sauté for 3-4 minutes until wilted.
+Pour in the egg replacer mixture and stir well to combine with the kale. Cook for another 2-3 minutes until the egg replacer is fully cooked.
+Season with salt and pepper to taste.
+Serve hot and enjoy!', '/generated-images/Garlic_Kale_Scramble_20240428.png', '2024-04-28 07:44:09', '2024-04-28 07:44:09');
+INSERT INTO recipe
+VALUES
+    (5, 'Vegetarian Pea, Fennel, and Corn Stir Fry', '25 mins', 'Medium', '1 cup peas, fresh or frozen
+1 fennel bulb, thinly sliced
+1 cup corn kernels
+2 cloves garlic, minced
+1 tablespoon olive oil
+2 tablespoons soy sauce
+1 teaspoon sesame oil
+Salt and pepper to taste', 'Heat olive oil in a large skillet over medium heat.
+Add the sliced fennel and cook for 5 minutes until slightly softened.
+Add the minced garlic and cook for another minute until fragrant.
+Add the peas and corn to the skillet and stir well to combine.
+Cook for 8-10 minutes, stirring occasionally, until the vegetables are tender.
+Drizzle soy sauce and sesame oil over the vegetables, and season with salt and pepper.
+Stir well to combine and cook for another 2 minutes.
+Serve hot as a side dish or over cooked rice for a complete meal.', '/generated-images/Vegetarian_Pea,_Fennel,_and_Corn_Stir_Fry_20240428.png', '2024-04-28 08:22:35', '2024-04-28 08:22:35');
+INSERT INTO recipe
+VALUES
+    (6, 'Pea, Fennel, and Corn Medley', '25 mins', 'Medium', '1 cup peas
+1 fennel bulb, thinly sliced
+1 cup corn kernels
+2 tbsp olive oil
+1 tsp garlic powder
+1/2 tsp salt
+1/4 tsp black pepper
+Fresh parsley for garnish', 'Heat olive oil in a large skillet over medium heat.
+Add sliced fennel and sauté for 5 minutes until slightly softened.
+Add peas and corn to the skillet and cook for another 5 minutes.
+Season with garlic powder, salt, and black pepper. Stir well to combine.
+Cook for an additional 5-7 minutes until vegetables are tender.
+Garnish with fresh parsley before serving.
+Enjoy your delicious Pea, Fennel, and Corn Medley!', '/generated-images/Pea,_Fennel,_and_Corn_Medley_20240428.png', '2024-04-28 08:23:00', '2024-04-28 08:23:00');
+INSERT INTO recipe
+VALUES
+    (7, 'Apple Powder Energy Balls', '20 mins', 'Easy', '1 cup apple powder
+1 cup dates, pitted
+1/2 cup almonds
+1/4 cup shredded coconut
+1/4 cup chia seeds
+1/4 cup honey', 'In a food processor, combine apple powder, dates, almonds, coconut, chia seeds, and honey. Pulse until mixture is well combined and sticky.
+Roll mixture into small balls, about 1 inch in diameter.
+Place balls on a baking sheet lined with parchment paper and refrigerate for at least 1 hour to set.
+Enjoy these delicious and nutritious apple powder energy balls as a snack or dessert!', '/generated-images/Apple_Powder_Energy_Balls_20240428.png', '2024-04-28 08:23:57', '2024-04-28 08:23:57');
+INSERT INTO recipe
+VALUES
+    (8, 'Spinach and Tofu Stir-Fry', '20 mins', 'Easy', '200g tofu, sliced into cubes
+2 cups fresh spinach, washed and chopped
+1 tablespoon soy sauce
+1 teaspoon sesame oil
+1 teaspoon minced garlic
+1/2 teaspoon grated ginger
+1/4 teaspoon red pepper flakes
+1 tablespoon vegetable oil
+Salt and pepper to taste', 'Heat vegetable oil in a large skillet over medium heat.
+Add tofu cubes and cook until lightly browned on all sides, about 5 minutes.
+Add garlic, ginger, and red pepper flakes to the skillet and cook for another minute.
+Stir in soy sauce and sesame oil, then add spinach to the skillet.
+Cook for 2-3 minutes, until the spinach is wilted and tofu is heated through.
+Season with salt and pepper to taste.
+Serve hot and enjoy!', '/generated-images/Spinach_and_Tofu_Stir-Fry_20240428.png', '2024-04-28 08:26:40', '2024-04-28 08:26:40');
+INSERT INTO recipe
+VALUES
+    (9, 'Banana and Capsicum Stir-Fry', '20 mins', 'Easy', '2 ripe bananas, sliced
+1 red capsicum, thinly sliced
+1 green capsicum, thinly sliced
+1 tbsp olive oil
+2 cloves garlic, minced
+1 tsp ginger, minced
+2 tbsp soy sauce
+1 tbsp honey
+Salt and pepper to taste', 'Heat olive oil in a pan over medium heat.
+Add garlic and ginger, sauté until fragrant.
+Add sliced capsicum, cook until slightly softened.
+Add sliced bananas, soy sauce, honey, salt, and pepper.
+Stir-fry for 5-7 minutes until bananas are caramelized and capsicum is tender.
+Serve hot over rice or noodles.', '/generated-images/Banana_and_Capsicum_Stir-Fry_20240428.png', '2024-04-28 08:27:36', '2024-04-28 08:27:36');
+INSERT INTO recipe
+VALUES
+    (10, 'Spicy Banana and Capsicum Tacos', '30 mins', 'Medium', '2 ripe bananas, sliced
+1 red capsicum, sliced
+1 green capsicum, sliced
+1 onion, sliced
+2 cloves of garlic, minced
+1 tsp cumin powder
+1 tsp chili powder
+1/2 tsp paprika
+Salt and pepper to taste
+1 tbsp olive oil
+8 small tortillas
+Optional toppings: avocado, salsa, cilantro', 'In a large skillet, heat olive oil over medium heat.
+Add onions and garlic, sauté until onions are translucent.
+Add sliced capsicums and cook until slightly softened.
+Add bananas, cumin powder, chili powder, paprika, salt, and pepper. Stir well to combine.
+Cook for another 5-7 minutes until bananas are heated through.
+Warm tortillas in a separate pan or microwave.
+Fill each tortilla with the banana and capsicum mixture.
+Top with avocado, salsa, and cilantro if desired.
+Serve hot and enjoy your spicy banana and capsicum tacos!', '/generated-images/Spicy_Banana_and_Capsicum_Tacos_20240428.png', '2024-04-28 08:27:58', '2024-04-28 08:27:58');
+INSERT INTO recipe
+VALUES
+    (11, 'Banana and Capsicum Skewers', '25 mins', 'Easy', '2 ripe bananas
+1 red capsicum
+1 green capsicum
+1 tbsp olive oil
+1 tsp paprika
+1/2 tsp cumin
+Salt and pepper to taste', 'Preheat the grill to medium heat.
+Cut the bananas, red capsicum, and green capsicum into chunks.
+In a bowl, mix olive oil, paprika, cumin, salt, and pepper.
+Thread the banana and capsicum chunks onto skewers, alternating between the two.
+Brush the skewers with the olive oil mixture.
+Grill the skewers for about 10-12 minutes, turning occasionally, until the bananas and capsicum are slightly charred.
+Serve hot and enjoy!', '/generated-images/Banana_and_Capsicum_Skewers_20240428.png', '2024-04-28 08:28:14', '2024-04-28 08:28:14');
+INSERT INTO recipe
+VALUES
+    (12, 'Roasted Garlic Beetroot and Pumpkin Salad', '45 mins', 'Medium', '2 cloves of garlic, minced
+2 beetroots, peeled and diced
+1 small pumpkin, peeled and diced
+2 tbsp olive oil
+Salt and pepper to taste
+1/4 cup balsamic vinegar
+1/4 cup crumbled feta cheese
+2 tbsp chopped fresh parsley', 'Preheat the oven to 400°F (200°C).
+In a bowl, toss the diced beetroot and pumpkin with minced garlic, olive oil, salt, and pepper until well coated.
+Spread the mixture on a baking tray in a single layer and roast in the oven for 30-35 minutes, or until the vegetables are tender and slightly caramelized.
+In a small bowl, whisk together balsamic vinegar, a pinch of salt, and pepper to make the dressing.
+Once the vegetables are roasted, transfer them to a serving platter.
+Drizzle the balsamic dressing over the vegetables and sprinkle with crumbled feta cheese and chopped parsley before serving.
+Enjoy your delicious Roasted Garlic Beetroot and Pumpkin Salad!', '/generated-images/Roasted_Garlic_Beetroot_and_Pumpkin_Salad_20240428.png', '2024-04-28 08:28:52', '2024-04-28 08:28:52');
+INSERT INTO recipe
+VALUES
+    (13, 'Pumpkin and Potato Veggie Bake', '45 mins', 'Medium', '1 small pumpkin, peeled and diced
+2 large potatoes, peeled and sliced
+1 onion, chopped
+2 cloves of garlic, minced
+1 cup of vegetable broth
+1 tsp of dried thyme
+1 tsp of paprika
+Salt and pepper to taste
+2 tbsp of olive oil
+1/2 cup of grated cheese (optional)', 'Preheat the oven to 400°F (200°C).
+In a large baking dish, combine the diced pumpkin, sliced potatoes, chopped onion, and minced garlic.
+Drizzle the olive oil over the vegetables and toss to coat evenly.
+Sprinkle the dried thyme, paprika, salt, and pepper over the vegetables and mix well.
+Pour the vegetable broth over the mixture and cover the baking dish with foil.
+Bake in the preheated oven for 30 minutes.
+Remove the foil, sprinkle grated cheese over the top (if using), and bake for another 10-15 minutes until the cheese is melted and bubbly.
+Serve hot and enjoy your delicious Pumpkin and Potato Veggie Bake!', '/generated-images/Pumpkin_and_Potato_Veggie_Bake_20240428.png', '2024-04-28 08:45:05', '2024-04-28 08:45:05');
+INSERT INTO recipe
+VALUES
+    (14, 'Autumn Harvest Stuffed Squash', '45 mins', 'Medium', '1 small pumpkin
+2 large potatoes
+1 onion, diced
+2 cloves of garlic, minced
+1 red bell pepper, diced
+1 cup of cooked quinoa
+1/2 cup of chopped walnuts
+1/2 cup of dried cranberries
+1 tsp of ground cumin
+1 tsp of paprika
+Salt and pepper to taste
+Olive oil for cooking', 'Preheat the oven to 400°F (200°C).
+Cut the pumpkin in half and scoop out the seeds. Place the halves on a baking tray, drizzle with olive oil, and roast for 20-25 minutes until tender.
+Peel and dice the potatoes, then boil them until fork-tender. Drain and set aside.
+In a large skillet, heat some olive oil and sauté the onion, garlic, and red bell pepper until softened.
+Add the cooked quinoa, walnuts, dried cranberries, cumin, paprika, salt, and pepper to the skillet. Stir to combine.
+Once the pumpkin halves are roasted, fill them with the quinoa mixture and return to the oven for another 10 minutes.
+Serve the stuffed squash hot, garnished with fresh herbs if desired.', '/generated-images/Autumn_Harvest_Stuffed_Squash_20240428.png', '2024-04-28 08:45:39', '2024-04-28 08:45:39');
+
+
+INSERT INTO recipe
+VALUES
+    (15, 'Kale and Capsicum Stir Fry', '20 mins', 'Easy', '2 cups of chopped kale\n1 red capsicum, sliced\n1 yellow capsicum, sliced\n2 tablespoons of olive oil\n2 cloves of garlic, minced\n1 tablespoon of soy sauce\n1 teaspoon of sesame oil\nSalt and pepper to taste', 'Heat olive oil in a large pan over medium heat\nAdd minced garlic and sauté for 1 minute until fragrant\nAdd sliced capsicum and cook for 3-4 minutes until slightly softened\nAdd chopped kale to the pan and stir fry for another 3-4 minutes until kale is wilted\nDrizzle soy sauce and sesame oil over the vegetables, season with salt and pepper, and stir well to combine\nCook for an additional 1-2 minutes, then remove from heat\nServe hot as a side dish or over rice for a complete meal', '/generated-images/Kale_and_Capsicum_Stir_Fry_20240501.png', '2024-05-01 21:57:40', '2024-05-01 21:57:40');
+
+
 INSERT INTO recipe
 VALUES
     (16, 'Apple Potato Onion Stir-Fry', '30 mins', 'Easy', '1 apple, diced
@@ -650,20 +783,108 @@ Return tofu to the skillet and add soy sauce. Stir well to combine and cook for 
 Season with salt and pepper to taste.
 Serve hot over cooked rice. Enjoy your delicious asparagus and tofu stir-fry!', '/generated-images/Asparagus_and_Tofu_Stir-Fry_20240422.png', '2024-04-22 11:05:42', '2024-04-22 11:05:42');
 
-INSERT INTO recipe VALUES (39,'Tofu and Spinach Stir-Fry','20 mins','Easy','1 block of tofu, cubed
+INSERT INTO recipe
+VALUES
+    (39, 'Tofu and Spinach Stir-Fry', '20 mins', 'Easy', '1 block of tofu, cubed
 2 cups of fresh spinach
 2 cloves of garlic, minced
 1 tablespoon of soy sauce
 1 tablespoon of sesame oil
 1 teaspoon of ginger, grated
 1 tablespoon of vegetable oil
-Salt and pepper to taste','Press the tofu to remove excess moisture. Cut into cubes.
+Salt and pepper to taste', 'Press the tofu to remove excess moisture. Cut into cubes.
 Heat vegetable oil in a pan over medium heat. Add tofu cubes and cook until golden brown on all sides. Remove from pan and set aside.
 In the same pan, add sesame oil, garlic, and ginger. Cook for 1-2 minutes until fragrant.
 Add spinach to the pan and cook until wilted.
 Return tofu to the pan and add soy sauce. Stir well to combine.
 Season with salt and pepper to taste.
-Serve hot and enjoy!','/generated-images/Tofu_and_Spinach_Stir-Fry_20240423.png','2024-04-23 05:35:51','2024-04-23 05:35:51');
+Serve hot and enjoy!', '/generated-images/Tofu_and_Spinach_Stir-Fry_20240423.png', '2024-04-23 05:35:51', '2024-04-23 05:35:51');
+
+/* Insert into recipe_ingredient */
+INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES
+(1, 1),  -- Tomato Pasta includes Tomato
+(2, 2),  -- Cheese Pizza includes Cheese
+(3, 3),  -- Basil Chicken includes Basil
+(4, 4),  -- Chicken Curry includes Chicken
+(5, 5);  -- Salad with Olive Oil includes Olive Oil
+
+/* Continue with other insert statements in a similar fashion. */
+
+INSERT INTO search_history (id, user_id, created_at) VALUES
+(1, 1, '2023-04-12 10:30:00'),
+(2, 2, '2023-04-12 11:00:00'),
+(3, 3, '2023-04-13 10:30:00'),
+(4, 4, '2023-04-14 10:30:00'),
+(5, 5, '2023-04-15 10:30:00');
+
+INSERT INTO history_ingredient (search_history_id, ingredient_id) VALUES
+(1, 1),
+(1, 3),
+(2, 2),
+(2, 5),
+(3, 4);
+
+INSERT INTO collection (id, name, user_id, created_at, updated_at) VALUES
+(1, 'Favorites', 1, '2023-04-12 08:30:00', '2023-04-12 08:30:00'),
+(2, 'Italian', 1, '2023-04-12 09:00:00', '2023-04-15 10:00:00'),
+(3, 'Quick Meals', 1, '2023-04-13 08:30:00', '2023-04-13 08:30:00'),
+(4, 'Dinner Specials', 2, '2023-04-14 08:30:00', '2023-04-15 09:30:00'),
+(5, 'Healthy Choices', 2, '2023-04-15 08:30:00', '2023-04-16 11:00:00');
+
+INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
+(1, 1),
+(1, 3),
+(2, 5),
+(3, 2),
+(4, 4);
+
+INSERT INTO browsing_history (user_id, recipe_id, created_at) VALUES
+(1, 1, '2023-04-12 12:00:00'),
+(2, 2, '2023-04-12 12:30:00'),
+(3, 3, '2023-04-13 12:00:00'),
+(4, 4, '2023-04-14 12:00:00'),
+(5, 5, '2023-04-15 12:00:00');
+
+INSERT INTO score (score, user_id, recipe_id, created_at, updated_at) VALUES
+(5, 1, 1, '2023-04-12 13:00:00', '2023-04-12 13:00:00'),
+(4, 2, 2, '2023-04-13 13:30:00', '2023-04-15 14:00:00'),
+(3, 3, 3, '2023-04-13 13:00:00', '2023-04-13 13:00:00'),
+(2, 4, 4, '2023-04-14 13:00:00', '2023-04-15 14:30:00'),
+(1, 5, 5, '2023-04-15 13:00:00', '2023-04-16 14:00:00');
+
+/*test data, score*/
+INSERT INTO score (score, user_id, recipe_id, created_at, updated_at) VALUES
+(3, 1, 6, '2023-04-16 15:00:00', '2023-04-16 15:00:00'),
+(4, 2, 6, '2023-04-16 16:00:00', '2023-04-16 16:00:00'),
+(5, 3, 6, '2023-04-16 17:00:00', '2023-04-16 17:00:00'),
+(3, 1, 7, '2023-04-17 15:00:00', '2023-04-17 15:00:00'),
+(2, 2, 7, '2023-04-17 16:00:00', '2023-04-17 16:00:00'),
+(4, 3, 7, '2023-04-17 17:00:00', '2023-04-17 17:00:00'),
+(5, 1, 8, '2023-04-18 09:00:00', '2023-04-18 09:00:00'),
+(5, 2, 8, '2023-04-18 10:00:00', '2023-04-18 10:00:00'),
+(4, 3, 8, '2023-04-18 11:00:00', '2023-04-18 11:00:00'),
+(4, 1, 10, '2023-04-20 18:00:00', '2023-04-20 18:50:00'),
+(5, 2, 10, '2023-04-20 19:00:00', '2023-04-20 19:50:00'),
+(3, 3, 10, '2023-04-20 20:00:00', '2023-04-20 20:50:00'),
+(2, 1, 11, '2023-04-21 11:00:00', '2023-04-21 12:00:00'),
+(3, 2, 11, '2023-04-21 13:00:00', '2023-04-21 14:00:00'),
+(4, 3, 11, '2023-04-21 15:00:00', '2023-04-21 16:00:00'),
+(5, 1, 12, '2023-04-22 14:00:00', '2023-04-22 14:30:00'),
+(4, 2, 12, '2023-04-22 15:00:00', '2023-04-22 15:30:00'),
+(3, 3, 12, '2023-04-22 16:00:00', '2023-04-22 16:30:00'),
+(2, 1, 13, '2023-04-23 13:00:00', '2023-04-23 13:30:00'),
+(4, 2, 13, '2023-04-23 14:00:00', '2023-04-23 14:30:00'),
+(1, 3, 13, '2023-04-23 15:00:00', '2023-04-23 15:30:00'),
+(3, 1, 14, '2023-04-24 16:00:00', '2023-04-24 16:45:00'),
+(2, 2, 14, '2023-04-24 17:00:00', '2023-04-24 17:45:00'),
+(5, 3, 14, '2023-04-24 18:00:00', '2023-04-24 18:45:00'),
+(4, 1, 15, '2023-04-25 15:00:00', '2023-04-25 15:40:00'),
+(5, 2, 15, '2023-04-25 16:00:00', '2023-04-25 16:40:00'),
+(3, 3, 15, '2023-04-25 17:00:00', '2023-04-25 17:40:00');
+
+
+
+
 
 INSERT INTO collection_recipe (collection_id, recipe_id) VALUES
 (1, 15),

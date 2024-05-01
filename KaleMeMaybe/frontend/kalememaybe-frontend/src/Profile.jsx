@@ -232,13 +232,14 @@ export default function Profile() {
               className="w-full px-4 py-2 bg-gray-100 border-2 rounded-md col-span-7"
               value={userData.birthDate}
               onChange={handleChange}
+              required
             ></input>
           </label>
           <label className="grid grid-cols-10 items-center mt-3">
             <p className="col-span-3">City: </p>
             <input
               type="text"
-              name="birthDate"
+              name="city"
               placeholder={userData.city}
               className="w-full px-4 py-2 bg-gray-100 border-2 rounded-md col-span-7"
               value={userData.city}

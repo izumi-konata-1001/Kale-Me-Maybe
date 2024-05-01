@@ -1,6 +1,7 @@
 const mysql = require("mysql2/promise");
 const bcrypt = require("bcrypt");
-require('dotenv').config(); 
+require('dotenv').config({ path: '../.env' }); 
+
 
 async function updateUsersWithHashedPasswords() {
   const connection = await mysql.createConnection({

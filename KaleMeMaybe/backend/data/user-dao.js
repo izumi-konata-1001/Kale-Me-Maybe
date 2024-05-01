@@ -1,3 +1,4 @@
+
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 const jwt = require("jsonwebtoken");
@@ -109,10 +110,10 @@ async function retrieveUserByEmail(email) {
 async function retrieveUserById(userId) {
   const db = await dbPromise;
   const [rows] = await db.execute(
-    `SELECT * FROM user WHERE id = ?`,
+    `SELECT id, name, bio, gender, city, avatar_id, DATE_FORMAT(birth_date, '%Y-%m-%d') AS birth_date FROM user WHERE id = ?`,
     [userId]
   );
-  return rows[0]; 
+  return rows[0];
 }
 
 async function updateUserProfileById(

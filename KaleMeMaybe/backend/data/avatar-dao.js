@@ -5,11 +5,11 @@ const dbPromise = require("./database.js");
 async function retrieveAvatarByPath(avatarPath) {
   const db = await dbPromise;
 
-  const avatar = await db.get(
+  const [avatar] = await db.execute(
     SQL`SELECT * FROM avatar WHERE image_path = ${avatarPath}`
   );
 
-  return avatar;
+  return avatar[0]; 
 }
 
 // Export functions.

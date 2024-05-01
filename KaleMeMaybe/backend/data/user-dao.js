@@ -1,8 +1,7 @@
+
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
-// for authToken
 const jwt = require("jsonwebtoken");
-// for hash password
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -17,26 +16,21 @@ async function checkPassword(password, hashedPassword) {
 
 async function retrieveThirdPartyAccount(provider, provider_id) {
   const db = await dbPromise;
-
-  const account = await db.get(
-    SQL`SELECT * FROM third_party_account WHERE provider_name = ${provider} AND provider_user_id = ${provider_id}`
+  const [rows] = await db.execute(
+    `SELECT * FROM third_party_account WHERE provider_name = ? AND provider_user_id = ?`,
+    [provider, provider_id]
   );
-
-  return account;
+  return rows[0]; 
 }
 
 async function insertThirdPartyTable(user_id, provider, provider_id) {
   const db = await dbPromise;
   try {
-    const result = await db.run(
-      `
-            INSERT INTO third_party_account (user_id, provider_name, provider_user_id)
-            VALUES (?, ?, ?)
-        `,
+    const [result] = await db.execute(
+      `INSERT INTO third_party_account (user_id, provider_name, provider_user_id) VALUES (?, ?, ?)`,
       [user_id, provider, provider_id]
     );
-
-    return { id: result.lastID };
+    return { id: result.insertId };
   } catch (error) {
     console.error("Error inserting to new third party table:", error);
     throw error;
@@ -46,15 +40,11 @@ async function insertThirdPartyTable(user_id, provider, provider_id) {
 async function insertNewThirdUser(email) {
   const db = await dbPromise;
   try {
-    const result = await db.run(
-      `
-            INSERT INTO user (email, encrypted_password)
-            VALUES (?, ?)
-        `,
+    const [result] = await db.execute(
+      `INSERT INTO user (email, encrypted_password) VALUES (?, ?)`,
       [email, ""]
     );
-
-    return { id: result.lastID };
+    return { id: result.insertId };
   } catch (error) {
     console.error("Error inserting new third party user:", error);
     throw error;
@@ -65,16 +55,11 @@ async function insertNewUser(userData) {
   const db = await dbPromise;
   try {
     const { email, encrypted_password } = userData;
-
-    const result = await db.run(
-      `
-            INSERT INTO user (email, encrypted_password)
-            VALUES (?, ?)
-        `,
+    const [result] = await db.execute(
+      `INSERT INTO user (email, encrypted_password) VALUES (?, ?)`,
       [email, encrypted_password]
     );
-
-    return { id: result.lastID };
+    return { id: result.insertId };
   } catch (error) {
     console.error("Error inserting new user:", error);
     throw error;
@@ -93,12 +78,11 @@ async function hashPassword(password) {
 
 async function retrieveUserAvatarById(avatar_id) {
   const db = await dbPromise;
-
-  const avatar = await db.get(
-    SQL`SELECT * FROM avatar WHERE id = ${avatar_id}`
+  const [rows] = await db.execute(
+    `SELECT * FROM avatar WHERE id = ?`,
+    [avatar_id]
   );
-
-  return avatar;
+  return rows[0]; 
 }
 
 function generateToken(user) {
@@ -106,32 +90,30 @@ function generateToken(user) {
     id: user.id,
     email: user.email,
   };
-
   const secretKey = process.env.JWT_SECRET_KEY;
-
   const options = {
     expiresIn: "7d",
   };
-
   const token = jwt.sign(payload, secretKey, options);
-
   return token;
 }
 
 async function retrieveUserByEmail(email) {
   const db = await dbPromise;
-
-  const user = await db.get(SQL`SELECT * FROM user WHERE email = ${email}`);
-
-  return user;
+  const [rows] = await db.execute(
+    `SELECT * FROM user WHERE email = ?`,
+    [email]
+  );
+  return rows[0]; 
 }
 
 async function retrieveUserById(userId) {
   const db = await dbPromise;
-
-  const user = await db.get(SQL`SELECT * FROM user WHERE id = ${userId}`);
-
-  return user;
+  const [rows] = await db.execute(
+    `SELECT id, name, bio, gender, city, avatar_id, DATE_FORMAT(birth_date, '%Y-%m-%d') AS birth_date FROM user WHERE id = ?`,
+    [userId]
+  );
+  return rows[0];
 }
 
 async function updateUserProfileById(
@@ -144,23 +126,13 @@ async function updateUserProfileById(
   avatar_id
 ) {
   const db = await dbPromise;
-
-  const result = await db.run(
+  const [result] = await db.execute(
     `UPDATE user SET name = ?, bio = ?, gender = ?, birth_date = ?, city = ?, avatar_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
-    [name, bio, gender, birthDate, city, avatar_id, id],
-    function (err) {
-      if (err) {
-        console.error("Error updating user:", err.message);
-      } else {
-        console.log(`User profile updated successfully for ${user.name}.`);
-      }
-    }
+    [name, bio, gender, birthDate, city, avatar_id, id]
   );
-
   return result;
 }
 
-// Export functions.
 module.exports = {
   checkPassword,
   insertNewUser,

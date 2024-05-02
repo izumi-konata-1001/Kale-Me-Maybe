@@ -6,7 +6,7 @@ async function getFavorites(user) {
   try {
     const db = await dbPromise;
 
-    const collections = await db.all(SQL`
+    const collections = await db.all(`
         SELECT 
         c.id,
         c.name AS CollectionName,
@@ -25,13 +25,12 @@ async function getFavorites(user) {
       LEFT JOIN 
         collection_recipe cr ON c.id = cr.collection_id
       WHERE 
-        c.user_id = ${user}
+        c.user_id = ?
       GROUP BY 
         c.id
       ORDER BY 
         c.updated_at DESC
-  
-    `);
+    `, [user]);
 
     return collections;
   } catch (error) {
@@ -43,15 +42,15 @@ async function createCollection(user, collectionName) {
   try {
     const db = await dbPromise;
 
-    const userCheck = await db.get(SQL`SELECT id FROM user WHERE id = ${user}`);
+    const userCheck = await db.get(`SELECT id FROM user WHERE id = ?`, [user]);
     if (!userCheck) {
       throw new Error("User does not exist");
     }
 
-    await db.run(SQL`
+    await db.run(`
       INSERT INTO collection (name, user_id, created_at, updated_at)
-      VALUES (${collectionName}, ${user}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-    `);
+      VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    `, [collectionName, user]);
 
     const collections = await getFavorites(user);
     return collections;
@@ -65,26 +64,23 @@ async function searchFavorites(user, searchTerm) {
   try {
     const db = await dbPromise;
 
-    const userCheck = await db.get(SQL`SELECT id FROM user WHERE id = ${user}`);
+    const userCheck = await db.get(`SELECT id FROM user WHERE id = ?`, [user]);
     if (!userCheck) {
       throw new Error("User does not exist");
     }
 
-    const rows = await db.all(
-      `
+    const rows = await db.all(`
       SELECT DISTINCT r.*
       FROM collection c
       JOIN collection_recipe cr ON c.id = cr.collection_id
       JOIN recipe r ON cr.recipe_id = r.id
       WHERE c.user_id = ? 
       AND (
-          r.name LIKE '%' || ? || '%' OR 
-          r.ingredient_details LIKE '%' || ? || '%' OR 
-          r.method LIKE '%' || ? || '%'
+          r.name LIKE CONCAT('%', ?, '%') OR 
+          r.ingredient_details LIKE CONCAT('%', ?, '%') OR 
+          r.method LIKE CONCAT('%', ?, '%')
       )
-    `,
-      [user, searchTerm, searchTerm, searchTerm]
-    );
+    `, [user, searchTerm, searchTerm, searchTerm]);
 
     return rows;
   } catch (error) {

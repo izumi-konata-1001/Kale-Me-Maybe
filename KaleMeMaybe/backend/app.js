@@ -38,6 +38,14 @@ app.use("/api/favorites", require("./routes/favorites.js"));
 app.use("/api/discover", require("./routes/discover.js"));
 
 // Start the server running.
-app.listen(port, function () {
-  console.log(`App listening on port ${port}!`);
-});
+//app.listen(port, function () {
+//  console.log(`App listening on port ${port}!`);
+//});
+
+if(require.main === module) {
+  app.listen(port, function () {
+    console.log(`App listening on port ${port}!`);
+  });
+}
+
+module.exports = app;

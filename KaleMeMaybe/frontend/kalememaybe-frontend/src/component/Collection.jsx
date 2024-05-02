@@ -12,6 +12,7 @@ export default function Collection({
   id,
 }) {
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
   const handleClick = () => {
     navigate(`/collection/${userid}/${id}`);
@@ -21,7 +22,7 @@ export default function Collection({
     <div onClick={handleClick} className="group">
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 ">
         <img
-          src={imgPath}
+          src={`${API_BASE_URL}/${imgPath}`}
           className="h-full w-full object-cover object-center group-hover:opacity-75"
         />
       </div>

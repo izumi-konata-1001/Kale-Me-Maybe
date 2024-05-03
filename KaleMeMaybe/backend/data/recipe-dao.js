@@ -1,39 +1,34 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-async function getAllRecipes(userId) {
+async function getAllRecipes() {
   const db = await dbPromise;
   try {
-    const query = `
-      SELECT r.*, 
-             EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
-      FROM recipe r
-      ORDER BY r.created_at DESC
-    `;
-    const recipes = await db.all(query, [userId]);
-    return recipes;
+      const query = `
+          SELECT *
+          FROM recipe;
+      `;
+      const [recipes] = await db.query(query);
+      return recipes;
   } catch (err) {
-    console.error("Failed to retrieve recipes from the database:", err);
-    throw err;
+      console.error("Failed to retrieve all recipes from the database:", err);
+      throw err;
   }
 }
 
 async function retrieveRecipeById(userid, id) {
   const db = await dbPromise;
 
-  const recipe = await db.get(`select * from recipe where id=${id}`);
+  const recipe = await db.query(SQL`SELECT * FROM recipe WHERE id = ${id}`);
+  
+  const favoriteCheck = await db.query(SQL`
+    SELECT * FROM collection_recipe 
+    WHERE recipe_id = ${id} AND collection_id IN (
+      SELECT id FROM collection WHERE user_id = ${userid}
+    )
+  `);
 
-  const favoriteCheck = await db.get(
-    `
-      SELECT * FROM collection_recipe 
-      WHERE recipe_id = ? AND collection_id IN (
-        SELECT id FROM collection WHERE user_id = ?
-      )
-    `,
-    [id, userid]
-  );
-
-  return { isFavorited: favoriteCheck ? true : false, recipe: recipe };
+  return { isFavorited: favoriteCheck[0].length > 0, recipe: recipe[0][0] };
 }
 
 // insert new generated recipe into recipe table and search history table
@@ -110,113 +105,177 @@ async function insertRecipeAndSearchHistory(
     throw err;
   }
 }
-
-async function getRecipesSortedByTimeConsuming(direction, userId) {
-  const db = await dbPromise;
-  try {
-    const orderByDirection = direction === "asc" ? "ASC" : "DESC";
-    const query = `
-        SELECT r.*, 
-               EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
-        FROM recipe r
-        ORDER BY 
-          CAST(SUBSTR(r.time_consuming, 1, INSTR(r.time_consuming, ' ') - 1) AS INTEGER) ${orderByDirection},
-          r.created_at DESC
-      `;
-    const recipes = await db.all(query, [userId]);
-    return recipes;
-  } catch (err) {
-    console.error(
-      "Failed to retrieve sorted recipes by time consuming from the database:",
-      err
-    );
-    throw err;
-  }
-}
-
-async function getRecipesSortedByDifficulty(direction, userId) {
-  const db = await dbPromise;
-  const orderByDirection = direction === "asc" ? "ASC" : "DESC";
-  const difficultyOrder = { Easy: 1, Medium: 2, Hard: 3 };
-  const query = `
-    SELECT r.*, 
-           EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
-    FROM recipe r
-    ORDER BY 
-      CASE r.difficulty 
-        WHEN 'Easy' THEN 1 
-        WHEN 'Medium' THEN 2 
-        WHEN 'Hard' THEN 3 
-      END ${orderByDirection},
-      r.created_at DESC
-  `;
-  const recipes = await db.all(query, [userId]);
-  return recipes;
-}
-
-async function getRecipesSortedByAverageScore(direction, userId) {
-  const db = await dbPromise;
-  try {
-    const orderByDirection = direction === "asc" ? "ASC" : "DESC";
-    const query = `
-      SELECT r.*, 
-             IFNULL(AVG(s.score), 0) as avg_score,
-             EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
-      FROM recipe r
-      LEFT JOIN score s ON r.id = s.recipe_id
-      GROUP BY r.id
-      ORDER BY avg_score ${orderByDirection}, r.created_at DESC
-    `;
-    const recipesWithScores = await db.all(query, [userId]);
-    return recipesWithScores;
-  } catch (err) {
-    console.error(
-      "Failed to retrieve recipes sorted by average score from the database:",
-      err
-    );
-    throw err;
-  }
-}
-
-async function getRecipesSortedByPopularity(direction, userId) {
-  const db = await dbPromise;
-  try {
-    const orderByDirection = direction === "asc" ? "ASC" : "DESC";
-    const query = `
-      SELECT r.*, 
-             COUNT(cr.collection_id) AS popularity,
-             EXISTS(SELECT 1 FROM collection_recipe cr JOIN collection c ON cr.collection_id = c.id WHERE cr.recipe_id = r.id AND c.user_id = ?) as favouriteState
-      FROM recipe r
-      LEFT JOIN collection_recipe cr ON r.id = cr.recipe_id
-      GROUP BY r.id
-      ORDER BY popularity ${orderByDirection}, r.created_at DESC
-    `;
-    const recipesWithPopularity = await db.all(query, [userId]);
-    return recipesWithPopularity;
-  } catch (err) {
-    console.error(
-      "Failed to retrieve recipes sorted by collection count from the database:",
-      err
-    );
-    throw err;
-  }
-}
-
 async function removeRecipeFromFavourites(userId, recipeId) {
   const db = await dbPromise;
   try {
-    await db.run(
-      `
+    const query = SQL`
       DELETE FROM collection_recipe
-      WHERE recipe_id = ? AND collection_id IN (
-        SELECT id FROM collection WHERE user_id = ?
+      WHERE recipe_id = ${recipeId} AND collection_id IN (
+        SELECT id FROM collection WHERE user_id = ${userId}
       )
-    `,
-      [recipeId, userId]
-    );
+    `;
+    await db.query(query);
   } catch (err) {
     console.error("Failed to remove recipe from favourites:", err);
     throw err;
+  }
+}
+
+async function getRecipesSortByTimeConsumingAsc() {
+  const db = await dbPromise;
+  try {
+      const query = `
+          SELECT *
+          FROM recipe
+          ORDER BY CAST(time_consuming AS UNSIGNED), created_at DESC;
+      `;
+      const recipes = await db.query(query);
+      return recipes;
+  } catch (err) {
+      console.error("Failed to retrieve sorted recipes by time consuming from the database:", err);
+      throw err;
+  }
+}
+
+async function getRecipesSortByTimeConsumingDesc() {
+  const db = await dbPromise;
+  try {
+      const query = `
+          SELECT *
+          FROM recipe
+          ORDER BY CAST(time_consuming AS UNSIGNED) DESC, created_at DESC;
+      `;
+      const recipes = await db.query(query);
+      return recipes;
+  } catch (err) {
+      console.error("Failed to retrieve sorted recipes by time consuming (desc) from the database:", err);
+      throw err;
+  }
+}
+
+async function getRecipesSortByDifficultyAsc() {
+  const db = await dbPromise;
+  try {
+      const query = `
+          SELECT *
+          FROM recipe
+          ORDER BY 
+              CASE difficulty
+                  WHEN 'easy' THEN 1
+                  WHEN 'medium' THEN 2
+                  WHEN 'hard' THEN 3
+                  ELSE 4
+              END,
+              created_at DESC;
+      `;
+      const [recipes] = await db.query(query);
+      return recipes;
+  } catch (err) {
+      console.error("Failed to retrieve sorted recipes by difficulty (asc) from the database:", err);
+      throw err;
+  }
+}
+
+async function getRecipesSortByDifficultyDesc() {
+  const db = await dbPromise;
+  try {
+      const query = `
+          SELECT *
+          FROM recipe
+          ORDER BY 
+              CASE difficulty
+                  WHEN 'easy' THEN 3
+                  WHEN 'medium' THEN 2
+                  WHEN 'hard' THEN 1
+                  ELSE 4
+              END,
+              created_at DESC;
+      `;
+      const [recipes] = await db.query(query);
+      return recipes;
+  } catch (err) {
+      console.error("Failed to retrieve sorted recipes by difficulty (desc) from the database:", err);
+      throw err;
+  }
+}
+
+async function addAverageScore() {
+  const db = await dbPromise;
+  try {
+    const query = `
+      SELECT r.*, AVG(IFNULL(s.score, NULL)) AS averageScore
+      FROM recipe r
+      LEFT JOIN score s ON r.id = s.recipe_id
+      GROUP BY r.id;
+    `;
+    const [recipesWithAverageScore] = await db.query(query);
+    return recipesWithAverageScore;
+  } catch (err) {
+    console.error("Failed to add average score to recipes:", err);
+    throw err;
+  }
+}
+
+async function addPopularity() {
+  const db = await dbPromise;
+  try {
+      const query = `
+          SELECT r.*, COALESCE(c.popularity, 0) AS popularity
+          FROM recipe r
+          LEFT JOIN (
+              SELECT recipe_id, COUNT(*) AS popularity
+              FROM collection_recipe
+              GROUP BY recipe_id
+          ) c ON r.id = c.recipe_id;
+      `;
+      const [recipes] = await db.query(query);
+      return recipes;
+  } catch (err) {
+      console.error("Failed to retrieve and augment recipes with popularity:", err);
+      throw err;
+  }
+}
+
+async function getAllCollections(userId) {
+  const db = await dbPromise;
+  try {
+    const query = `
+      SELECT *
+      FROM collection
+      WHERE user_id = ${userId};
+    `;
+    const [collections] = await db.query(query);
+    return collections;
+  } catch (error) {
+    console.error("Failed to get all collections:", error);
+    throw error;
+  }
+}
+
+async function getFavouriteRecipe(collections) {
+  const db = await dbPromise;
+  try {
+    if (collections.length === 0)
+      return [];
+
+    const collectionIds = collections.map(collection => collection.id);
+
+    const query = `
+      SELECT cr.recipe_id
+      FROM collection_recipe cr
+      WHERE cr.collection_id IN (${collectionIds.join(',')});
+    `;
+    const [recipeIds] = await db.query(query);
+
+    if (recipeIds.length === 0) 
+      return [];
+
+    const recipeIdArray = recipeIds.map(recipe => recipe.recipe_id);
+
+    return recipeIdArray;
+  } catch (error) {
+    console.error("Failed to get favourite recipes:", error);
+    throw error;
   }
 }
 
@@ -225,9 +284,13 @@ module.exports = {
   getAllRecipes,
   retrieveRecipeById,
   insertRecipeAndSearchHistory,
-  getRecipesSortedByTimeConsuming,
-  getRecipesSortedByDifficulty,
-  getRecipesSortedByAverageScore,
-  getRecipesSortedByPopularity,
   removeRecipeFromFavourites,
+  getRecipesSortByTimeConsumingAsc,
+  getRecipesSortByTimeConsumingDesc,
+  getRecipesSortByDifficultyAsc,
+  getRecipesSortByDifficultyDesc,
+  addAverageScore,
+  addPopularity,
+  getAllCollections,
+  getFavouriteRecipe,
 };

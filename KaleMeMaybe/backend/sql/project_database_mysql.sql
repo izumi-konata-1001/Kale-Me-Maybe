@@ -103,7 +103,7 @@ CREATE TABLE collection_recipe (
     collection_id INT NOT NULL,
     recipe_id INT NOT NULL,
     PRIMARY KEY (collection_id, recipe_id),
-    FOREIGN KEY (collection_id) REFERENCES collection(id),
+    FOREIGN KEY (collection_id) REFERENCES collection(id) ON DELETE CASCADE,
     FOREIGN KEY (recipe_id) REFERENCES recipe(id)
 );
 

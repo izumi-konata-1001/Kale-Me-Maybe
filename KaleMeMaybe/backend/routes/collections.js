@@ -9,7 +9,7 @@ router.get("/:userid/:id", async function (req, res) {
   const collectionId = req.params.id;
 
   try {
-    const result = await collectionDao.retriveCollection(userId, collectionId);
+    const result = await collectionDao.retrieveCollection(userId, collectionId);
 
     if (result.recipes.length === 0) {
       res.json({ message: "There is nothing here yet.", name: result.name });

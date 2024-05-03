@@ -70,7 +70,7 @@ async function searchFavorites(user, searchTerm) {
     }
 
     const [rows] = await db.query(`
-      SELECT DISTINCT r.*
+      SELECT DISTINCT r.*, TRUE as favouriteState
       FROM collection c
       JOIN collection_recipe cr ON c.id = cr.collection_id
       JOIN recipe r ON cr.recipe_id = r.id

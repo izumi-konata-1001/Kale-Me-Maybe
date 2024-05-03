@@ -81,7 +81,7 @@ async function addRecipeToCollection(userId, collectionId, recipeId) {
       VALUES (?, ?)`, [collectionId, recipeId]
     );
 
-    if (insertResult.insertId) {
+    if (insertResult.affectedRows) {
       console.log("Recipe added to collection successfully");
       return {
         success: true,

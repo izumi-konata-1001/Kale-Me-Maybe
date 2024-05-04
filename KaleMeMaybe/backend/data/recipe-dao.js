@@ -255,6 +255,10 @@ async function getAllCollections(userId) {
 async function getFavouriteRecipe(collections) {
   const db = await dbPromise;
   try {
+    if (!Array.isArray(collections)) {
+      return [];
+    }
+
     if (collections.length === 0)
       return [];
 

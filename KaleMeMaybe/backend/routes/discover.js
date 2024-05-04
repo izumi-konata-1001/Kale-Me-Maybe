@@ -8,10 +8,12 @@ router.get("/", async (req, res) => {
     let recipes = [];
     if (sort == "time") {
       if (direction != ""){
-        if (direction == "asc")
-          recipes = await recipeDao.getRecipesSortByTimeConsumingAsc();
+        recipes = await recipeDao.getAllRecipes();
+        if (direction == "asc"){
+          recipes = getRecipesSortByTimeAsc(recipes);
+        }
         else if (direction == "desc")
-          recipes = await recipeDao.getRecipesSortByTimeConsumingDesc();
+          recipes = getRecipesSortByTimeDesc(recipes);
       }
       else 
         recipes = await recipeDao.getAllRecipes();
@@ -49,15 +51,7 @@ router.get("/", async (req, res) => {
         recipes = await recipeDao.getAllRecipes();
     } 
     else
-    {
       recipes = await recipeDao.getAllRecipes();
-      if (userId !== undefined && userId !== null && userId !== ""){
-        const favouriteRecipes = await recipeDao.getFavouriteRecipe(userId);
-        recipes = markFavouriteState(recipes, favouriteRecipes)
-      }
-      else
-        res.json({ recipes });
-    }
     if (userId !== undefined && userId !== null && userId !== "")
     {
       const collections = await recipeDao.getAllCollections(userId);
@@ -69,6 +63,40 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 });
+
+function getRecipesSortByTimeAsc(recipes) {
+
+  const sortedRecipes = recipes.sort((a, b) => {
+    const consumeTimeA = parseInt(a.time_consuming);
+    const consumeTimeB = parseInt(b.time_consuming);
+    if (consumeTimeA !== consumeTimeB) {
+      return consumeTimeA - consumeTimeB;
+    }
+
+    const createdAtA = new Date(a.created_at);
+    const createdAtB = new Date(b.created_at);
+    return createdAtB - createdAtA;
+  });
+
+  return sortedRecipes;
+}
+
+function getRecipesSortByTimeDesc(recipes) {
+
+  const sortedRecipes = recipes.sort((a, b) => {
+    const consumeTimeA = parseInt(a.time_consuming); 
+    const consumeTimeB = parseInt(b.time_consuming);
+    if (consumeTimeA !== consumeTimeB) {
+      return consumeTimeB - consumeTimeA;
+    }
+
+    const createdAtA = new Date(a.created_at);
+    const createdAtB = new Date(b.created_at);
+    return createdAtB - createdAtA; 
+  });
+
+  return sortedRecipes;
+}
 
 function getRecipesSortByRateAsc(recipes){
   try {
@@ -107,7 +135,7 @@ function getRecipesSortByPopularityAsc(recipes) {
   return recipes;
 }
 
-async function getRecipesSortByPopularityDesc(recipes) {
+function getRecipesSortByPopularityDesc(recipes) {
   recipes.sort((a, b) => {
       if (a.popularity !== undefined && b.popularity !== undefined && a.popularity !== b.popularity) 
           return b.popularity - a.popularity;

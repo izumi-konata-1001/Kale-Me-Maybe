@@ -121,38 +121,6 @@ async function removeRecipeFromFavourites(userId, recipeId) {
   }
 }
 
-async function getRecipesSortByTimeConsumingAsc() {
-  const db = await dbPromise;
-  try {
-      const query = `
-          SELECT *
-          FROM recipe
-          ORDER BY CAST(time_consuming AS UNSIGNED), created_at DESC;
-      `;
-      const recipes = await db.query(query);
-      return recipes;
-  } catch (err) {
-      console.error("Failed to retrieve sorted recipes by time consuming from the database:", err);
-      throw err;
-  }
-}
-
-async function getRecipesSortByTimeConsumingDesc() {
-  const db = await dbPromise;
-  try {
-      const query = `
-          SELECT *
-          FROM recipe
-          ORDER BY CAST(time_consuming AS UNSIGNED) DESC, created_at DESC;
-      `;
-      const recipes = await db.query(query);
-      return recipes;
-  } catch (err) {
-      console.error("Failed to retrieve sorted recipes by time consuming (desc) from the database:", err);
-      throw err;
-  }
-}
-
 async function getRecipesSortByDifficultyAsc() {
   const db = await dbPromise;
   try {
@@ -289,8 +257,6 @@ module.exports = {
   retrieveRecipeById,
   insertRecipeAndSearchHistory,
   removeRecipeFromFavourites,
-  getRecipesSortByTimeConsumingAsc,
-  getRecipesSortByTimeConsumingDesc,
   getRecipesSortByDifficultyAsc,
   getRecipesSortByDifficultyDesc,
   addAverageScore,

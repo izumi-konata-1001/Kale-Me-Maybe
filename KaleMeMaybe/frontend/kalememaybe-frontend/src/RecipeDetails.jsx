@@ -91,12 +91,16 @@ export default function RecipeDetails() {
 
     return (
         <div className={"pb-10"}>
-            <div className="relative flex justify-center items-center w-full">
-                <BackButton />
-                <h1 className="title">
+            <div className="md:relative sm:grid grid-cols-4 items-center w-full">
+                <div className="col-span-1 flex justify-start pl-4">
+                    <BackButton />
+                </div>
+                <h1 className="col-span-2 title text-center">
                     {recipe.name}
                 </h1>
+                <div className="col-span-1"></div>
             </div>
+
 
             <div className="flex justify-center gap-5 items-center">
         <span className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">

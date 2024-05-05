@@ -4,12 +4,12 @@ const dbPromise = require("./database.js");
 async function getBrowsingHistory(userId) {
   const db = await dbPromise;
   try {
-    const history = await db.all(SQL`
+    const [history] = await db.execute(`
         SELECT DISTINCT b.user_id, b.recipe_id, r.name, r.time_consuming, r.difficulty, r.method, r.image_path
         FROM browsing_history b JOIN recipe r ON b.recipe_id = r.id 
-        WHERE b.user_id = ${userId}
+        WHERE b.user_id = ?
         ORDER BY b.created_at DESC
-        `);
+        `, [userId]);
     return history;
   } catch (err) {
     console.error(
@@ -23,9 +23,9 @@ async function getBrowsingHistory(userId) {
 async function updateBrowsingHistory(userId, recipeId) {
   const db = await dbPromise;
   try {
-    await db.run(SQL`
-        INSERT OR REPLACE INTO browsing_history (user_id, recipe_id, created_at)
-        VALUES (${userId}, ${recipeId}, CURRENT_TIMESTAMP);`);
+    await db.execute(`
+        REPLACE INTO browsing_history (user_id, recipe_id, created_at)
+        VALUES (?, ?, CURRENT_TIMESTAMP);`,[userId, recipeId]);
   } catch (err) {
     console.error("Failed to insert browsing histories to the database:", err);
     throw err;
@@ -35,12 +35,11 @@ async function updateBrowsingHistory(userId, recipeId) {
 async function getRecipesWithIds(recipeIds) {
   const db = await dbPromise;
   try {
-    const placeholders = recipeIds.map(() => "?").join(", ");
-    const query = `
+    const placeholders = recipeIds.map(() => '?').join(', ');
+    const [recipes] = await db.query(`
         SELECT id AS recipe_id, name, time_consuming, difficulty, method, image_path
         FROM recipe WHERE id IN (${placeholders}) 
-        ORDER BY created_at DESC`;
-    const recipes = await db.all(query, recipeIds);
+        ORDER BY created_at DESC`, recipeIds);
     return recipes;
   } catch (err) {
     console.error("Failed to retrieve local browsing recipes:", err);

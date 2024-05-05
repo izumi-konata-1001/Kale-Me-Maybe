@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 export default function BrowsingHistory() {
-  const { authToken, userId } = useContext(AuthContext);
+  const { authToken, userId, darkMode } = useContext(AuthContext);
   const [broData, setData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [filterValue, setFilter] = useState("");
@@ -121,7 +121,7 @@ export default function BrowsingHistory() {
             ))}
         </div>
       ) : (
-        <p>No browsing history ever</p>
+        <p className={`${darkMode ? 'text-white' : ''}`}>No browsing history ever</p>
       )}
     </div>
     <style jsx>{`

@@ -8,7 +8,7 @@ export default function Profile() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { userId, userAvatar, userName, updateUser } = useContext(AuthContext);
+  const { userId, userAvatar, userName, updateUser,darkMode } = useContext(AuthContext);
 
   const [userData, setUserData] = useState({
     id: "",
@@ -197,10 +197,10 @@ export default function Profile() {
           </div>
         )}
       </div>
-      <div className="max-w-sm w-full mx-auto">
+      <div className={`max-w-sm w-full mx-auto`}>
         <form onSubmit={handleSubmit}>
           <label className="grid grid-cols-10 items-center mt-3">
-            <p className="col-span-3">Name: </p>
+            <p className={`col-span-3 ${darkMode ? 'text-white' : ''}`}>Name: </p>
             <input
               type="text"
               name="name"
@@ -211,7 +211,7 @@ export default function Profile() {
             ></input>
           </label>
           <label className="grid grid-cols-10 items-center mt-3">
-            <p className="col-span-3">Gender: </p>
+            <p className={`col-span-3 ${darkMode ? 'text-white' : ''}`}>Gender: </p>
             <select
               name="gender"
               className="w-full px-4 py-2 bg-gray-100 border-2 rounded-md col-span-7"
@@ -224,7 +224,7 @@ export default function Profile() {
             </select>
           </label>
           <label className="grid grid-cols-10 items-center mt-3">
-            <p className="col-span-3">Birth Date: </p>
+            <p className={`col-span-3 ${darkMode ? 'text-white' : ''}`}>Birth Date: </p>
             <input
               type="date"
               name="birthDate"
@@ -236,7 +236,7 @@ export default function Profile() {
             ></input>
           </label>
           <label className="grid grid-cols-10 items-center mt-3">
-            <p className="col-span-3">City: </p>
+            <p className={`col-span-3 ${darkMode ? 'text-white' : ''}`}>City: </p>
             <input
               type="text"
               name="city"
@@ -247,7 +247,7 @@ export default function Profile() {
             ></input>
           </label>
           <label className="grid grid-cols-10 items-center mt-3">
-            <p className="col-span-3">Bio: </p>
+            <p className={`col-span-3 ${darkMode ? 'text-white' : ''}`}>Bio: </p>
             <textarea
               type="text"
               name="bio"

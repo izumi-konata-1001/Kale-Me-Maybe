@@ -53,14 +53,11 @@ async function deleteCollection(userId, collectionId) {
     );
 
     if (result.affectedRows > 0) {
-      console.log("Collection deleted successfully.");
       return result.affectedRows;
     } else {
-      console.log("No collection was deleted.");
       return 0;
     }
   } catch (error) {
-    console.error("Error deleting collection: ", error);
     throw error;
   }
 }
@@ -82,7 +79,6 @@ async function addRecipeToCollection(userId, collectionId, recipeId) {
     );
 
     if (insertResult.affectedRows) {
-      console.log("Recipe added to collection successfully");
       return {
         success: true,
         message: "Recipe added to collection successfully",
@@ -91,7 +87,6 @@ async function addRecipeToCollection(userId, collectionId, recipeId) {
       throw new Error("Failed to add the recipe to the collection");
     }
   } catch (error) {
-    console.error("Error adding to collection: ", error);
     throw error;
   }
 }
@@ -138,7 +133,6 @@ async function batchDeletion(userId, collectionId, recipeIds) {
     }
 
     await db.commit();
-    console.log("Batch deletion successful.");
   } catch (error) {
     console.error("Failed to delete recipes from collection:", error);
     await db.rollback();

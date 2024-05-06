@@ -72,7 +72,6 @@ export default function CollectionDetail() {
 
       const data = await response.json();
       if (response.ok) {
-        console.log(data.message);
         handleWarningClose();
         backToFavorites();
       } else {

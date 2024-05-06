@@ -33,7 +33,6 @@ export default function SearchModal({ onClose }) {
           }
         );
         const data = await response.json();
-        console.log("after search: ", data);
         setSearchResults(data);
         onClose(true);
         navigate(
@@ -58,7 +57,6 @@ export default function SearchModal({ onClose }) {
       >
         <div
           className="overflow-hidden rounded-lg bg-white shadow-md"
-          //  id="headlessui-dialog-panel-287" data-headlessui-state="open"
         >
           <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white text-white'}`}>
             <input
@@ -74,6 +72,7 @@ export default function SearchModal({ onClose }) {
               value={searchTerm}
               onChange={handleInputChange}
               tabIndex="0"
+              maxLength="15"
             />
             <svg
               className="fill-green-dark cursor-pointer absolute right-4 top-4 h-6 w-6 fill-slate-400"

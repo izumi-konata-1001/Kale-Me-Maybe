@@ -34,7 +34,6 @@ export default function NewCollectionModal({ onClose }) {
 
       if (response.ok) {
         const newCollection = await response.json();
-        console.log("new collection: ", newCollection);
         updateFavorites(newCollection);
         onClose(true);
       } else {
@@ -95,6 +94,7 @@ export default function NewCollectionModal({ onClose }) {
             className="border-gray-300 border rounded p-2 w-full mb-4 placeholder-gray-500 placeholder-opacity-50"
             value={inputValue}
             onChange={handleInputChange}
+            maxLength="15"
           ></input>
           <button
             type="submit"

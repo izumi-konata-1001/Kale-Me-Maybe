@@ -19,9 +19,9 @@
     background-position: left top, right top;
     background-repeat: no-repeat, no-repeat;
     background-size: 15% 100%, 15% 100%;
+    background-attachment:fixed;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
+    width: 100%;
 }
 
 @media (max-width: 640px) {

@@ -5,7 +5,7 @@ async function getBrowsingHistory(userId) {
   const db = await dbPromise;
   try {
     const [history] = await db.execute(`
-        SELECT DISTINCT b.user_id, b.recipe_id, r.name, r.time_consuming, r.difficulty, r.method, r.image_path
+        SELECT DISTINCT b.user_id, b.recipe_id, r.name, r.time_consuming, r.difficulty, r.method, r.image_path, b.created_at
         FROM browsing_history b JOIN recipe r ON b.recipe_id = r.id 
         WHERE b.user_id = ?
         ORDER BY b.created_at DESC

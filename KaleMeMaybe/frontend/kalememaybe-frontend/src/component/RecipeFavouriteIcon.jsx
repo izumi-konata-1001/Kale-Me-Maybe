@@ -160,12 +160,12 @@ const SimpleModal = ({
 }) => {
   const {darkMode} = useContext(AuthContext);
   return (
-    <>
+    <div className={darkMode?"dark":""}>
       <div
         onClick={onClose}
         className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"
       ></div>
-      <div className={`rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4 ${darkMode ? 'bg-gray-800' : 'bg-white text-white'}`}>
+      <div className={`rounded-lg shadow-lg w-1/5 h-1/2 min-w-64 min-h-[200px] flex flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-50 p-4 dark:bg-gray-800`}>
         <div className="flex justify-between items-center">
           <label className="block text-xl font-bold text-green-dark">
             Add to Favorites
@@ -191,7 +191,7 @@ const SimpleModal = ({
             {collections.map((collection, index) => (
               <li key={index} className="py-2">
                 <button
-                  className="block px-4 text-sm hover:bg-green-light w-full h-12 rounded"
+                  className="block px-4 text-sm hover:bg-green-light dark:hover:bg-green-dark w-full h-12 rounded"
                   onClick={() => addToCollection(collection.id)}
                 >
                   {collection.CollectionName}
@@ -207,6 +207,6 @@ const SimpleModal = ({
           Create a new list
         </button>
       </div>
-    </>
+    </div>
   );
 };

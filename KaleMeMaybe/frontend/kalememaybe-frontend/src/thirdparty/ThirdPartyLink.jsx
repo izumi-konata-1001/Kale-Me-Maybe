@@ -13,51 +13,20 @@ export default function ThirdPartyLink() {
     }
   };
 
-  const handleFaceBookLoginClick = async () => {
-    try {
-      // Redirect the user to the FaceBook Auth URL
-      window.location.href = `${API_BASE_URL}/api/auth/facebook`;
-    } catch (error) {
-      console.error("Failed to get FaceBook auth URL", error);
-    }
-  };
-
-  const handleTwitterLoginClick = async () => {
-    try {
-      // Redirect the user to the Twitter Auth URL
-      window.location.href = `${API_BASE_URL}/api/auth/x`;
-    } catch (error) {
-      console.error("Failed to get FaceBook auth URL", error);
-    }
-  };
-
   return (
-    <div className="grid grid-cols-3">
-      <div className="hover:bg-green-light">
+    <div className="grid grid-cols-1">
+      <button className="grid grid-cols-9 items-center rounded-lg 
+      border-green-light border-2 my-2
+      hover:bg-green-dark
+      hover:text-white"
+      onClick={handleGoogleLoginClick}>
+        <div className="col-span-6 text-right">Continue with</div>
         <img
           src="/google.png"
           alt="Login with Google"
-          className="py-4 
-        px-5 xl:px-6"
-          onClick={handleGoogleLoginClick}
+          className="py-2 px-4 col-span-2"
         ></img>
-      </div>
-      <div className="hover:bg-green-light">
-        <img
-          src="/facebook.png"
-          className="py-4 
-        px-5 xl:px-6"
-          onClick={handleFaceBookLoginClick}
-        ></img>
-      </div>
-      <div className="hover:bg-green-light">
-        <img
-          src="twitter.png"
-          className="py-4 
-        px-5 xl:px-6"
-          onClick={handleTwitterLoginClick}
-        ></img>
-      </div>
+      </button>
     </div>
   );
 }

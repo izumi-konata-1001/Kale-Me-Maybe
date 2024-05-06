@@ -7,13 +7,13 @@ export default function ConfirmDeleteModal({ onClose, onDelete, failMsg }) {
 
 
   return ReactDOM.createPortal(
-    <>
+    <div className={darkMode?'dark':''}>
       <div
         onClick={() => onClose(false)}
         className="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 z-40"
       ></div>
 
-      <div className={`z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-md max-w-md mx-auto my-8 ${darkMode ? 'bg-gray-800' : 'bg-white text-white'}`}>
+      <div className={`z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-md max-w-md mx-auto my-8 dark:bg-gray-800`}>
         <div>
           <h4 className="text-lg font-semibold text-green-dark">
             Delete the Collection
@@ -44,7 +44,7 @@ export default function ConfirmDeleteModal({ onClose, onDelete, failMsg }) {
           </button>
         </div>
       </div>
-    </>,
+    </div>,
     document.body
   );
 }

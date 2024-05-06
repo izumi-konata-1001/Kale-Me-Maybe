@@ -13,6 +13,7 @@ export default {
       screens: {
         xs: "700px",
         s: "925px",
+        "list-xs":"300px",
         "list-s": "900px",
         "list-m": "1000px",
         "list-l": "1200px",

@@ -1,5 +1,4 @@
 import ReactDOM from "react-dom";
-import {useParams} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "../contexts/AuthProvider.jsx";
 

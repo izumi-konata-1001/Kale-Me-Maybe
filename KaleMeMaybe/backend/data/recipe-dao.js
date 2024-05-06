@@ -6,7 +6,8 @@ async function getAllRecipes() {
   try {
       const query = `
           SELECT *
-          FROM recipe;
+          FROM recipe
+          ORDER BY id DESC;
       `;
       const [recipes] = await db.query(query);
       return recipes;

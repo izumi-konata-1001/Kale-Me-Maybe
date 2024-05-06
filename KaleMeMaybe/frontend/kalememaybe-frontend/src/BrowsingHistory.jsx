@@ -22,9 +22,7 @@ export default function BrowsingHistory() {
         });
         setData(await response1.json());
       } else {
-        const response = await fetch(
-          `${API_BASE_URL}/api/browsing?id=${userId}`
-        );
+        const response = await fetch(`${API_BASE_URL}/api/browsing?id=${userId}`);
         setData(await response.json());
       }
     };
@@ -41,7 +39,6 @@ export default function BrowsingHistory() {
       })
         .then((response) => {
           if (response.ok) {
-            console.log("Recipe IDs cleared on server.");
           }
         })
         .catch((error) => console.error("Failed to clear Recipe IDs:", error));
@@ -96,7 +93,7 @@ export default function BrowsingHistory() {
                   >
                     {item.name}
                   </h3>
-                  <div className="flex flex-row flex-wrap mt-3 mb-3 ml-0 mr-0 gap-2 fouricons">
+                  <div className="flex flex-row flex-wrap mt-3 mb-3 ml-0 mr-0 gap-1 fouricons">
                     <p className="rounded-xl px-3 py-1 text-sm font-semibold bg-green-light text-green-dark shadow mr-5 h-7.5 mb-2 firsttwo">
                       {item.time_consuming}
                     </p>

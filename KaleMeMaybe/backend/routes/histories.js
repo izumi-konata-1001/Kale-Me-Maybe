@@ -19,14 +19,19 @@ router.get("/browsing", async (req, res) => {
 });
 
 router.post("/updatebro", async (req, res) => {
+  console.log('====', req.body);
   const { hasUserId, userId, recipeId } = req.body;
-
+  console.log("has user id: " + hasUserId);
+  console.log("user id: " + userId);
+  console.log("recipe id: " + recipeId);
   try {
     if (hasUserId) {
       await broDao.updateBrowsingHistory(userId, recipeId);
+      console.log("has user id push update browsing history")
     } else {
       recipeIds.push(recipeId);
       const local_recipes = await broDao.getRecipesWithIds(recipeIds);
+      console.log("don't has user id and get recipe with id")
       res.status(200).json(local_recipes);
     }
   } catch (error) {

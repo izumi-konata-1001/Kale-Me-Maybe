@@ -76,19 +76,18 @@ export default function BrowsingHistory() {
             .filter((item) =>
               item?.name?.toLowerCase().includes(filterValue.toLowerCase())
             )
-            .map((item) => (
+            .map((item,index) => (
               <div
-                className="relative border border-gray-200 w-full md:w-2/3 p-3 px-4 mb-6 shadow card"
+                className="relative border border-gray-200 w-full md:w-2/3 p-3 px-4 mb-6 shadow card" key={`history${index}`}
               >
                 <div className="absolute w-44 h-44 border-2 border-green-dark rounded-lg mr-12 mt-5 mb-5 ml-5 overflow-hidden picture"
-                key={item.recipe_id}
                 onClick={() => navigate(`/recipe/${item.recipe_id}`)}
                 >
                   <img src={`${API_BASE_URL}/${item.image_path}`}></img>
                 </div>
                 <div className="ml-60 relative content">
                   <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle"
-                  key={item.recipe_id}
+      
                   onClick={() => navigate(`/recipe/${item.recipe_id}`)}
                   >
                     {item.name}

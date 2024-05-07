@@ -46,26 +46,34 @@ export default function RecipeDetails() {
 
     //Send data to update the browsing history table - Zishuai
     useEffect(() => {
-        if(!userId) return;
-        
-        const dataToSend = userId
-            ? { userId, recipeId: id, hasUserId: true }
-            : { recipeId: id, hasUserId: false };
-        fetch(`${API_BASE_URL}/api/updatebro/`, {
-            method: "POST",
-            body: JSON.stringify(dataToSend),
-        }).then((response) => {
+        const updateUserInfo = async () => {
+            const dataToSend = {
+                recipeId: id,
+                hasUserId: Boolean(userId),
+                ...(userId && { userId })
+            };
+    
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/updatebro/`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToSend)
+                });
+    
                 if (!response.ok) {
                     throw new Error("Failed to update user and recipe info");
                 }
-                return response.json();
-            })
-            .then((data) => {
+    
+                const data = await response.json();
                 console.log("User and recipe info updated successfully", data);
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error("Error updating user and recipe info:", error);
-            });
+            }
+        };
+    
+        updateUserInfo();
     }, [id, userId]);
 
     if (error) {

@@ -13,7 +13,7 @@ export default function BrowsingHistory() {
   const navigate = useNavigate();
   useEffect(() => {
     const run = async () => {
-      if (!authToken) {
+      if (!userId) {
         const response1 = await fetch(`${API_BASE_URL}/api/updatebro`, {
           method: "POST",
           headers: {
@@ -38,8 +38,7 @@ export default function BrowsingHistory() {
         },
       })
         .then((response) => {
-          if (response.ok) {
-          }
+          if (response.ok);
         })
         .catch((error) => console.error("Failed to clear Recipe IDs:", error));
     }

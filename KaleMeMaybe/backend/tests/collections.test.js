@@ -16,7 +16,7 @@ jest.mock('mysql2/promise', () => ({
 }));
 
 jest.mock('../data/collection-recipe-dao', () => ({
-  retriveCollection: jest.fn(),
+  retrieveCollection: jest.fn(),
   deleteCollection: jest.fn(),
   addRecipeToCollection: jest.fn(),
   renameCollection: jest.fn(),
@@ -32,7 +32,7 @@ describe('GET /:userid/:id', () => {
 
   it('should return the collection details', async () => {
     const mockCollection = { name: "Desserts", recipes: [{ id: 1, title: "Chocolate Cake" }] };
-    collectionDao.retriveCollection.mockResolvedValue(mockCollection);
+    collectionDao.retrieveCollection.mockResolvedValue(mockCollection);
     const response = await request(app).get(`/api/collection/1/100`);
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(mockCollection);
@@ -40,14 +40,14 @@ describe('GET /:userid/:id', () => {
 
   it('should handle empty collections', async () => {
     const mockEmptyCollection = { name: "Desserts", recipes: [] };
-    collectionDao.retriveCollection.mockResolvedValue(mockEmptyCollection);
+    collectionDao.retrieveCollection.mockResolvedValue(mockEmptyCollection);
     const response = await request(app).get(`/api/collection/1/100`);
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({ message: "There is nothing here yet.", name: "Desserts" });
   });
 
   it('should handle errors', async () => {
-    collectionDao.retriveCollection.mockRejectedValue(new Error("Database failure"));
+    collectionDao.retrieveCollection.mockRejectedValue(new Error("Database failure"));
     const response = await request(app).get(`/api/collection/1/100`);
     expect(response.statusCode).toBe(500);
     expect(response.body).toEqual({ error: "Failed to retrive collection details. " });

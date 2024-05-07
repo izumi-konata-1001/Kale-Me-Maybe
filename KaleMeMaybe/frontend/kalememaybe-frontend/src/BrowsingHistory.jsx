@@ -104,7 +104,7 @@ export default function BrowsingHistory() {
                       <RecipeScoreIcon recipeId={item.recipe_id} />
                     </div>
                     <div className="favIcon -mt-3.5 mr-5 h-2.5 mb-2">
-                      {authToken && <RecipeFavouriteIcon />}
+                      {authToken && <RecipeFavouriteIcon recipeId={item.recipe_id} isFavorited={item.isCollected}/>}
                     </div>
                   </div>
                   <p className="text-base leading-normal text-gray-600 break-words w-87 h-24 overflow-hidden text-ellipsis des"

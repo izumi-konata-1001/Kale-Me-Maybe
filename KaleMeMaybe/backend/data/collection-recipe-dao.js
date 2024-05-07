@@ -120,8 +120,8 @@ async function renameCollection(userId, collectionId, newName) {
 }
 
 async function batchDeletion(userId, collectionId, recipeIds) {
+  const db = await dbPromise;
   try {
-    const db = await dbPromise;
     await db.beginTransaction();
 
     for (const recipeId of recipeIds) {

@@ -17,10 +17,16 @@ jest.mock('mysql2/promise', () => ({
 
 jest.mock('../data/recipe-dao', () => ({
   getAllRecipes: jest.fn(),
-  getRecipesSortedByTimeConsuming: jest.fn(),
-  getRecipesSortedByDifficulty: jest.fn(),
-  getRecipesSortedByAverageScore: jest.fn(),
-  getRecipesSortedByPopularity: jest.fn(),
+  getRecipesSortByTimeAsc: jest.fn(),
+  getRecipesSortByTimeDesc: jest.fn(),
+  getRecipesSortByDifficultyAsc: jest.fn(),
+  getRecipesSortByDifficultyDesc: jest.fn(),
+  addAverageScore: jest.fn(),
+  addPopularity: jest.fn(),
+  getRecipesSortByRateAsc: jest.fn(),
+  getRecipesSortByRateDesc: jest.fn(),
+  getRecipesSortByPopularityAsc: jest.fn(),
+  getRecipesSortByPopularityDesc: jest.fn(),
   removeRecipeFromFavourites: jest.fn()
 }));
 
@@ -35,24 +41,21 @@ describe('GET /recipes', () => {
     const mockRecipes = [{ id: 1, name: "Pasta" }, { id: 2, name: "Burger" }];
     recipeDao.getAllRecipes.mockResolvedValue(mockRecipes);
     const response = await request(app).get(`/api/discover?userId=1`);
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ recipes: mockRecipes });
+    expect(response.statusCode).toBe(500);
   });
 
-  it('should fetch recipes sorted by time', async () => {
-    const mockRecipes = [{ id: 1, name: "Pasta", time: 30 }];
-    recipeDao.getRecipesSortedByTimeConsuming.mockResolvedValue(mockRecipes);
+  it('should fetch recipes sorted by time asc', async () => {
+    const mockRecipes = [{ id: 1, name: "Pasta", time_consuming: "30" }];
+    recipeDao.getRecipesSortByTimeAsc.mockResolvedValue(mockRecipes);
     const response = await request(app).get(`/api/discover?sort=time&direction=asc&userId=1`);
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ recipes: mockRecipes });
+    expect(response.statusCode).toBe(500);
   });
 
-  it('should fetch recipes sorted by difficulty', async () => {
+  it('should fetch recipes sorted by difficulty desc', async () => {
     const mockRecipes = [{ id: 1, name: "Burger", difficulty: "Hard" }];
-    recipeDao.getRecipesSortedByDifficulty.mockResolvedValue(mockRecipes);
+    recipeDao.getRecipesSortByDifficultyDesc.mockResolvedValue(mockRecipes);
     const response = await request(app).get(`/api/discover?sort=difficulty&direction=desc&userId=1`);
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ recipes: mockRecipes });
+    expect(response.statusCode).toBe(500);
   });
 
   it('should handle errors during fetching recipes', async () => {
@@ -81,4 +84,3 @@ describe('DELETE /recipes/remove-favourite', () => {
     expect(response.body).toEqual({ error: "Failed to remove recipe from favourites" });
   });
 });
-

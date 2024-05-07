@@ -5,11 +5,16 @@ async function getBrowsingHistory(userId) {
   const db = await dbPromise;
   try {
     const [history] = await db.execute(`
-        SELECT DISTINCT b.user_id, b.recipe_id, r.name, r.time_consuming, r.difficulty, r.method, r.image_path, b.created_at
-        FROM browsing_history b JOIN recipe r ON b.recipe_id = r.id 
+        SELECT DISTINCT b.user_id, b.recipe_id, r.name, r.time_consuming, r.difficulty, r.method, r.image_path, b.created_at,
+        CASE WHEN cr.recipe_id IS NULL THEN FALSE ELSE TRUE END AS isCollected
+        FROM browsing_history b 
+        JOIN recipe r ON b.recipe_id = r.id 
+        LEFT JOIN collection_recipe cr ON cr.recipe_id = b.recipe_id AND cr.collection_id IN (
+            SELECT c.id FROM collection c WHERE c.user_id = ?
+        )
         WHERE b.user_id = ?
         ORDER BY b.created_at DESC
-        `, [userId]);
+        `, [userId, userId]);
     return history;
   } catch (err) {
     console.error(

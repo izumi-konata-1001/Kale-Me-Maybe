@@ -120,7 +120,7 @@ export default function BrowsingHistory() {
         <p className={`${darkMode ? 'text-white' : ''}`}>No browsing history ever</p>
       )}
     </div>
-    <style jsx>{`
+    <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }

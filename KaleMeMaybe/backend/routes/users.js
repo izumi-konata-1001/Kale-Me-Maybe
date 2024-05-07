@@ -141,7 +141,7 @@ router.post("/users/updateprofile", async (req, res) => {
 const oauth2Client = new OAuth2(
   process.env.GOOGLE_APP_ID,
   process.env.GOOGLE_APP_SECRET,
-  "http://localhost:3000/api/auth/google/callback"
+  "http://kale-me-maybe.ap-southeast-2.elasticbeanstalk.com/api/auth/google/callback"
 );
 
 // get authorised url
@@ -207,13 +207,13 @@ router.get("/auth/google/callback", async (req, res) => {
       sameSite: "strict",
     });
     res.redirect(
-      `http://localhost:5173/login-success?username=${encodeURIComponent(
+      `https://main.d3i52oizlpah9q.amplifyapp.com/login-success?username=${encodeURIComponent(
         username
       )}&useravatar=${encodeURIComponent(useravatar)}&userid=${userid}`
     );
   } catch (error) {
     console.error("Failed to fetch user email:", error);
-    res.redirect(`http://localhost:5173/log-in`);
+    res.redirect(`https://main.d3i52oizlpah9q.amplifyapp.com/log-in`);
   }
 });
 

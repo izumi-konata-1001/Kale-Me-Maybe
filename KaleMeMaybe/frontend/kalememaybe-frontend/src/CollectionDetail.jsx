@@ -149,7 +149,7 @@ export default function CollectionDetail() {
 
   return (
       <>
-      <div className="pb-10 recipes-scrollable max-h-screen overflow-y-auto w-full hide-scrollbar">
+      <div className="pb-10 recipes-scrollable w-full hide-scrollbar">
         <div className="flex justify-center items-center pb-2">
           <h2 className="title">{collectionName}</h2>
         </div>

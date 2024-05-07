@@ -207,13 +207,13 @@ router.get("/auth/google/callback", async (req, res) => {
       sameSite: "strict",
     });
     res.redirect(
-      `https://main.d3i52oizlpah9q.amplifyapp.com/login-success?username=${encodeURIComponent(
+      `http://kale-me-maybe-frontend.s3-website-ap-southeast-2.amazonaws.com/login-success?username=${encodeURIComponent(
         username
       )}&useravatar=${encodeURIComponent(useravatar)}&userid=${userid}`
     );
   } catch (error) {
     console.error("Failed to fetch user email:", error);
-    res.redirect(`https://main.d3i52oizlpah9q.amplifyapp.com/log-in`);
+    res.redirect(`http://kale-me-maybe-frontend.s3-website-ap-southeast-2.amazonaws.com/log-in`);
   }
 });
 

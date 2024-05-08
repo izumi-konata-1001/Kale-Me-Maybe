@@ -70,7 +70,8 @@ export default function HomePage() {
           return;
         }
         const data = await response.json();
-        setSuggestions(data);
+        const usefulData = data[0]; 
+        setSuggestions(usefulData);
         setErrorMessage("");
       } catch (error) {
         console.error("Error fetching ingredient suggestions:", error);

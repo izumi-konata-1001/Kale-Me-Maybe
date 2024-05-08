@@ -7,7 +7,9 @@ router.get("/ingredients", async (req, res) => {
   try {
     const prefix = req.query.prefix;
     if (prefix) {
-      const ingredients = await queryIngredients(prefix);
+      const ingredientsRaw = await queryIngredients(prefix);
+      // extract ingredients from the raw data
+      const ingredients = ingredientsRaw[0];
 
       // check if ingredients list is empty
       if (!ingredients || ingredients.length === 0) {

@@ -1,4 +1,4 @@
-<img width="1465" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/01ea019f-4ab0-4179-b9ac-e0e63b3b334b"># Kale Me Maybe 🥬
+# Kale Me Maybe 🥬
 <img width="500" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/75cfa3d8-71d3-4eae-8e4b-07b1643b6201">
 
 

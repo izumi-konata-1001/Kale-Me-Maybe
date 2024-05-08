@@ -119,9 +119,9 @@ Use a blank line separating the summary from any detailed explanation if necessa
 - **Tools**: Jira, Confluence, Github Issues
 - **Workflow**: Our project follows the Agile methodology, which supports iterative development and frequent reassessment of plans. This flexible approach allows us to adapt to changes quickly and efficiently.
 - **Issue Tracking**: Jira is employed for managing day-to-day development tasks within sprints, allowing for detailed task breakdowns and progress tracking.
-GitHub Issues is used specifically for identifying and tracking bugs and defects found during testing sessions or reported by users.
-- **Milestones**: We use Jira Epic issue and Sprints to mark the milestones.
-- **Meeting Minutes**: Detailed records of all team meetings are maintained in Confluence, ensuring that decisions and discussions are well-documented for future reference and for team members who could not attend. Access our meeting notes [here](https://aucklanduni-team-mxaz1h0vswrm.atlassian.net/wiki/spaces/KMM/pages/66009/Meeting+notes+in+space).
+GitHub Issues is used specifically for identifying and tracking bugs and defects found during testing sessions or reported by users, check our closed issues [here](https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/issues?q=is%3Aissue+is%3Aclosed).
+- **Milestones**: We use Jira Epic issue and Sprints to mark the milestones, check our sprints report [here](https://aucklanduni-team-mxaz1h0vswrm.atlassian.net/jira/software/projects/CM/boards/1/reports/burnup).
+- **Meeting Minutes**: Detailed records of all team meetings and tasks assigned to each memeber are maintained in Confluence, ensuring that decisions and discussions are well-documented for future reference and for team members who could not attend. Access our meeting notes [here](https://aucklanduni-team-mxaz1h0vswrm.atlassian.net/wiki/spaces/KMM/pages/66009/Meeting+notes+in+space).
 
 ## Testing
 - **Testing Frameworks**  

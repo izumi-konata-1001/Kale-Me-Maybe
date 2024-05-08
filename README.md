@@ -53,6 +53,11 @@ Steps to install the project locally:
    - **Run the SQL Script:**
      - Open a terminal or MySQL Workbench to connect to your database.
      - Execute the script to create and populate the database tables.
+     - To add more ingredients to the database:
+	     1. Open a terminal and navigate to `KaleMeMaybe/backend`.
+	     2. Run the following command to execute the script that populates the ingredients:
+	     ```
+	     $ node ./sql/populate-ingredients.js
    - **Edit `.env` Configurations:**
      - In `KaleMeMaybe/backend/.env`, update the following configurations with your MySQL database settings:
      ```env

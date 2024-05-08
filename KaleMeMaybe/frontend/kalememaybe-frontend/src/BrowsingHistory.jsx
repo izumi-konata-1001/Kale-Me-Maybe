@@ -45,7 +45,7 @@ export default function BrowsingHistory() {
   }, [authToken]);
 
   return (
-    <>
+    <div className={darkMode?"dark":""}>
     <div className="flex flex-col items-center BrowsingHistory">
       <h1 className="title">Browsing History</h1>
       <div className="mt-10 mb-10 flex w-full md:w-3/4 search-div">
@@ -84,8 +84,8 @@ export default function BrowsingHistory() {
                 >
                   <img src={`${API_BASE_URL}/${item.image_path}`}></img>
                 </div>
-                <div className="ml-60 relative content">
-                  <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle"
+                <div className="ml-60 relative content dark:text-white">
+                  <h3 className="text-xl font-mono font-bold pt-1 pb-1 mt-5 mb-1.5 subtitle hover:cursor-pointer"
       
                   onClick={() => navigate(`/recipe/${item.recipe_id}`)}
                   >
@@ -105,7 +105,7 @@ export default function BrowsingHistory() {
                       {authToken && <RecipeFavouriteIcon recipeId={item.recipe_id} isFavorited={item.isCollected}/>}
                     </div>
                   </div>
-                  <p className="text-base leading-normal text-gray-600 break-words w-87 h-24 overflow-hidden text-ellipsis des"
+                  <p className="text-base leading-normal text-gray-600 break-words w-87 h-24 overflow-hidden text-ellipsis des hover:cursor-pointer"
                   key={item.recipe_id}
                   onClick={() => navigate(`/recipe/${item.recipe_id}`)}
                   >
@@ -128,6 +128,6 @@ export default function BrowsingHistory() {
           scrollbar-width: none;
         }
       `}</style>
-    </>
+    </div>
   );
 }

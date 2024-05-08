@@ -67,7 +67,7 @@ function Header() {
           <BsFillMoonStarsFill
             onClick={() => setDarkMode(!darkMode)}
             className={
-              "cursor-pointer text-xl hover:text-green-dark dark:text-green-dark"
+              "cursor-pointer text-xl hover:text-green-dark dark:text-white"
             }
           />
         </div>

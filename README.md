@@ -1,5 +1,5 @@
 # Kale Me Maybe 🥬
-<img width="500" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/75cfa3d8-71d3-4eae-8e4b-07b1643b6201">
+<img width="300" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/75cfa3d8-71d3-4eae-8e4b-07b1643b6201">
 
 
 ## Introduction
@@ -99,12 +99,13 @@ Steps to install the project locally:
 
 
 ## Version Control
-<img width="1455" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/f8c9a2cb-e145-4919-8189-854b9624389c">
+<img width="500" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/f8c9a2cb-e145-4919-8189-854b9624389c">
 
 - **Repository**: [Dapper Dolphins - Github](https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins)
 - **Branch Naming Guidelines**: 
 	- main: always reflects a production-ready state
 	- feature branch: username-filename-committype-date (one feature branch should at most live for one day), eg. 'tina-recipedetail-addresponsive-0430'
+- **Branch Protection**: To maintain code quality and promote collaboration, we've implemented a branch protection rule on the main branch. Any branch merge to main requires a pull request that must be reviewed and approved by at least two other group members. This ensures that all changes are properly tested, reviewed, and adhere to project standards before being incorporated into the main branch.
 - **Commit Message Guidelines**:
 	- Start with a short, descriptive summary in the imperative mood, e.g., "Add", "Fix".
 Use a blank line separating the summary from any detailed explanation if necessary.
@@ -112,8 +113,8 @@ Use a blank line separating the summary from any detailed explanation if necessa
 	- Example: git commit -m "Implement user profile caching\n\nThis update adds caching to user profile data to improve loading times. Addresses performance concerns raised in issue #123."
 
 ## Project Management
-<img width="500" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/779b6aed-7634-4e48-8f5d-2501f08f46c0">
-<img width="500" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/45d207d0-be00-45b9-abc8-017c408305b5">
+<img width="300" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/779b6aed-7634-4e48-8f5d-2501f08f46c0">
+<img width="300" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/45d207d0-be00-45b9-abc8-017c408305b5">
 
 - **Tools**: Jira, Confluence, Github Issues
 - **Workflow**: Our project follows the Agile methodology, which supports iterative development and frequent reassessment of plans. This flexible approach allows us to adapt to changes quickly and efficiently.

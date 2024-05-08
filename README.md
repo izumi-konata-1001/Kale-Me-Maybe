@@ -1,9 +1,13 @@
-# Kale Me Maybe 🥬
+<img width="1465" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/01ea019f-4ab0-4179-b9ac-e0e63b3b334b"># Kale Me Maybe 🥬
 <img width="500" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/75cfa3d8-71d3-4eae-8e4b-07b1643b6201">
 
 
 ## Introduction
 Welcome to "Kale Me Maybe" – an innovative AI-driven recipe generator tailored specifically for vegetarians. This platform revolutionizes home cooking by simplifying the process of meal preparation. With just a few clicks, users can input the ingredients they have available, and "Kale Me Maybe" instantly crafts a personalized recipe suited to their tastes and available resources. Whether you're a seasoned vegetarian or just exploring meatless options, "Kale Me Maybe" ensures that your meals are not only nutritious but also delicious and easy to prepare.
+
+The live "Kale Me Maybe" application is accessible via this link:
+
+[**Kale Me Maybe - Live Application**](http://kale-me-maybe-frontend.s3-website-ap-southeast-2.amazonaws.com/)
 
 ## Table of Contents
 - [Key Features](#key-features)
@@ -70,9 +74,6 @@ Steps to install the project locally:
    - If you see `App listening on port 3000! Connected to MySQL database.` after running the app, you're good to go!
 
 ## Deployment
-The live "Kale Me Maybe" application is accessible via this link:
-
-[**Kale Me Maybe - Live Application**]()
 
 "Kale Me Maybe" is deployed across several AWS services, working together to provide a scalable, secure, and responsive experience:
 
@@ -158,6 +159,6 @@ GitHub Issues is used specifically for identifying and tracking bugs and defects
 Acknowledging AWS, particularly the use of its free tier products like Amplify and EC2, is also important. This not only gives credit to AWS services that facilitate the hosting and scaling of your application but also informs others about the infrastructure backbone supporting your project. Here's how you could acknowledge AWS and its free tier products in your README:
 - **Tailwind CSS**: Our project makes extensive use of Tailwind CSS for styling. This utility-first CSS framework significantly speeds up the development process and allows us to maintain a clean and consistent design across the website. For more information about Tailwind CSS, visit their [official website](https://tailwindcss.com/).
 - **React Icons**: We utilize React Icons to incorporate scalable vector icons into our application. React Icons provides easy access to a wide range of icons from various icon libraries, enhancing the UI without sacrificing performance. More details can be found on their [GitHub repository](https://github.com/react-icons/react-icons).
-- **AWS Free Tier Products**: This project is hosted and run using several AWS Free Tier products, including AWS Amplify for the frontend and AWS EC2 for our backend services. These AWS services provide scalable solutions that help us manage our application's deployment and operational needs efficiently. Learn more about AWS Free Tier [here](https://aws.amazon.com/free/).
+- **AWS Free Tier Products**: This project is hosted and run using several AWS Free Tier products, including AWS S3 for the frontend and AWS EC2 for our backend services. These AWS services provide scalable solutions that help us manage our application's deployment and operational needs efficiently. Learn more about AWS Free Tier [here](https://aws.amazon.com/free/).
 
 - Additional thanks to all developers and contributors of the open-source libraries and tools that have made this project possible.

@@ -20,7 +20,7 @@ The live "Kale Me Maybe" application is accessible via this link:
 - [Acknowledgments](#acknowledgments)
 
 ## Key Features
-<img width="569" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/37800fa4-4c90-4be9-ad05-6949ecadd4cf">
+<img width="727" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins/assets/89385715/f5e32548-bbd2-445e-bcce-89b2a8645774">
 
 * **Personalized Recipe Generator**: Select the ingredients you have, and our AI will craft a recipe tailored just for you.
 * **Recipe Browsing**: Browse recipes you've previously viewed, ensuring you never lose track of a favoured dish.

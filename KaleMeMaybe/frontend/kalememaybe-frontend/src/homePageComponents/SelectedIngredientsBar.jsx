@@ -42,6 +42,12 @@ const SelectedIngredientsBar = ({
                 : "Add by typing..."
             }
           />
+          <IngredientAutocomplete
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            suggestions={suggestions}
+            onSelect={onSelectIngredient}
+          />
         </div>
         <button
           className="bg-green-dark hover:bg-green-light text-white font-bold py-2 px-4 rounded ml-2 min-w-max"
@@ -51,12 +57,6 @@ const SelectedIngredientsBar = ({
           Let's cook
         </button>
       </div>
-      <IngredientAutocomplete
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        suggestions={suggestions}
-        onSelect={onSelectIngredient}
-      />
     </div>
   );
 };

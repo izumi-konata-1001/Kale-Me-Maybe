@@ -51,7 +51,7 @@ export default function HomePage() {
 
   const [suggestions, setSuggestions] = useState([]);
 
-  const { userId,darkMode } = useContext(AuthContext);
+  const { userId, darkMode } = useContext(AuthContext);
 
   // Function to fetch ingredient suggestions api
   const fetchIngredientSuggestions = async (prefix) => {
@@ -265,91 +265,91 @@ export default function HomePage() {
   };
 
   return (
-      <div className={darkMode ? "dark" : ""}>
-    <div className="container mx-auto">
-      <h1 className="title">Pantry</h1>
-      <p className="text-center mb-4 dark:text-white">
-        You have added {selectedIngredients.length} ingredient
-        {selectedIngredients.length !== 1 ? "s" : ""}
-      </p>
+    <div className={darkMode ? "dark" : ""}>
+      <div className="container mx-auto">
+        <h1 className="title">Pantry</h1>
+        <p className="text-center mb-4 dark:text-white">
+          You have added {selectedIngredients.length} ingredient
+          {selectedIngredients.length !== 1 ? "s" : ""}
+        </p>
 
-      {/* Ingredient grid */}
-      <div
-        className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 ${
-          showFullList ? "h-auto" : "max-h-[10rem] overflow-hidden"
-        }`}
-      >
-        {ingredientList
-          .slice(0, showFullList ? ingredientList.length : ingredientsPerRow)
-          .map((ingredient) => (
-            <Ingredient
-              key={ingredient.id}
-              ingredient={ingredient}
-              onSelectIngredient={handleSelectIngredient}
-              image={`/basic-ingredient-images/${ingredient.name}.png`}
-            />
-          ))}
-      </div>
-
-      {/* Selected ingredients bar */}
-      <SelectedIngredientsBar
-        ingredients={selectedIngredients}
-        onRemoveIngredient={handleRemoveIngredient}
-        onSearch={handleSearch}
-        onIngredientSearchChange={handleIngredientSearchChange}
-        searchValue={searchValue}
-        isLoading={isLoading}
-        setSearchValue={setSearchValue}
-        suggestions={suggestions}
-        onSelectIngredient={handleSelectIngredient}
-      />
-      {/* Error message */}
-      {errorMessage && <ErrorBanner message={errorMessage} />}
-
-      {/* Recipe card */}
-      {showRecipeDetails && (
-        <div className="relative">
-          {recipes.map((recipe, index) => (
-            <RecipeCard
-              key={index}
-              recipe={recipe}
-              onClick={handleRecipeClick}
-            />
-          ))}
-          {loadMoreCount < 2 && (
-            <button
-              onClick={handleLoadMore}
-              className="absolute right-0 bottom-[-2.5rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
-              disabled={isLoading}
-            >
-              Load More
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Loading spinner overlay */}
-      {isLoading && (
+        {/* Ingredient grid */}
         <div
-          className={`fixed inset-0 z-50 flex justify-center items-center bg-white bg-opacity-50 ${
-            isLoading ? "" : "hidden"
+          className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 ${
+            showFullList ? "h-auto" : "max-h-[10rem] overflow-hidden"
           }`}
         >
-          <Loading />
+          {ingredientList
+            .slice(0, showFullList ? ingredientList.length : ingredientsPerRow)
+            .map((ingredient) => (
+              <Ingredient
+                key={ingredient.id}
+                ingredient={ingredient}
+                onSelectIngredient={handleSelectIngredient}
+                image={`/basic-ingredient-images/${ingredient.name}.png`}
+              />
+            ))}
         </div>
-      )}
 
-      {/* Recent searches */}
-      {showRecentSearches && (
-        <RecentSearches
-          searches={recentSearches.map((search) =>
-            search.ingredients.map((ing) => ing.name).join(" + ")
-          )}
-          onSearchClick={handleRecentSearchClick}
+        {/* Selected ingredients bar */}
+        <SelectedIngredientsBar
+          ingredients={selectedIngredients}
+          onRemoveIngredient={handleRemoveIngredient}
+          onSearch={handleSearch}
+          onIngredientSearchChange={handleIngredientSearchChange}
+          searchValue={searchValue}
           isLoading={isLoading}
+          setSearchValue={setSearchValue}
+          suggestions={suggestions}
+          onSelectIngredient={handleSelectIngredient}
         />
-      )}
-    </div>
+        {/* Error message */}
+        {errorMessage && <ErrorBanner message={errorMessage} />}
+
+        {/* Recipe card */}
+        {showRecipeDetails && (
+          <div className="relative mb-8 pb-2">
+            {recipes.map((recipe, index) => (
+              <RecipeCard
+                key={index}
+                recipe={recipe}
+                onClick={handleRecipeClick}
+              />
+            ))}
+            {loadMoreCount < 2 && (
+              <button
+                onClick={handleLoadMore}
+                className="absolute right-0 bottom-[-2rem] mr-4  text-green-dark font-semibold py-2 px-4 rounded"
+                disabled={isLoading}
+              >
+                Load More
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Loading spinner overlay */}
+        {isLoading && (
+          <div
+            className={`fixed inset-0 z-50 flex justify-center items-center bg-white bg-opacity-50 ${
+              isLoading ? "" : "hidden"
+            }`}
+          >
+            <Loading />
+          </div>
+        )}
+
+        {/* Recent searches */}
+        {showRecentSearches && (
+          <RecentSearches
+            searches={recentSearches.map((search) =>
+              search.ingredients.map((ing) => ing.name).join(" + ")
+            )}
+            onSearchClick={handleRecentSearchClick}
+            isLoading={isLoading}
+          />
+        )}
       </div>
+    </div>
   );
 }

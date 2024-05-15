@@ -16,7 +16,7 @@ const BrowsingHistory = () => {
         if (!authToken) {
           // Get browsingHistory from localStorage
           const storedBrowsingHistory = JSON.parse(localStorage.getItem('browsingHistory')) || [];
-          const recipeIds = storedBrowsingHistory.map(item => item.id);
+          const recipeIds = storedBrowsingHistory.map(item => item.id)
 
           console.log("recipe ids: " + recipeIds);
           // Send POST request to /api/history

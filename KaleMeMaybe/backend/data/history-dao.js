@@ -23,9 +23,12 @@ async function getBrowsingHistory(userId) {
 
   async function addBrowsingHistory(userId, recipeId, timestamp) {
     const db = await dbPromise;
-    await db.query(`
+    await db.query(
+      `
       INSERT INTO browsing_history (user_id, recipe_id, created_at)
-      VALUES (?, ?, ?)`, [userId, recipeId, timestamp]
+      VALUES (?, ?, ?)
+      ON DUPLICATE KEY UPDATE created_at = VALUES(created_at)`,
+      [userId, recipeId, timestamp]
     );
   }
   

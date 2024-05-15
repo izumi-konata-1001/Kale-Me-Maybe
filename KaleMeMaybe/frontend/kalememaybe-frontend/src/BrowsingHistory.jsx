@@ -8,6 +8,8 @@ const BrowsingHistory = () => {
   const { userId, authToken } = useContext(AuthContext);
   const [browsingHistory, setBrowsingHistory] = useState([]);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchBrowsingHistory = async () => {
@@ -16,9 +18,8 @@ const BrowsingHistory = () => {
         if (!authToken) {
           // Get browsingHistory from localStorage
           const storedBrowsingHistory = JSON.parse(localStorage.getItem('browsingHistory')) || [];
-          const recipeIds = storedBrowsingHistory.map(item => item.id)
+          const recipeIds = storedBrowsingHistory.map(item => item.id);
 
-          console.log("recipe ids: " + recipeIds);
           // Send POST request to /api/history
           response = await fetch(`${API_BASE_URL}/api/history`, {
             method: 'POST',
@@ -28,7 +29,6 @@ const BrowsingHistory = () => {
             body: JSON.stringify({ recipeIds })
           });
         } else {
-          console.log("has auth");
           // Send POST request to /api/history with userId
           response = await fetch(`${API_BASE_URL}/api/history`, {
             method: 'POST',
@@ -47,7 +47,6 @@ const BrowsingHistory = () => {
 
         const data = await response.json();
         if (data && Array.isArray(data.recipes)) {
-          console.log('Successfully fetched browsing history:', data);
           setBrowsingHistory(data.recipes);
         } else {
           throw new Error('Unexpected response format');
@@ -61,30 +60,79 @@ const BrowsingHistory = () => {
     fetchBrowsingHistory();
   }, [authToken, userId]);
 
-  const clearBrowsingHistory = () => {
-    localStorage.removeItem('browsingHistory');
-    alert('Browsing history cleared.');
-    setBrowsingHistory([]);
-    window.location.reload();
+  const clearBrowsingHistory = async () => {
+    try {
+      if (!authToken) {
+        localStorage.removeItem('browsingHistory');
+        setBrowsingHistory([]);
+        alert('Browsing history cleared.');
+      } else {
+        const response = await fetch(`${API_BASE_URL}/api/deleteAllHistory`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ userId })
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText);
+        }
+
+        setBrowsingHistory([]);
+        alert('Browsing history cleared.');
+      }
+      window.location.reload();
+    } catch (error) {
+      console.error('Error clearing browsing history:', error);
+      setError(error.message || 'Error clearing browsing history');
+    }
   };
+
+  const handleLoadMore = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
+  const buttonStyle = `
+    px-4 py-2 rounded-full border-2 border-green-dark transition-colors duration-100
+    bg-green-dark text-white
+    hover:bg-white hover:text-green-dark
+  `;
+
+  // Get the recipes to display for the current page
+  const displayedRecipes = browsingHistory.slice(0, currentPage * itemsPerPage);
 
   return (
     <div className="recipes-scrollable w-full">
-      <div className="flex flex-col items-center justify-center pb-2">
+      <div className="flex flex-col items-center justify-center">
         <h1 className="title">Browsing History</h1>
-        <h3 className="text-1xl font-mono pt-2 pb-3 dark:text-white">
-          10 most recent historical records
-        </h3>
-        {!authToken && (
-          <div className="pb-5">
-            <button onClick={clearBrowsingHistory} className="bg-green-dark text-white px-4 py-2 rounded">
-              Clear Browsing History
-            </button>
-          </div>
+        {browsingHistory.length > 0 ? (
+          <>
+            <h3 className="text-1xl font-mono pt-2 pb-3 dark:text-white">
+              Your most recent historical records
+            </h3>
+            <div className="pb-5">
+              <button onClick={clearBrowsingHistory} className={buttonStyle}>
+                Clear Browsing History
+              </button>
+            </div>
+          </>
+        ) : (
+          <h3 className="text-1xl font-mono pt-2 pb-3 dark:text-white">
+            You have no historical record
+          </h3>
         )}
+        
         <div className="flex flex-col w-full items-center pb-10 justify-center">
-          <RecipeList recipes={browsingHistory} />
+          <RecipeList recipes={displayedRecipes} />
           {error && <div>Error: {error}</div>}
+          {browsingHistory.length > displayedRecipes.length && (
+            <button onClick={handleLoadMore} className="text-1xl font-mono text-green-dark pt-6 hover:text-lime-800 transition-colors duration-100 cursor-pointer">
+              Load more...
+            </button>
+          )}
         </div>
       </div>
     </div>

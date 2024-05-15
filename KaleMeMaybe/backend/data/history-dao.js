@@ -1,8 +1,6 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-
-
 async function getBrowsingHistory(userId) {
     const db = await dbPromise;
     const query = `
@@ -32,7 +30,24 @@ async function getBrowsingHistory(userId) {
     );
   }
   
+  async function deleteAllBrowsingHistory(userId) {
+    const db = await dbPromise;
+    const query = `
+      DELETE FROM browsing_history
+      WHERE user_id = ?
+    `;
+  
+    try {
+      await db.execute(query, [userId]);
+      console.log(`Browsing history for user ID ${userId} deleted successfully.`);
+    } catch (error) {
+      console.error(`Error deleting browsing history for user ID ${userId}:`, error);
+      throw new Error("Failed to delete browsing history");
+    }
+  }
+
   module.exports = {
     getBrowsingHistory,
     addBrowsingHistory,
+    deleteAllBrowsingHistory,
   };

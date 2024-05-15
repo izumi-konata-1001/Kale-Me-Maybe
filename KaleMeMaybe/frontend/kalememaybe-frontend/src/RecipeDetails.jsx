@@ -125,7 +125,6 @@ export default function RecipeDetails() {
         id: id,
         timestamp: newTimestamp,
       };
-      console.log("currentEntry: " + currentEntry.id);
       await addBrowsingHistory(currentEntry);
     }
   };

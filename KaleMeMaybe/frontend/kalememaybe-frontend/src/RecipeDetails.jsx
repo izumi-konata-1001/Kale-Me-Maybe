@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoArrowBackCircle } from "react-icons/io5";
 import StarRating from "./component/StarRating.jsx";
@@ -10,71 +10,100 @@ import RecipeScoreIcon from "./component/RecipeScoreIcon.jsx";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 export default function RecipeDetails() {
     const { authToken, userId } = useContext(AuthContext);
-
+    const hasFetchedRef = useRef(false);
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
     const [error, setError] = useState(null);
     const [isFavorited, setIsFavorited] = useState(false);
 
-    useEffect(() => {
-        const url = `${API_BASE_URL}/api/recipe/${id}`;
-
-        fetch(url, {
-            headers: {
-                userid: userId,
-            },
+    function addBrowsingHistory(recipeId, timestamp, userId) {
+        fetch('/api/addBrowsingHistory', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            userId: userId,
+            recipeId: recipeId,
+            timestamp: timestamp
+          })
         })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data && data.recipe) {
-                    setRecipe(data.recipe);
-                }
-                if (data && typeof data.isFavorited !== 'undefined') {
-                    setIsFavorited(data.isFavorited);
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching recipe:", error);
-                setError(error.message);
-            });
-    }, [id]);
-
-    //Send data to update the browsing history table - Zishuai
+        .then(response => response.json())
+        .then(data => {
+          console.log('Successfully added browsing history to the server:', data);
+        })
+        .catch(error => {
+          console.error('Error adding browsing history to the server:', error);
+        });
+      }
+      
     useEffect(() => {
-        const updateUserInfo = async () => {
-            const dataToSend = {
-                recipeId: id,
-                hasUserId: Boolean(userId),
-                ...(userId && { userId })
-            };
-    
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/updatebro/`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToSend)
+        if (hasFetchedRef.current) return;
+        mianFunction()
+        }, []);
+
+        const mianFunction = () => {
+            const url = `${API_BASE_URL}/api/recipe/${id}`;
+
+            fetch(url, {
+                headers: {
+                    userid: userId,
+                },
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.recipe) {
+                        setRecipe(data.recipe);
+                    }
+                    if (data && typeof data.isFavorited !== 'undefined') {
+                        setIsFavorited(data.isFavorited);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching recipe:", error);
+                    setError(error.message);
                 });
-    
-                if (!response.ok) {
-                    throw new Error("Failed to update user and recipe info");
+
+                const formatDate = date => {
+                    const pad = num => (num < 10 ? '0' + num : num);
+                    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+                  };
+                  const newTimestamp = formatDate(new Date());
+                
+                if (!authToken) {
+                    const browsingHistory = JSON.parse(localStorage.getItem('browsingHistory')) || [];
+                    const exists = browsingHistory.some(item => item.id === id);
+                    if (exists) {
+                        const updatedBrowsingHistory = browsingHistory.map(item => {
+                          if (item.id === id) {
+                            return { ...item, timestamp: newTimestamp };
+                          }
+                          return item;
+                        });
+                        localStorage.setItem('browsingHistory', JSON.stringify(updatedBrowsingHistory));
+                        console.log(`ID ${id} timestamp updated in the browsing history.`);
+                      } 
+                    else {
+                        const newEntry = {
+                          id: id,
+                          timestamp: newTimestamp
+                        };
+                        browsingHistory.push(newEntry);
+                        localStorage.setItem('browsingHistory', JSON.stringify(browsingHistory));
+                        console.log(`ID ${id} added to the browsing history.`);
+                      }
+                    console.log(`Updated browsing history:`, JSON.parse(localStorage.getItem('browsingHistory')));}
+                else{
+                    addBrowsingHistory(id, newTimestamp, userId);
                 }
-    
-                const data = await response.json();
-                console.log("User and recipe info updated successfully", data);
-            } catch (error) {
-                console.error("Error updating user and recipe info:", error);
-            }
-        };
-    
-        updateUserInfo();
-    }, [id, userId]);
+                hasFetchedRef.current = true; 
+        }
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -105,7 +134,6 @@ export default function RecipeDetails() {
                 </h1>
                 <div className="col-span-1"></div>
             </div>
-
 
             <div className="flex justify-center gap-5 items-center">
         <span className="bg-green-light font-semibold text-green-dark px-2 py-1 rounded shadow">

@@ -29,7 +29,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // Setup routes
 app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/recipes.js"));
-app.use("/api", require("./routes/histories.js"));
+app.use("/api", require("./routes/browsing-histories.js"));
+app.use("/api", require("./routes/add-browsing-hitory.js"));
 app.use("/api", require("./routes/ingredients.js"));
 app.use("/api", require("./routes/scores.js"));
 app.use("/api", require("./routes/search-histories.js"));

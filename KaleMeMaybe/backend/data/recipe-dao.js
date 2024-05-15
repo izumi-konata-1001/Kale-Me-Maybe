@@ -252,6 +252,25 @@ async function getFavouriteRecipe(collections) {
   }
 }
 
+async function getRecipesByIds(recipeIds) {
+  const db = await dbPromise;
+  if (recipeIds.length === 0) return [];
+
+  const query = `
+    SELECT *
+    FROM recipe
+    WHERE id IN (?)
+  `;
+
+  try {
+    const [rows] = await db.execute(query, [recipeIds]);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching recipes by IDs:", error);
+    throw new Error("Failed to fetch recipes");
+  }
+}
+
 // Export functions.
 module.exports = {
   getAllRecipes,
@@ -264,4 +283,5 @@ module.exports = {
   addPopularity,
   getAllCollections,
   getFavouriteRecipe,
+  getRecipesByIds,
 };

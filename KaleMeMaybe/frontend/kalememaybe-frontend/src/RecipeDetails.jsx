@@ -16,34 +16,33 @@ export default function RecipeDetails() {
     const [error, setError] = useState(null);
     const [isFavorited, setIsFavorited] = useState(false);
 
-    function addBrowsingHistory(recipeId, timestamp, userId) {
-        fetch('/api/addBrowsingHistory', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-          },
-          body: JSON.stringify({
-            userId: userId,
-            recipeId: recipeId,
-            timestamp: timestamp
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Successfully added browsing history to the server:', data);
-        })
-        .catch(error => {
-          console.error('Error adding browsing history to the server:', error);
-        });
-      }
+    
+    const addBrowsingHistory = async (entry) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/addBrowsingHistory`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(entry),
+            });
+    
+            if (response.ok) {
+                console.log('Browsing history added successfully');
+            } else {
+                console.error('Failed to add browsing history');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
       
     useEffect(() => {
         if (hasFetchedRef.current) return;
         mianFunction()
         }, []);
 
-        const mianFunction = () => {
+        const mianFunction = async () => {
             const url = `${API_BASE_URL}/api/recipe/${id}`;
 
             fetch(url, {
@@ -100,7 +99,14 @@ export default function RecipeDetails() {
                       }
                     console.log(`Updated browsing history:`, JSON.parse(localStorage.getItem('browsingHistory')));}
                 else{
-                    addBrowsingHistory(id, newTimestamp, userId);
+                    //add code here
+                    const currentEntry = {
+                        userId: userId,
+                        id: id,
+                        timestamp: newTimestamp
+                      };
+                      console.log("currentEntry: " + currentEntry.id);
+                      await addBrowsingHistory(currentEntry);
                 }
                 hasFetchedRef.current = true; 
         }

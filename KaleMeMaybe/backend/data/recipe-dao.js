@@ -252,6 +252,19 @@ async function getFavouriteRecipe(collections) {
   }
 }
 
+async function getRecipeById(recipeId) {
+  const db = await dbPromise;
+  const query = `SELECT * FROM recipe WHERE id = ?`;
+
+  try {
+    const [rows] = await db.execute(query, [recipeId]);
+    return rows[0];
+  } catch (error) {
+    console.error("Error fetching recipe by ID:", error);
+    throw new Error("Failed to fetch recipe");
+  }
+}
+
 // Export functions.
 module.exports = {
   getAllRecipes,
@@ -264,4 +277,5 @@ module.exports = {
   addPopularity,
   getAllCollections,
   getFavouriteRecipe,
+  getRecipeById,
 };

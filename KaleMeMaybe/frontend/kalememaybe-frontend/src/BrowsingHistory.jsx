@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "./contexts/AuthProvider";
 import RecipeList from "./discoverPageComponents/recipeContainerComponents/RecipeList";
+import ToastMessage from "./component/ToastMessage"; 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -10,6 +11,7 @@ const BrowsingHistory = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [toast, setToast] = useState({ msg: "", flag: "" });
 
   useEffect(() => {
     const fetchBrowsingHistory = async () => {
@@ -65,7 +67,7 @@ const BrowsingHistory = () => {
       if (!authToken) {
         localStorage.removeItem('browsingHistory');
         setBrowsingHistory([]);
-        alert('Browsing history cleared.');
+        setToast({ msg: 'Successfully deleted browsing history!', flag: 'success' });
       } else {
         const response = await fetch(`${API_BASE_URL}/api/deleteAllHistory`, {
           method: 'DELETE',
@@ -82,12 +84,13 @@ const BrowsingHistory = () => {
         }
 
         setBrowsingHistory([]);
-        alert('Browsing history cleared.');
+        setToast({ msg: 'Successfully deleted browsing history!', flag: 'success' });
       }
       window.location.reload();
     } catch (error) {
       console.error('Error clearing browsing history:', error);
       setError(error.message || 'Error clearing browsing history');
+      setToast({ msg: error.message || 'Error clearing browsing history', flag: 'error' });
     }
   };
 
@@ -135,6 +138,7 @@ const BrowsingHistory = () => {
           )}
         </div>
       </div>
+      {toast.msg && <ToastMessage msg={toast.msg} flag={toast.flag} />}
     </div>
   );
 };

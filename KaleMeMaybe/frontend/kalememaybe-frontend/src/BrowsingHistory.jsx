@@ -86,7 +86,6 @@ const BrowsingHistory = () => {
         setBrowsingHistory([]);
         setToast({ msg: 'Successfully deleted browsing history!', flag: 'success' });
       }
-      window.location.reload();
     } catch (error) {
       console.error('Error clearing browsing history:', error);
       setError(error.message || 'Error clearing browsing history');

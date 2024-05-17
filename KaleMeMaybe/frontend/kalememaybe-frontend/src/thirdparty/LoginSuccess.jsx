@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
-import { getCookie } from "./getCookie";
 
 export default function LoginSuccess() {
   const navigate = useNavigate();
@@ -14,7 +13,7 @@ export default function LoginSuccess() {
     const username = queryParams.get("username");
     const useravatar = queryParams.get("useravatar");
     const userid = queryParams.get("userid");
-    const authToken = getCookie("authToken");
+    const authToken = queryParams.get("authToken");
 
     if (authToken && username && useravatar && userid) {
       login(authToken, username, useravatar, userid);

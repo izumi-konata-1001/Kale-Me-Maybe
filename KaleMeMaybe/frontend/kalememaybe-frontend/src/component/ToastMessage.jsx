@@ -2,7 +2,7 @@
 // Use this component to show operation resuls.
 import { useState, useEffect } from "react";
 
-export default function ToastMessage({ msg, flag, duration = 3000 }) {
+export default function ToastMessage({ msg, flag, duration = 50000 }) {
   const [visible, setVisible] = useState(false);
   const [animationClass, setAnimationClass] = useState("fade-in");
   const textColorClass = flag === "error" ? "text-red-500" : "text-green-dark";
@@ -17,7 +17,7 @@ export default function ToastMessage({ msg, flag, duration = 3000 }) {
       // Wait for the animation to finish before removing the element
       setTimeout(() => {
         setVisible(false);
-      }, 500);
+      }, 5000);
     }, duration);
 
     return () => {
@@ -30,7 +30,7 @@ export default function ToastMessage({ msg, flag, duration = 3000 }) {
   return (
     <div
       id="toast-simple"
-      className={`z-30 fixed bottom-10 left-10 flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse ${textColorClass} bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800 ${animationClass}`}
+      className={`z-30 fixed bottom-10 left-10 flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse ${textColorClass} bg-green-light divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800 ${animationClass} border-2 border-green-dark`}
       role="alert"
     >
       <p>{msg}</p>

@@ -34,7 +34,7 @@ router.post("/history", async (req, res) => {
         const recipes = await Promise.all(
           recipeIds.map(async (recipeId) => {
             try {
-              const recipe = await recipeDao.getRecipeById(recipeId);
+              const recipe = await recipeDao.getRecipeWithFavouriteState(userId, recipeId);
               return recipe;
             } catch (error) {
               console.error(

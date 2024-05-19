@@ -7,7 +7,7 @@ Welcome to "Kale Me Maybe" – an innovative AI-driven recipe generator tailored
 
 The live "Kale Me Maybe" application is accessible via this link:
 
-[**Kale Me Maybe - Live Application**](http://kale-me-maybe-frontend.s3-website-ap-southeast-2.amazonaws.com/)
+[**Kale Me Maybe - Live Application**](http://d1isuxwjx7fugi.cloudfront.net/)
 
 ## Table of Contents
 - [Key Features](#key-features)

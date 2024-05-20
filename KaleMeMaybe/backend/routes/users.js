@@ -207,14 +207,14 @@ router.get("/auth/google/callback", async (req, res) => {
       sameSite: "strict",
     });
     res.redirect(
-      `http://kalememaybe-frontend.s3-website-ap-southeast-2.amazonaws.com/login-success?username=${encodeURIComponent(
+      `http://d1isuxwjx7fugi.cloudfront.net/login-success?username=${encodeURIComponent(
         username
       )}&useravatar=${encodeURIComponent(useravatar)}&userid=${userid}&authToken=${authToken}`
     );
     console.log("after redirect")
   } catch (error) {
     console.error("Failed to fetch user email:", error);
-    res.redirect(`http://kalememaybe-frontend.s3-website-ap-southeast-2.amazonaws.com/log-in`);
+    res.redirect(`http://d1isuxwjx7fugi.cloudfront.net/log-in`);
   }
 });
 

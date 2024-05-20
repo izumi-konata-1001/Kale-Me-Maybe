@@ -252,6 +252,53 @@ async function getFavouriteRecipe(collections) {
   }
 }
 
+async function getRecipeById(recipeId) {
+  const db = await dbPromise;
+  const query = `SELECT * FROM recipe WHERE id = ?`;
+
+  try {
+    const [rows] = await db.execute(query, [recipeId]);
+    return rows[0];
+  } catch (error) {
+    console.error("Error fetching recipe by ID:", error);
+    throw new Error("Failed to fetch recipe");
+  }
+}
+
+async function getRecipeWithFavouriteState(userId, recipeId) {
+  const db = await dbPromise;
+
+  try {
+    // Fetch the recipe details
+    const [recipeResult] = await db.query(SQL`
+      SELECT * FROM recipe WHERE id = ${recipeId}
+    `);
+
+    if (recipeResult.length === 0) {
+      throw new Error('Recipe not found');
+    }
+
+    const recipe = recipeResult[0];
+
+    // Check if the recipe is in any of the user's collections
+    const [favouriteCheckResult] = await db.query(SQL`
+      SELECT * FROM collection_recipe 
+      WHERE recipe_id = ${recipeId} AND collection_id IN (
+        SELECT id FROM collection WHERE user_id = ${userId}
+      )
+    `);
+
+    const favouriteState = favouriteCheckResult.length > 0 ? 1 : 0;
+
+    // Return the recipe details with the favourite state
+    return { ...recipe, favouriteState };
+
+  } catch (err) {
+    console.error("Failed to retrieve recipe with favourite state:", err);
+    throw err;
+  }
+}
+
 // Export functions.
 module.exports = {
   getAllRecipes,
@@ -264,4 +311,6 @@ module.exports = {
   addPopularity,
   getAllCollections,
   getFavouriteRecipe,
+  getRecipeById,
+  getRecipeWithFavouriteState,
 };

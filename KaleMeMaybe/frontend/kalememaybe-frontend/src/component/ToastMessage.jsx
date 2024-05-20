@@ -30,7 +30,7 @@ export default function ToastMessage({ msg, flag, duration = 3000 }) {
   return (
     <div
       id="toast-simple"
-      className={`z-30 fixed bottom-10 left-10 flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse ${textColorClass} bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800 ${animationClass}`}
+      className={`z-30 fixed bottom-10 left-10 flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse ${textColorClass} bg-green-light divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800 ${animationClass}`}
       role="alert"
     >
       <p>{msg}</p>

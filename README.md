@@ -37,7 +37,7 @@ Steps to install the project locally:
    - Ensure you have Git installed on your system.
    - Open a terminal and run the following command to clone the repository:
    ```
-   $ git clone https://github.com/UOA-CS732-SE750-Students-2024/project-group-dapper-dolphins
+   $ git clone https://github.com/izumi-konata-1001/Kale-Me-Maybe.git
    ```
    
 2. **Set Up the Frontend:**

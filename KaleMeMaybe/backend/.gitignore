@@ -124,3 +124,4 @@ typings/
 .dynamodb/.env
 .env
 .env
+.env
